@@ -1,0 +1,91 @@
+/* FONT STUFF */
+/* ////////// */
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300italic,300,400italic,500,500italic,700,700italic,900,900italic);
+/*
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic);
+@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic);
+@import url(http://fonts.googleapis.com/css?family=Merriweather:400,300italic,300,400italic,700,700italic);
+*/
+
+.frobo {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400; /*normal=400*/
+}
+
+.fw100 {
+    font-weight: 100;
+}
+
+.fw200 {
+    font-weight: 200;
+}
+
+.fw300 {
+    font-weight: 300;
+}
+
+.fw400 {
+    font-weight: 400;
+}
+
+.fw500 {
+    font-weight: 500;
+}
+
+
+/* GENERAL */
+/* /////// */
+
+.tcen {
+    text-align: center;
+}
+
+
+/* LOGIN AND SIGNUP FORMS */
+/* ////////////////////// */
+
+#login-panel-header h1 {
+    font-family: "Roboto";
+    font-size: 28px;
+    font-weight: 300;
+    margin-top: 45px;
+    text-align: center;
+}
+
+#login-panel-header h2 {
+    font-family: "Roboto";
+    font-size: 18px;
+    font-weight: 300;
+    margin-top: 25px;
+    text-align: center;
+}
+
+#login-panel {
+    margin-top: 25px;
+}
+
+#login-panel-bg {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: none no-repeat #fff;
+    border-top: 5px solid #5cb85c;
+    border-radius: 4px;
+    box-shadow: inset rgba(100, 100, 100, 0.25) 0 1px 1px;
+}
+
+#login-panel-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+/* BASE LIST */
+/* ///////// */
+
+.base-item {
+    margin-bottom: 10px;
+}
