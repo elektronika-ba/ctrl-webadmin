@@ -86,6 +86,6 @@
 /* BASE LIST */
 /* ///////// */
 
-.base-item {
-    margin-bottom: 10px;
+table.ctrl-table-colorhead thead tr th {
+    background-color: #eee !important;
 }
