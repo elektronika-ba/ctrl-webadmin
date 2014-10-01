@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Password Hashing With PBKDF2 (http://crackstation.net/hashing-security.htm).
  * Copyright (c) 2013, Taylor Hornby
@@ -136,4 +137,5 @@ function pbkdf2($algorithm, $password, $salt, $count, $key_length, $raw_output =
     else
         return bin2hex(substr($output, 0, $key_length));
 }
+
 ?>
