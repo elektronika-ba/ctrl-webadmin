@@ -100,9 +100,6 @@ class Ctrl {
 				// REMEMBER ME: http://stackoverflow.com/questions/12091951/php-sessions-login-with-remember-me
 
 				$_SESSION['IDaccount'] = $account['IDaccount'];
-				
-				die('id' . $account['IDaccount']);
-				
 				return true;
 			}
 			else {

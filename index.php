@@ -57,6 +57,7 @@ switch($_w) {
 		break;
 
 	default:
+		/*
 		if(!$ctrl->getIsLoggedIn()) {
 			Header("Location: index.php?w=login");
 			die();
@@ -64,6 +65,9 @@ switch($_w) {
 
 		// logged in, give him the dashboard
 		$ctrl->displayDashboard();
+		*/
+print_r($ctrl->getUserAccount($_SESSION['IDaccount']));
+if($ctrl->getIsLoggedIn()) echo "da"; else echo "ne";
 		break;
 }
 
