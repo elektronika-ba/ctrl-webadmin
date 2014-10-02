@@ -1,0 +1,68 @@
+{* Smarty *}
+
+{extends file="framework.html"}
+
+{block name=css}{/block}
+
+{block name=page}
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header frobo fw300">Dashboard</h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+
+<div class="row">
+	<div class="col-lg-3 col-md-6">
+		<div class="panel panel-yellow">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-3">
+						<i class="fa fa-cube fa-5x"></i>
+					</div>
+					<div class="col-xs-9 text-right">
+						<div class="huge">10234</div>
+						<div>Pending items in queue!</div>
+					</div>
+				</div>
+			</div>
+			<a href="bases.html">
+				<div class="panel-footer">
+					<span class="pull-left">View Bases</span>
+					<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+					<div class="clearfix"></div>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<div class="col-lg-3 col-md-6">
+		<div class="panel panel-yellow">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-3">
+						<i class="fa fa-user fa-5x"></i>
+					</div>
+					<div class="col-xs-9 text-right">
+						<div class="huge">5134</div>
+						<div>Pending items in queue!</div>
+					</div>
+				</div>
+			</div>
+			<a href="clients.html">
+				<div class="panel-footer">
+					<span class="pull-left">View Clients</span>
+					<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+					<div class="clearfix"></div>
+				</div>
+			</a>
+		</div>
+	</div>
+
+</div>
+{/block}
+
+{block name=javascript}
+	<script src="js/sb-admin-2.js"></script>
+{/block}

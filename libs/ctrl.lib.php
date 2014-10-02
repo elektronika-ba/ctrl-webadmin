@@ -22,6 +22,10 @@ class Ctrl {
   var $mysql_username = 'root';
   var $mysql_password = '';
   var $mysql_database = 'ctrl_0v4';
+  
+  // ReCAPTCHA keys
+  var $reCAPTCHA_PUBLIC_KEY = '6Lc9XPsSAAAAAJy7E3LhA68SjqX5mi-XN0-PAVHF';
+  var $reCAPTCHA_PRIVATE_KEY = 'this is secret my friend';
 
   /**
   * class constructor
@@ -45,7 +49,7 @@ class Ctrl {
 
   function getIsLoggedIn() {
   	if( isset($_SESSION['IDaccount']) ) {
-  		if( count($this->getUserAccount($_SESSION['IDaccount'])) == 1 ) {
+  		if( $this->getUserAccount($_SESSION['IDaccount']) !== NULL ) {
   			return true;
   		}
   	}
@@ -109,6 +113,61 @@ class Ctrl {
 		}
   }
 
+  function displayRegister($formvars = array()) {
+  	// add all missing keys to array
+  	$this->fixFormVars($formvars, array('email','password','password_again','terms'));
+
+  	$tpl = $this->tpl;
+
+    // assign the form vars
+    $tpl->assign('post', $formvars);
+
+    // assign error message
+    $tpl->assign('error', $this->error);
+    
+    // recaptcha
+    $tpl->assign('recaptcha', recaptcha_get_html($this->reCAPTCHA_PUBLIC_KEY));
+
+    $tpl->display('register.html');
+  }
+
+  function doRegister($formvars) {
+  	// add all missing keys to array
+  	$this->fixFormVars($formvars, array('email','password','password_again','terms'));
+
+		$mdb = $this->mdb;
+
+		/*
+		$hashedpassword = create_hash($formvars['password']);
+
+		$account = $mdb->queryFirstRow("SELECT * FROM account WHERE email = %s LIMIT 1", $formvars['email'], $hashedpassword);
+		if(count($account)<=0) {
+			$this->error = 'wrong_password'; // this is actually: wrong_email but we don't tell users that!
+			return false;
+		}
+		else {
+			// validate hashed password
+			if( validate_password($formvars['password'], $account['password']) ) {
+				$this->error = null;
+
+				// REMEMBER ME: http://stackoverflow.com/questions/12091951/php-sessions-login-with-remember-me
+
+				$_SESSION['IDaccount'] = $account['IDaccount'];
+				return true;
+			}
+			else {
+				$this->error = 'wrong_password';
+				return false;
+			}
+		}
+		*/
+  }
+
+	function displayDashboard() {
+  	$tpl = $this->tpl;
+
+    $tpl->display('dashboard.html');
+	}
 
 
 

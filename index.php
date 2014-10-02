@@ -19,13 +19,8 @@ $_s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 
 switch($_w) {
 /*
-    case 'add':
-        // adding a guestbook entry
-        $guestbook->displayForm();
-        break;
     case 'submit':
         // submitting a guestbook entry
-        $guestbook->mungeFormData($_POST);
         if($guestbook->isValidForm($_POST)) {
             $guestbook->addEntry($_POST);
             $guestbook->displayBook($guestbook->getEntries());
@@ -46,7 +41,27 @@ switch($_w) {
 			die();
 		}
 		else {
+			// copy email from $_GET to $_POST array
+			if(array_key_exists('email', $_GET) && !array_key_exists('email', $_POST)) {
+				$_POST['email'] = $_GET['email'];
+			}
+
 			$ctrl->displayLogin($_POST);
+		}
+		break;
+
+	case 'register':
+		if($ctrl->getIsLoggedIn()) {
+			Header("Location: index.php?w=logout");
+			die();
+		}
+
+		if($_s == '1' && $ctrl->doRegister($_POST)) {
+			Header("Location: index.php");
+			die();
+		}
+		else {
+			$ctrl->displayRegister($_POST);
 		}
 		break;
 
@@ -57,7 +72,6 @@ switch($_w) {
 		break;
 
 	default:
-		/*
 		if(!$ctrl->getIsLoggedIn()) {
 			Header("Location: index.php?w=login");
 			die();
@@ -65,9 +79,6 @@ switch($_w) {
 
 		// logged in, give him the dashboard
 		$ctrl->displayDashboard();
-		*/
-print_r($ctrl->getUserAccount($_SESSION['IDaccount']));
-if($ctrl->getIsLoggedIn()) echo "da"; else echo "ne";
 		break;
 }
 

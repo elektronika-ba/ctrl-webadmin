@@ -16,25 +16,56 @@
     <div class="col-md-4 col-md-offset-4">
 
         <div id="login-panel-bg">
-            <form role="form">
+            <form role="form" action="index.php" method="post">
+				<input type="hidden" name="w" value="register">
+				<input type="hidden" name="s" value="1">
 
                 <div class="form-group">
-                    <input class="form-control" placeholder="E-mail" name="email" id="txtEmail" type="email" autofocus>
+                    <input class="form-control" placeholder="E-mail" name="email" type="email" value="{$post.email|escape}" autofocus>
                 </div>
 
                 <div class="form-group">
-                    <input class="form-control" placeholder="Password" name="password" id="txtPassword" type="password" value="">
+                    <input class="form-control" placeholder="Choose Password" name="password" type="password">
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" placeholder="Confirm your Password" name="password_again" type="password">
                 </div>
 
                 <div class="checkbox">
                     <label>
-                        <input name="terms" id="ckTerms" type="checkbox" value="1">I have read <a href="terms.html">Terms and Conditions</a>
+                        <input name="terms" type="checkbox" value="1" {if $post.terms eq "1"}checked{/if}>I have read <a href="?w=terms" target="_blank">Terms and Conditions</a>
                     </label>
+                </div>
+
+                <div class="form-group">
+                    {$recaptcha}
                 </div>
 
                 <button class="btn btn-lg btn-success btn-block">
                     <i class="fa fa-user"></i>&nbsp;Register
                 </button>
+
+				{if $error ne ""}
+					<p class="error-box">
+						{if $error eq "email_missing"}
+							<strong>Please enter your valid e-mail!</strong>
+						{/if}
+						{if $error eq "email_used"}
+							<strong>Please choose different e-mail!</strong><br />
+							<a href="?w=login&email={$post.email|escape}">Maybe you should trying to loging-in?</a>
+						{/if}
+						{if $error eq "password_missing"}
+							<strong>Your passwords do not match!</strong>
+						{/if}
+						{if $error eq "password_mismatch"}
+							<strong>Your passwords do not match!</strong>
+						{/if}
+						{if $error eq "recaptcha_error"}
+							<strong>ReCAPTCHA Error. Please try again!</strong>
+						{/if}
+					</p>
+				{/if}
 
             </form>
         </div>
@@ -45,7 +76,7 @@
 <div class="row" id="login-panel-footer">
     <div class="col-md-4 col-md-offset-4">
         <p>
-            Already have account? <a href="login.html">Sign in here.</a><br />
+            Already have an account? <a href="?w=login">Sign in here.</a><br />
         </p>
     </div>
 </div>
