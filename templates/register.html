@@ -1,0 +1,61 @@
+{* Smarty *}
+
+{extends file="blank.html"}
+
+{block name=css}{/block}
+
+{block name=page}
+<div class="row" id="login-panel-header">
+    <div class="col-md-12">
+        <h1>Create your CTRL account.</h1>
+        <h2>One account controls all your Bases. Still, you can create as many accounts as you want!</h2>
+    </div>
+</div>
+
+<div class="row" id="login-panel">
+    <div class="col-md-4 col-md-offset-4">
+
+        <div id="login-panel-bg">
+            <form role="form">
+
+                <div class="form-group">
+                    <input class="form-control" placeholder="E-mail" name="email" id="txtEmail" type="email" autofocus>
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" placeholder="Password" name="password" id="txtPassword" type="password" value="">
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input name="terms" id="ckTerms" type="checkbox" value="1">I have read <a href="terms.html">Terms and Conditions</a>
+                    </label>
+                </div>
+
+                <button class="btn btn-lg btn-success btn-block">
+                    <i class="fa fa-user"></i>&nbsp;Register
+                </button>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div class="row" id="login-panel-footer">
+    <div class="col-md-4 col-md-offset-4">
+        <p>
+            Already have account? <a href="login.html">Sign in here.</a><br />
+        </p>
+    </div>
+</div>
+{/block}
+
+{block name=javascripts}
+	<script type="text/javascript">
+	    $(function () {
+	        $(".popme").popover();
+	        $(".popme").popover('show');
+	    });
+    </script>
+{/block}

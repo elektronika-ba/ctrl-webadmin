@@ -1,0 +1,92 @@
+{* Smarty *}
+
+{extends file="design.html"}
+
+{block name=css}{/block}
+
+{block name=body}
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+						<div class="navbar-header">
+								<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+										<span class="sr-only">Toggle navigation</span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+								</button>
+								<a class="navbar-brand frobo fw300" href="index.html">
+										<img src="images/alien_24.png" border="0" style="opacity: 0.7; filter: alpha(opacity=70);">&nbsp;<span class="fw400">Ctrl.ba</span>&nbsp;-&nbsp;Admin Panel&nbsp;<i class="fa fa-cloud fa-fw"></i></a>
+						</div>
+						<!-- /.navbar-header -->
+
+						<ul class="nav navbar-top-links navbar-right">
+								<li class="dropdown">
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+												<i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
+										</a>
+										<ul class="dropdown-menu dropdown-user">
+												<li><a href="#"><i class="fa fa-gear fa-fw"></i>&nbsp;Settings</a>
+												</li>
+												<li class="divider"></li>
+												<li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i>&nbsp;Logout</a>
+												</li>
+										</ul>
+										<!-- /.dropdown-user -->
+								</li>
+								<!-- /.dropdown -->
+						</ul>
+						<!-- /.navbar-top-links -->
+
+						<div class="navbar-default sidebar" role="navigation">
+								<div class="sidebar-nav navbar-collapse">
+										<ul class="nav" id="side-menu">
+												<li>
+														<a class="active" href="index.html"><i class="fa fa-dashboard fa-fw"></i>&nbsp;Dashboard</a>
+												</li>
+
+												<li>
+														<a href="bases.html"><i class="fa fa-cubes fa-fw"></i>&nbsp;Bases<span class="badge pull-right alert-success">1</span></a>
+												</li>
+
+												<li>
+														<a href="clients.html"><i class="fa fa-users fa-fw"></i>&nbsp;Clients<span class="badge pull-right alert-danger">0</span></a>
+												</li>
+
+												<li>
+														<a href="#"><i class="fa fa-flask fa-fw"></i>&nbsp;Apps<span class="fa arrow"></span></a>
+														<ul class="nav nav-second-level">
+																<li>
+																		<a href="http://app.ctrl.ba/api">API Access</a>
+																</li>
+																<li>
+																		<a href="http://app.ctrl.ba/email">Event Notificator</a>
+																</li>
+														</ul>
+														<!-- /.nav-second-level -->
+												</li>
+
+												<li>
+														<a href="help.html"><i class="fa fa-question fa-fw"></i>&nbsp;Help</a>
+												</li>
+
+												<li>
+														<a href="http://forum.ctrl.ba"><i class="fa fa-support fa-fw"></i>&nbsp;Forum</a>
+												</li>
+
+										</ul>
+								</div>
+								<!-- /.sidebar-collapse -->
+						</div>
+						<!-- /.navbar-static-side -->
+				</nav>
+
+    <div id="page-wrapper">
+        {block name=page}{/block}
+    </div>
+
+</div>
+{/block}
+
+{block name=javascripts}{/block}
