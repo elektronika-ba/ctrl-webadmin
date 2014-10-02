@@ -78,7 +78,7 @@ class Ctrl {
 
     $tpl->display('login.html');
   }
-  
+
   function doLogin($formvars) {
   	// add all missing keys to array
   	$this->fixFormVars($formvars, array('email','password','remember'));
@@ -86,8 +86,6 @@ class Ctrl {
 		$mdb = $this->mdb;
 
 		$hashedpassword = create_hash($formvars['password']);
-
-		$mdb->debugMode();
 
 		$account = $mdb->queryFirstRow("SELECT * FROM account WHERE email = %s LIMIT 1", $formvars['email'], $hashedpassword);
 		if(count($account)<=0) {
@@ -98,8 +96,13 @@ class Ctrl {
 			// validate hashed password
 			if( validate_password($formvars['password'], $account['password']) ) {
 				$this->error = null;
-		
+
+				// REMEMBER ME: http://stackoverflow.com/questions/12091951/php-sessions-login-with-remember-me
+
 				$_SESSION['IDaccount'] = $account['IDaccount'];
+				
+				die('id' . $account['IDaccount']);
+				
 				return true;
 			}
 			else {

@@ -37,7 +37,7 @@ switch($_w) {
 
 	case 'login':
 		if($ctrl->getIsLoggedIn()) {
-			Header("Location: index.php");
+			Header("Location: index.php?w=logout");
 			die();
 		}
 
@@ -48,15 +48,14 @@ switch($_w) {
 		else {
 			$ctrl->displayLogin($_POST);
 		}
-
 		break;
-	
+
 	case 'logout':
 		session_destroy();
 		Header("Location: index.php");
 		die();	
 		break;
-	
+
 	default:
 		if(!$ctrl->getIsLoggedIn()) {
 			Header("Location: index.php?w=login");
