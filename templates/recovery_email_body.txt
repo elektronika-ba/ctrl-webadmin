@@ -1,0 +1,15 @@
+{* Smarty *}
+
+Password recovery of your CTRL account has been requested. If you didn't request this recovery, please ignore this e-mail.
+
+To recover your CTRL account visit this address: http://my.ctrl.ba/?w=account&s=recover&email={$email}&hash={$recovery_hash}&x=1
+
+Please not that after visiting this address your CTRL password will be changed and displayed on the page. Make sure you change it after signing in to something you will remember!
+
+
+See you there!
+
+--------------------
+CTRL.BA IoT Platform
+IP: {$ip_address}
+TIME: {$timestamp}

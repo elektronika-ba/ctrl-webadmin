@@ -10,6 +10,7 @@
 define('SMARTY_DIR', './smarty/libs/');
 
 require_once('./recaptcha/recaptchalib.php');
+require('./libs/misc.php');
 require('./libs/PasswordHash.php');
 require('./libs/meekrodb.2.3.class.php');
 require('./libs/ctrl.lib.php');

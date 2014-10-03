@@ -6,68 +6,71 @@
 
 {block name=page}
 <div class="row" id="login-panel-header">
-    <div class="col-md-12">
-        <h1>Sign in to your CTRL account.</h1>
-        <h2><em>All your Base are belong to <strong>you</strong>.</em></h2>
-    </div>
+  <div class="col-md-12">
+    <h1>Sign in to your CTRL account.</h1>
+    <h2><em>All your Base are belong to <strong>you</strong>.</em></h2>
+  </div>
 </div>
-
 <div class="row" id="login-panel">
-    <div class="col-md-4 col-md-offset-4">
-
-        <div id="login-panel-bg">
-            <form role="form" action="index.php" method="post">
-				<input type="hidden" name="w" value="login">
-				<input type="hidden" name="s" value="1">
-
-                <div class="form-group">
-                    <input class="form-control" placeholder="E-mail" name="email" type="email" value="{$post.email|escape}" autofocus>
-                </div>
-
-                <div class="form-group">
-                    <input class="form-control" placeholder="Password" name="password" type="password">
-                </div>
-
-				<div class="form-group">
-					<div class="checkbox">
-						<label>
-							<input name="remember" type="checkbox" value="1" {if $post.remember eq "1"}checked{/if}>Remember Me
-						</label>
-					</div>
-				</div>
-
-                <button class="btn btn-lg btn-success btn-block">
-                    <i class="fa fa-sign-in"></i>&nbsp;Sign In
-                </button>
-
-				{if $error eq "wrong_password"}
-					<p class="error-box">
-						<strong>Wrong email or password!</strong><br />
-						Have you <a href="?w=forgot">forgotten your password?</a>
-					</p>
-				{/if}
-			</form>
+  <div class="col-md-4 col-md-offset-4">
+    <div id="login-panel-bg">
+      <form role="form" action="index.php" method="post">
+        <input type="hidden" name="w" value="account">
+        <input type="hidden" name="s" value="login">
+        <input type="hidden" name="x" value="1">
+        <div class="form-group">
+          <input class="form-control" placeholder="E-mail" name="email" type="email" value="{$post.email|escape}" autofocus>
         </div>
+        <div class="form-group">
+          <input class="form-control" placeholder="Password" name="password" type="password">
+        </div>
+        <div class="form-group">
+          <div class="checkbox">
+            <label>
+            <input name="remember" type="checkbox" value="1" {if $post.remember eq "1"}checked{/if}>Remember Me
+            </label>
+          </div>
+        </div>
+        <button class="btn btn-lg btn-success btn-block">
+        <i class="fa fa-sign-in"></i>&nbsp;Sign In
+        </button>
 
-    </div>
-</div>
-
-<div class="row" id="login-panel-footer">
-    <div class="col-md-4 col-md-offset-4">
-        <p>
-            Don't have an account yet? <a href="?w=register" class="popme" data-toggle="popover" data-placement="bottom" data-content="It's free :-)" data-trigger="manual">Register here.</a>
+        {if $error ne ""}
+        <p class="error-box">
+          {if $error eq "email_error"}
+          <strong>That's not a valid E-mail address!</strong><br />
+          {/if}
+          {if $error eq "wrong_password"}
+          <strong>Wrong email or password!</strong><br />
+          Have you <a href="?w=account&s=recover&email={$post.email|escape}">forgotten your password?</a>
+          {/if}
+          {if $error eq "inactive"}
+          <strong>Account is inactive!</strong><br />
+          Click to re-send <a href="?w=account&s=resend&email={$post.email|escape}">activation e-mail!</a>
+          {/if}
         </p>
+        {/if}
+
+      </form>
     </div>
+  </div>
+</div>
+<div class="row" id="login-panel-footer">
+  <div class="col-md-4 col-md-offset-4">
+    <p>
+      Don't have an account yet? <a href="?w=account&s=register" class="popme" data-toggle="popover" data-placement="bottom" data-content="It's free :-)" data-trigger="manual">Register here.</a>
+    </p>
+  </div>
 </div>
 {/block}
 
 {block name=javascripts}
-	<script type="text/javascript">
-	    $(function () {
-	    	setTimeout(function() {
-				$(".popme").popover();
-				$(".popme").popover('show');
-	    	}, 850);
-	    });
-    </script>
+<script type="text/javascript">
+  $(function () {
+  	setTimeout(function() {
+			$(".popme").popover();
+			$(".popme").popover('show');
+  	}, 850);
+  });
+</script>
 {/block}

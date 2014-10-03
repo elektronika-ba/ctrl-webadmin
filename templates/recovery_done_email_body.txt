@@ -1,0 +1,15 @@
+{* Smarty *}
+
+Password recovery of your CTRL account is completed. If you didn't request this recovery, then you have a problem because someone else now has your password.
+
+Your new password is: {$newpass}
+
+Make sure you change it after signing in to something you will remember!
+
+
+See you there!
+
+--------------------
+CTRL.BA IoT Platform
+IP: {$ip_address}
+TIME: {$timestamp}

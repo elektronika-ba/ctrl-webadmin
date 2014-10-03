@@ -1,0 +1,23 @@
+{* Smarty *}
+
+{extends file="blank.html"}
+
+{block name=css}{/block}
+
+{block name=page}
+<div class="row" id="login-panel-header">
+  <div class="col-md-12">
+    <h1>Password recovery process has been initiated.</h1>
+    <h2>Check your E-mail <strong>{$email|escape}</strong> and follow instructions!</h2>
+  </div>
+</div>
+<div class="row" id="login-panel-footer">
+  <div class="col-md-4 col-md-offset-4">
+    <p>
+      Go to <a href="?w=account&s=login&email={$email|escape}">Sign In</a> page.
+    </p>
+  </div>
+</div>
+{/block}
+
+{block name=javascripts}{/block}
