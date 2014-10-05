@@ -16,6 +16,16 @@ require('./libs/meekrodb.2.3.class.php');
 require('./libs/ctrl.lib.php');
 require(SMARTY_DIR . 'Smarty.class.php');
 
+// MySQL connection parameters
+define('mysql_host','localhost');
+define('mysql_username','root');
+define('mysql_password','');
+define('mysql_database','ctrl_0v4');
+
+// ReCAPTCHA keys
+define('reCAPTCHA_PUBLIC_KEY','6Lc9XPsSAAAAAJy7E3LhA68SjqX5mi-XN0-PAVHF');
+define('reCAPTCHA_PRIVATE_KEY','this is top secret my friend');
+
 // smarty configuration
 class Ctrl_Smarty extends Smarty {
     function __construct() {

@@ -1,212 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
+{* Smarty *}
 
-<head>
+{extends file="framework.html"}
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+{block name=css}{/block}
 
-    <title>Bootstrap Example</title>
-    <!--Ctrl.ba - Admin Panel-->
-
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- MetisMenu CSS -->
-    <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-
-    <!-- Timeline CSS -->
-    <link href="css/plugins/timeline.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
-
-    <link href="css/custom.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<body>
-
-    <div id="wrapper">
-
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand frobo fw300" href="index.html">
-                    <img src="images/alien_24.png" border="0" style="opacity: 0.7; filter: alpha(opacity=70);">&nbsp;<span class="fw400">Ctrl.ba</span>&nbsp;-&nbsp;Admin Panel&nbsp;<i class="fa fa-cloud fa-fw"></i></a>
-            </div>
-            <!-- /.navbar-header -->
-
-            <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i>&nbsp;Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i>&nbsp;Logout</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-            <!-- /.navbar-top-links -->
-
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i>&nbsp;Dashboard</a>
-                        </li>
-
-                        <li>
-                            <a class="active" href="bases.html"><i class="fa fa-cubes fa-fw"></i>&nbsp;Bases<span class="badge pull-right alert-success">8</span></a>
-                        </li>
-
-                        <li>
-                            <a href="clients.html"><i class="fa fa-users fa-fw"></i>&nbsp;Clients<span class="badge pull-right alert-danger">0</span></a>
-                        </li>
-
-                        <li>
-                            <a href="#"><i class="fa fa-flask fa-fw"></i>&nbsp;Apps<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="http://app.ctrl.ba/api">API Access</a>
-                                </li>
-                                <li>
-                                    <a href="http://app.ctrl.ba/email">Event Notificator</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-
-                        <li>
-                            <a href="help.html"><i class="fa fa-question fa-fw"></i>&nbsp;Help</a>
-                        </li>
-
-                        <li>
-                            <a href="http://forum.ctrl.ba"><i class="fa fa-support fa-fw"></i>&nbsp;Forum</a>
-                        </li>
-
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
-            <!-- /.navbar-static-side -->
-        </nav>
-
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header frobo fw300">Bases</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover table-condensed ctrl-table-colorhead">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Base ID</th>
-                                    <th class="text-center">Linked Clients</th>
-                                    <th class="text-center">Pending Messages</th>
-                                    <th class="text-center">Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Beehive monitoring</td>
-                                    <td>987234987293847923234</td>
-                                    <td class="text-center"><span class="badge alert-success">5</span></td>
-                                    <td class="text-center"><span class="badge alert-danger">768</span></td>
-                                    <td class="text-center">
-                                        <button class="btn btn-danger btn-xs ctrl-button-del" type="button">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Door lock</td>
-                                    <td>16sbhs7237293847923234</td>
-                                    <td class="text-center"><span class="badge alert-success">4</span></td>
-                                    <td class="text-center"><span class="badge alert-success">0</span></td>
-                                    <td class="text-center">
-                                        <button class="btn btn-danger btn-xs ctrl-button-del" type="button">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>IR remote</td>
-                                    <td>a16sbhs723dg8345847923234</td>
-                                    <td class="text-center"><span class="badge alert-danger">0</span></td>
-                                    <td class="text-center"><span class="badge alert-success">0</span></td>
-                                    <td class="text-center">
-                                        <button class="btn btn-danger btn-xs ctrl-button-del" type="button">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <button class="btn btn-primary" type="button" onclick="location.href='bases_edit.html';"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add New</button>
-                </div>
-            </div>
-
-        </div>
-        <!-- /#page-wrapper -->
-
+{block name=page}
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header frobo fw300">Bases</h1>
+  </div>
+  <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+  <div class="col-lg-12">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-condensed ctrl-table-colorhead ctrl-table-clickable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Base ID</th>
+            <th class="text-center">Linked Clients</th>
+            <th class="text-center">Pending Messages</th>
+            <th class="text-center">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+					{foreach from=$data item="entry"}
+					<tr onclick="javascript:location.href='?w=base&s=edit&IDbase={$entry.IDbase}';">
+						<td>{$entry.basename|escape}</td>
+						<td>{$entry.baseid}</td>
+						<td class="text-center"><span class="badge alert-success">{$entry.linked_clients}</span></td>
+						<td class="text-center"><span class="badge alert-danger">{$entry.pending_messages}</span></td>
+						<td class="text-center">
+							<button class="btn btn-danger btn-xs ctrl-button-del" type="button" onclick="javascript:if(confirm('Are you sure you want to delete this Base?')) { event.stopPropagation(); location.href='?w=base&s=delete&IDbase={$entry.IDbase}'; }">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+						</td>
+					</tr>
+					{foreachelse}
+					<tr>
+						<td colspan="5">No Bases, click <strong>Add New</strong> button.</td>
+					</tr>
+					{/foreach}
+        </tbody>
+      </table>
     </div>
-    <!-- /#wrapper -->
+  </div>
+</div>
+<!-- /.row -->
+<div class="row">
+  <div class="col-lg-12">
+    <button class="btn btn-primary" type="button" onclick="javascript:location.href='?w=base&s=edit&IDbase=-1';"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add New</button>
+  </div>
+</div>
+{/block}
 
-    <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
-
-</body>
-
-</html>
+{block name=javascripts}{/block}

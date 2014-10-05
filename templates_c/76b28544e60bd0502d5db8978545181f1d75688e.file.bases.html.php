@@ -1,19 +1,19 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-04 08:11:16
-         compiled from ".\templates\dashboard.html" */ ?>
-<?php /*%%SmartyHeaderCode:17500542d6d0c19ea03-10995378%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-05 15:40:08
+         compiled from ".\templates\bases.html" */ ?>
+<?php /*%%SmartyHeaderCode:5955542ec33a3b63f3-99168050%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
-    '9658272aae76f164a5f422d68ad9a88738f23680' => 
+    '76b28544e60bd0502d5db8978545181f1d75688e' => 
     array (
-      0 => '.\\templates\\dashboard.html',
-      1 => 1412350901,
+      0 => '.\\templates\\bases.html',
+      1 => 1412523605,
       2 => 'file',
     ),
     '2a635fa6116a658e691859a59a54961509ad3229' => 
     array (
       0 => '.\\templates\\framework.html',
-      1 => 1412350975,
+      1 => 1412522873,
       2 => 'file',
     ),
     '4d72c64a6d937f61dd493697d2ab1894beb263a3' => 
@@ -23,15 +23,15 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '17500542d6d0c19ea03-10995378',
+  'nocache_hash' => '5955542ec33a3b63f3-99168050',
   'function' => 
   array (
   ),
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_542d6d0c3c3108_62378319',
+  'unifunc' => 'content_542ec33a654906_37998881',
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_542d6d0c3c3108_62378319')) {function content_542d6d0c3c3108_62378319($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_542ec33a654906_37998881')) {function content_542ec33a654906_37998881($_smarty_tpl) {?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -102,10 +102,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
             <a <?php if ($_smarty_tpl->tpl_vars['page_id']->value=="dashboard") {?>class="active"<?php }?> href="index.php"><i class="fa fa-dashboard fa-fw"></i>&nbsp;Dashboard</a>
           </li>
           <li>
-            <a <?php if ($_smarty_tpl->tpl_vars['page_id']->value=="base") {?>class="active"<?php }?> href="?w=base"><i class="fa fa-cubes fa-fw"></i>&nbsp;Bases<span class="badge pull-right alert-success">1</span></a>
+            <a <?php if ($_smarty_tpl->tpl_vars['page_id']->value=="base") {?>class="active"<?php }?> href="?w=base"><i class="fa fa-cubes fa-fw"></i>&nbsp;Bases<!--<span class="badge pull-right alert-success">1</span>--></a>
           </li>
           <li>
-            <a <?php if ($_smarty_tpl->tpl_vars['page_id']->value=="client") {?>class="active"<?php }?> href="?w=client"><i class="fa fa-users fa-fw"></i>&nbsp;Clients<span class="badge pull-right alert-danger">0</span></a>
+            <a <?php if ($_smarty_tpl->tpl_vars['page_id']->value=="client") {?>class="active"<?php }?> href="?w=client"><i class="fa fa-users fa-fw"></i>&nbsp;Clients<!--<span class="badge pull-right alert-danger">0</span>--></a>
           </li>
           <li>
             <a href="#"><i class="fa fa-flask fa-fw"></i>&nbsp;Apps<span class="fa arrow"></span></a>
@@ -136,62 +136,65 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header frobo fw300">Dashboard</h1>
+    <h1 class="page-header frobo fw300">Bases</h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
-
-For the time being, please use menu on the left or account settings above on the right.
-<!--
 <div class="row">
-  <div class="col-lg-3 col-md-6">
-    <div class="panel panel-yellow">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-cube fa-5x"></i>
-          </div>
-          <div class="col-xs-9 text-right">
-            <div class="huge">10234</div>
-            <div>Pending items in queue!</div>
-          </div>
-        </div>
-      </div>
-      <a href="bases.html">
-        <div class="panel-footer">
-          <span class="pull-left">View Bases</span>
-          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          <div class="clearfix"></div>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-lg-3 col-md-6">
-    <div class="panel panel-yellow">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-user fa-5x"></i>
-          </div>
-          <div class="col-xs-9 text-right">
-            <div class="huge">5134</div>
-            <div>Pending items in queue!</div>
-          </div>
-        </div>
-      </div>
-      <a href="clients.html">
-        <div class="panel-footer">
-          <span class="pull-left">View Clients</span>
-          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          <div class="clearfix"></div>
-        </div>
-      </a>
+  <div class="col-lg-12">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-condensed ctrl-table-colorhead ctrl-table-clickable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Base ID</th>
+            <th class="text-center">Linked Clients</th>
+            <th class="text-center">Pending Messages</th>
+            <th class="text-center">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+					<?php  $_smarty_tpl->tpl_vars["entry"] = new Smarty_Variable; $_smarty_tpl->tpl_vars["entry"]->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['data']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars["entry"]->key => $_smarty_tpl->tpl_vars["entry"]->value) {
+$_smarty_tpl->tpl_vars["entry"]->_loop = true;
+?>
+					<tr onclick="javascript:location.href='?w=base&s=edit&IDbase=<?php echo $_smarty_tpl->tpl_vars['entry']->value['IDbase'];?>
+';">
+						<td><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['entry']->value['basename'], ENT_QUOTES, 'UTF-8', true);?>
+</td>
+						<td><?php echo $_smarty_tpl->tpl_vars['entry']->value['baseid'];?>
+</td>
+						<td class="text-center"><span class="badge alert-success"><?php echo $_smarty_tpl->tpl_vars['entry']->value['linked_clients'];?>
+</span></td>
+						<td class="text-center"><span class="badge alert-danger"><?php echo $_smarty_tpl->tpl_vars['entry']->value['pending_messages'];?>
+</span></td>
+						<td class="text-center">
+							<button class="btn btn-danger btn-xs ctrl-button-del" type="button" onclick="javascript:if(confirm('Are you sure you want to delete this Base?')) { event.stopPropagation(); location.href='?w=base&s=delete&IDbase=<?php echo $_smarty_tpl->tpl_vars['entry']->value['IDbase'];?>
+'; }">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+						</td>
+					</tr>
+					<?php }
+if (!$_smarty_tpl->tpl_vars["entry"]->_loop) {
+?>
+					<tr>
+						<td colspan="5">No Bases, click <strong>Add New</strong> button.</td>
+					</tr>
+					<?php } ?>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
--->
-
+<!-- /.row -->
+<div class="row">
+  <div class="col-lg-12">
+    <button class="btn btn-primary" type="button" onclick="javascript:location.href='?w=base&s=edit&IDbase=-1';"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add New</button>
+  </div>
+</div>
 
   </div>
 

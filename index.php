@@ -24,6 +24,16 @@ switch($_w) {
 		include('./account.php');
 		break;
 
+	// Bases management
+	case 'base':
+		include('./base.php');
+		break;
+
+	// Clients management
+	case 'client':
+		include('./client.php');
+		break;
+
 	// Dashboard/default
 	default:
 		include('./dashboard.php');

@@ -10,29 +10,19 @@ class Ctrl {
 
   // smarty template object
   var $tpl = null;
-  
+
   // errors
   var $error = null;
-  
+
   // MySQL class object
   var $mdb = null;
-  
-  // MySQL connection parameters
-  var $mysql_host = 'localhost';
-  var $mysql_username = 'root';
-  var $mysql_password = '';
-  var $mysql_database = 'ctrl_0v4';
-  
-  // ReCAPTCHA keys
-  var $reCAPTCHA_PUBLIC_KEY = '6Lc9XPsSAAAAAJy7E3LhA68SjqX5mi-XN0-PAVHF';
-  var $reCAPTCHA_PRIVATE_KEY = 'this is top secret my friend';
 
   /**
   * class constructor
   */
   function __construct() {
 		// connect to MySQL
-		$this->mdb = new MeekroDB($this->mysql_host, $this->mysql_username, $this->mysql_password, $this->mysql_database);
+		$this->mdb = new MeekroDB(mysql_host, mysql_username, mysql_password, mysql_database);
 
     // instantiate the template object
     $this->tpl = new Ctrl_Smarty;
@@ -66,6 +56,158 @@ class Ctrl {
  		}
   }
 
+	///////////////////////////////
+	// Bases management
+	///////////////////////////////
+  function displayBases($formvars = array()) {
+  	$tpl = $this->tpl;
+
+		// assign menu highlighter
+    $tpl->assign('page_id', 'base');
+
+    $tpl->assign('data', $this->getBase());
+
+    $tpl->display('bases.html');
+  }
+
+  function getBase($IDbase = -1) {
+		$mdb = $this->mdb;
+		
+		$results = $mdb->query("SELECT b.IDbase, b.basename, b.baseid, b.timezone, b.TXbase, b.crypt_key, (SELECT COUNT(*) FROM base_client WHERE IDbase=b.IDbase) AS linked_clients, (SELECT COUNT(*) FROM txserver2base WHERE IDbase=b.IDbase AND sent=0) AS pending_messages FROM base b WHERE b.IDaccount = %i AND (%i = -1 OR %i = b.IDbase)", $_SESSION['IDaccount'], $IDbase, $IDbase);
+		
+		return $results;
+  }
+
+  function editBase($formvars = array()) {
+  	$tpl = $this->tpl;
+
+		// add all missing keys to array
+		$this->fixFormVars($formvars, array('IDbase'));
+
+		// assign menu highlighter
+    $tpl->assign('page_id', 'base');
+
+		$bases = array();
+		if($formvars['IDbase'] <= 0)
+		{
+			$bases[] = array(
+					'IDbase' => '-1',
+					'basename' => '',
+					'baseid' => '',
+					'timezone' => '0',
+					'TXbase' => '0',
+					'crypt_key' => '',
+					'linked_clients' => '0',
+					'pending_messages' => '0',
+				);
+		}
+		else
+		{
+			// fetch data from db
+			$bases = $this->getBase($formvars['IDbase']);
+			if(count($bases)<=0) {
+				return false;
+			}
+  	}
+
+		$mdb = $this->mdb;
+
+		// get linked clients for this IDbase
+		$linked_clients = $mdb->query("SELECT c.IDclient, c.clientname, IF(bc.IDclient IS NULL, -1, bc.IDclient) AS sel_IDclient FROM client c LEFT JOIN base_client bc ON (bc.IDclient=c.IDclient AND bc.IDbase = %i) WHERE c.IDaccount = %i ORDER BY clientname", $formvars['IDbase'], $_SESSION['IDaccount']);
+
+		$opt = array();
+		$val = array();
+		$selected = array();
+		for($i=0; $i<count($linked_clients); $i++) {
+			$r = $linked_clients[$i];
+			$val[] = $r['IDclient'];
+			$opt[] = $r['clientname'];
+			if($r['sel_IDclient'] != -1) {
+				$selected[] = $r['IDclient'];
+			}
+		}
+
+    $tpl->assign('IDclient_val', $val);
+    $tpl->assign('IDclient_opt', $opt);
+    $tpl->assign('IDclient_sel', $selected);
+
+    $tpl->assign('data', $bases[0]);
+
+    $tpl->display('bases_edit.html');
+
+    return true;
+  }
+
+  function saveBase($formvars = array()) {
+		$mdb = $this->mdb;
+
+		// add all missing keys to array
+		$this->fixFormVars($formvars, array('IDbase','basename','crypt_key','IDclient'));
+
+		// set crypt key if it is not valid
+		if(strlen($formvars['crypt_key']) != 32 || !ctype_xdigit($formvars['crypt_key'])) {
+			$formvars['crypt_key'] = randomHex(32);
+		}
+
+		// inserting new
+		if($formvars['IDbase'] <= 0) {
+			$baseid = randomHex(32);
+
+			$mdb->insert('base', array(
+				'IDaccount' => $_SESSION['IDaccount'],
+				'baseid' => $baseid,
+				'basename' => $formvars['basename'],
+				'crypt_key' => $formvars['crypt_key'],
+				)
+			);
+			
+			$IDbase = $mdb->insertId(); // continue as we were updating...
+		}
+		// updating current
+		else {
+			$mdb->debugMode();
+		
+			$mdb->update('base', array(
+				'IDbase' => $formvars['IDbase'],
+				'basename' => $formvars['basename'],
+				'crypt_key' => $formvars['crypt_key'],
+				), "IDbase = %i AND IDaccount = %i", $formvars['IDbase'], $_SESSION['IDaccount']);
+		}
+
+		// insert/update linked clients table
+		// delete all and add new, that's easier than updating :)
+		$mdb->delete('base_client', "IDbase = %i AND IDbase IN (SELECT IDbase FROM base WHERE IDaccount = %i)", $formvars['IDbase'], $_SESSION['IDaccount']);
+
+		// add link, securelly
+		$available_IDclients = $mdb->queryOneColumn("IDclient", "SELECT IDclient FROM client WHERE IDaccount = %i", $_SESSION['IDaccount']);
+		foreach($available_IDclients as $IDclient) {
+			if(in_array($IDclient, $formvars['IDclient'])) {
+				$mdb->insert("base_client", array(
+					'IDbase' => $formvars['IDbase'],
+					'IDclient' => $IDclient,
+				));
+			}
+		}
+		
+  	return true;
+  }
+  
+  function deleteBase($formvars = array()) {
+		$mdb = $this->mdb;
+
+		// add all missing keys to array
+		$this->fixFormVars($formvars, array('IDbase'));
+
+		$mdb->delete('base_client', "IDbase = %i AND IDbase IN (SELECT IDbase FROM base WHERE IDaccount = %i)", $formvars['IDbase'], $_SESSION['IDaccount']);  
+		$mdb->delete('txserver2base', "IDbase = %i AND IDbase IN (SELECT IDbase FROM base WHERE IDaccount = %i)", $formvars['IDbase'], $_SESSION['IDaccount']);  
+		$mdb->delete('base', "IDbase = %i AND IDaccount = %i", $formvars['IDbase'], $_SESSION['IDaccount']);  
+
+		return true;
+  }
+
+	///////////////////////////////
+	// Account management
+	///////////////////////////////
   function displayLogin($formvars = array()) {
   	// add all missing keys to array
   	$this->fixFormVars($formvars, array('email','password','remember'));
@@ -133,7 +275,7 @@ class Ctrl {
     $tpl->assign('error', $this->error);
     
     // recaptcha
-    $tpl->assign('recaptcha', recaptcha_get_html($this->reCAPTCHA_PUBLIC_KEY));
+    $tpl->assign('recaptcha', recaptcha_get_html(reCAPTCHA_PUBLIC_KEY));
 
     $tpl->display('register.html');
   }
@@ -165,7 +307,7 @@ class Ctrl {
 
 		/*
 		// reCAPTCHA validation - enable when published to web server
-	  $reCAPTCHA_RESPONSE = recaptcha_check_answer ($this->reCAPTCHA_PRIVATE_KEY, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
+	  $reCAPTCHA_RESPONSE = recaptcha_check_answer (reCAPTCHA_PRIVATE_KEY, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
 	  if (!$reCAPTCHA_RESPONSE->is_valid) {
 	  	$this->error = 'recaptcha';
 	  	return;
@@ -311,6 +453,9 @@ class Ctrl {
 	function displayDashboard() {
   	$tpl = $this->tpl;
 
+		// assign menu highlighter
+    $tpl->assign('page_id', 'dashboard');
+
     $tpl->display('dashboard.html');
 	}
 
@@ -326,60 +471,7 @@ class Ctrl {
 
 
 
-  /**
-  * fix up form data if necessary
-  *
-  * @param array $formvars the form variables
-  */
-  function mungeFormData(&$formvars) {
 
-    // trim off excess whitespace
-    $formvars['Name'] = trim($formvars['Name']);
-    $formvars['Comment'] = trim($formvars['Comment']);
-
-  }
-
-  /**
-  * test if form information is valid
-  *
-  * @param array $formvars the form variables
-  */
-  function isValidForm($formvars) {
-
-    // reset error message
-    $this->error = null;
-
-    // test if "Name" is empty
-    if(strlen($formvars['Name']) == 0) {
-      $this->error = 'name_empty';
-      return false; 
-    }
-
-    // test if "Comment" is empty
-    if(strlen($formvars['Comment']) == 0) {
-      $this->error = 'comment_empty';
-      return false; 
-    }
-
-    // form passed validation
-    return true;
-  }
-
-  /**
-  * add a new guestbook entry
-  *
-  * @param array $formvars the form variables
-  */
-   function addEntry($formvars) {        
-    try {
-      $rh = $this->pdo->prepare("insert into GUESTBOOK values(0,?,NOW(),?)");
-      $rh->execute(array($formvars['Name'],$formvars['Comment']));
-    } catch (PDOException $e) {
-      print "Error!: " . $e->getMessage();
-      return false;
-    }	
-    return true;
-  }
 
   /**
   * get the guestbook entries
@@ -407,6 +499,9 @@ class Ctrl {
     $this->tpl->display('guestbook.tpl');        
 
   }
+  
+  
+  
 }
 
 ?>

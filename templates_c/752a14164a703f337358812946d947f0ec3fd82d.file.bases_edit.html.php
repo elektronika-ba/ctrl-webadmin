@@ -1,19 +1,19 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-04 08:11:16
-         compiled from ".\templates\dashboard.html" */ ?>
-<?php /*%%SmartyHeaderCode:17500542d6d0c19ea03-10995378%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-05 15:29:12
+         compiled from ".\templates\bases_edit.html" */ ?>
+<?php /*%%SmartyHeaderCode:28632542fa899de0909-08617457%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
-    '9658272aae76f164a5f422d68ad9a88738f23680' => 
+    '752a14164a703f337358812946d947f0ec3fd82d' => 
     array (
-      0 => '.\\templates\\dashboard.html',
-      1 => 1412350901,
+      0 => '.\\templates\\bases_edit.html',
+      1 => 1412520697,
       2 => 'file',
     ),
     '2a635fa6116a658e691859a59a54961509ad3229' => 
     array (
       0 => '.\\templates\\framework.html',
-      1 => 1412350975,
+      1 => 1412522873,
       2 => 'file',
     ),
     '4d72c64a6d937f61dd493697d2ab1894beb263a3' => 
@@ -23,15 +23,16 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '17500542d6d0c19ea03-10995378',
+  'nocache_hash' => '28632542fa899de0909-08617457',
   'function' => 
   array (
   ),
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_542d6d0c3c3108_62378319',
+  'unifunc' => 'content_542fa89a184814_98208381',
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_542d6d0c3c3108_62378319')) {function content_542d6d0c3c3108_62378319($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_542fa89a184814_98208381')) {function content_542fa89a184814_98208381($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include './smarty/libs/plugins\\function.html_options.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -102,10 +103,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
             <a <?php if ($_smarty_tpl->tpl_vars['page_id']->value=="dashboard") {?>class="active"<?php }?> href="index.php"><i class="fa fa-dashboard fa-fw"></i>&nbsp;Dashboard</a>
           </li>
           <li>
-            <a <?php if ($_smarty_tpl->tpl_vars['page_id']->value=="base") {?>class="active"<?php }?> href="?w=base"><i class="fa fa-cubes fa-fw"></i>&nbsp;Bases<span class="badge pull-right alert-success">1</span></a>
+            <a <?php if ($_smarty_tpl->tpl_vars['page_id']->value=="base") {?>class="active"<?php }?> href="?w=base"><i class="fa fa-cubes fa-fw"></i>&nbsp;Bases<!--<span class="badge pull-right alert-success">1</span>--></a>
           </li>
           <li>
-            <a <?php if ($_smarty_tpl->tpl_vars['page_id']->value=="client") {?>class="active"<?php }?> href="?w=client"><i class="fa fa-users fa-fw"></i>&nbsp;Clients<span class="badge pull-right alert-danger">0</span></a>
+            <a <?php if ($_smarty_tpl->tpl_vars['page_id']->value=="client") {?>class="active"<?php }?> href="?w=client"><i class="fa fa-users fa-fw"></i>&nbsp;Clients<!--<span class="badge pull-right alert-danger">0</span>--></a>
           </li>
           <li>
             <a href="#"><i class="fa fa-flask fa-fw"></i>&nbsp;Apps<span class="fa arrow"></span></a>
@@ -136,62 +137,81 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header frobo fw300">Dashboard</h1>
+    <h1 class="page-header frobo fw300">Base Editor</h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
-
-For the time being, please use menu on the left or account settings above on the right.
-<!--
 <div class="row">
-  <div class="col-lg-3 col-md-6">
-    <div class="panel panel-yellow">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-cube fa-5x"></i>
-          </div>
-          <div class="col-xs-9 text-right">
-            <div class="huge">10234</div>
-            <div>Pending items in queue!</div>
-          </div>
+  <div class="col-lg-12">
+    <form class="form-horizontal" role="form" method="post" action="index.php">
+    <input type="hidden" name="w" value="base">
+    <input type="hidden" name="s" value="save">
+    <input type="hidden" name="IDbase" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['IDbase'];?>
+">
+
+      <div class="form-group">
+        <label for="basename" class="col-sm-2 control-label">Name:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="basename" name="basename" placeholder="Name your Base" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['basename'];?>
+">
         </div>
       </div>
-      <a href="bases.html">
-        <div class="panel-footer">
-          <span class="pull-left">View Bases</span>
-          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          <div class="clearfix"></div>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-lg-3 col-md-6">
-    <div class="panel panel-yellow">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-user fa-5x"></i>
-          </div>
-          <div class="col-xs-9 text-right">
-            <div class="huge">5134</div>
-            <div>Pending items in queue!</div>
-          </div>
+      <div class="form-group">
+        <label for="baseid" class="col-sm-2 control-label">Base ID:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="baseid" name="baseid" placeholder="Base ID will be automatically generated after you Save" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['baseid'];?>
+" readonly="readonly">
         </div>
       </div>
-      <a href="clients.html">
-        <div class="panel-footer">
-          <span class="pull-left">View Clients</span>
-          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          <div class="clearfix"></div>
+      <div class="form-group">
+        <label for="crypt_key" class="col-sm-2 control-label">AES-128 Key:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="crypt_key" name="crypt_key" placeholder="Enter 32 hexadecimal characters, or leave blank to generate automatically" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['crypt_key'];?>
+">
         </div>
-      </a>
-    </div>
+      </div>
+      <div class="form-group">
+        <label for="IDclient" class="col-sm-2 control-label">Linked Clients:</label>
+        <div class="col-sm-10">
+          <select name="IDclient[]" id="IDclient" size="4" multiple class="form-control">
+						<?php echo smarty_function_html_options(array('values'=>$_smarty_tpl->tpl_vars['IDclient_val']->value,'output'=>$_smarty_tpl->tpl_vars['IDclient_opt']->value,'selected'=>$_smarty_tpl->tpl_vars['IDclient_sel']->value),$_smarty_tpl);?>
+
+          </select>
+          <span class="text-muted"><em>Use CTRL key to select multiple Clients</em></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="" class="col-sm-2 control-label">Current Sequence No:</label>
+        <div class="col-sm-10">
+          <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
+          TXbase: <span class="badge <?php if ($_smarty_tpl->tpl_vars['data']->value['TXbase']>1000000) {?>alert-danger<?php } else { ?>alert-success<?php }?>"><?php echo $_smarty_tpl->tpl_vars['data']->value['TXbase'];?>
+</span>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="" class="col-sm-2 control-label">Pending Messages:</label>
+        <div class="col-sm-10">
+          <button type="button" class="btn btn-danger">Flush (<?php echo $_smarty_tpl->tpl_vars['data']->value['pending_messages'];?>
+)</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="" class="col-sm-2 control-label">Server LOG:</label>
+        <div class="col-sm-10">
+          <button type="button" class="btn btn-default">Download</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-lg-12">
+			    <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>&nbsp;Save Changes</button>
+			  </div>
+      </div>
+
+    </form>
   </div>
 </div>
--->
-
 
   </div>
 

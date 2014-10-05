@@ -42,7 +42,6 @@
     text-align: center;
 }
 
-
 /* LOGIN AND REGISTER FORMS */
 /* ////////////////////// */
 
@@ -92,4 +91,9 @@
 
 table.ctrl-table-colorhead thead tr th {
     background-color: #eee !important;
+}
+
+table.ctrl-table-clickable tbody tr {
+    cursor: hand;
+    cursor: pointer;
 }
