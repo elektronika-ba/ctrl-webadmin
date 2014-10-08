@@ -1,13 +1,13 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-08 14:19:01
-         compiled from ".\templates\bases_edit.html" */ ?>
-<?php /*%%SmartyHeaderCode:253195434e25057f308-38572775%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-08 14:14:18
+         compiled from ".\templates\clients_edit.html" */ ?>
+<?php /*%%SmartyHeaderCode:30870543541b1c49a51-89051258%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
-    '0d24d8c6dc694fc2d58b8f0ad5ec6cc85c3eed4d' => 
+    'f92117aeb5d09de9bf3385d55996819ede82e965' => 
     array (
-      0 => '.\\templates\\bases_edit.html',
-      1 => 1412777940,
+      0 => '.\\templates\\clients_edit.html',
+      1 => 1412777656,
       2 => 'file',
     ),
     '5a76211f71eb9fd8857118b3e421e87c0a7424e3' => 
@@ -23,15 +23,15 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '253195434e25057f308-38572775',
+  'nocache_hash' => '30870543541b1c49a51-89051258',
   'function' => 
   array (
   ),
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_5434e2508f01c8_93702113',
+  'unifunc' => 'content_543541b1f311a5_14041635',
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5434e2508f01c8_93702113')) {function content_5434e2508f01c8_93702113($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include './smarty/libs/plugins\\function.html_options.php';
+<?php if ($_valid && !is_callable('content_543541b1f311a5_14041635')) {function content_543541b1f311a5_14041635($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include './smarty/libs/plugins\\function.html_options.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,7 +137,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header frobo fw300">Base Editor</h1>
+    <h1 class="page-header frobo fw300">Client Editor</h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>
@@ -145,76 +145,56 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 <?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['base_added'])) {?>
 <div class="row">
   <div class="col-lg-12">
-    <div class="alert alert-info" role="alert">You Base is now added to Server. Please use the generated Base ID and AES-Key and program your Base hardware with it.<br />Make sure you link at least one Client or you will not be able to access it.</div>
-  </div>
-</div>
-<?php }?>
-<?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['key_generated'])) {?>
-<div class="row">
-  <div class="col-lg-12">
-    <div class="alert alert-warning" role="alert">New AES-128 Key has been generated! Please update your hardware to use this new encryption key!<br />
-    AES-128 Key: <strong><?php echo $_smarty_tpl->tpl_vars['data']->value['crypt_key'];?>
-</strong>
-    </div>
+    <div class="alert alert-info" role="alert">You Client is now added to Server. Please use the generated Auth Token to gain access to Client services.</div>
   </div>
 </div>
 <?php }?>
 <?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['queue_flushed'])) {?>
 <div class="row">
   <div class="col-lg-12">
-    <div class="alert alert-warning" role="alert">All pending messages to this Base were flushed.</div>
+    <div class="alert alert-warning" role="alert">All pending messages to this Client were flushed.</div>
   </div>
 </div>
 <?php }?>
 <?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['no_logfile'])) {?>
 <div class="row">
   <div class="col-lg-12">
-    <div class="alert alert-danger" role="alert">No log file is available for this Base just yet.</div>
-  </div>
-</div>
-<?php }?>
-<?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['regen_done'])) {?>
-<div class="row">
-  <div class="col-lg-12">
-    <div class="alert alert-warning" role="alert">New Base ID has been generated! You should change it in your hardware now and force it to re-connect!<br />
-    Base ID: <strong><?php echo $_smarty_tpl->tpl_vars['data']->value['baseid'];?>
-</strong>
-    </div>
+    <div class="alert alert-danger" role="alert">No log file is available for this Client just yet.</div>
   </div>
 </div>
 <?php }?>
 <div class="row">
   <div class="col-lg-12">
     <form class="form-horizontal" role="form" method="post" action="index.php">
-    <input type="hidden" name="w" value="base">
+    <input type="hidden" name="w" value="client">
     <input type="hidden" name="s" value="save">
-    <input type="hidden" name="IDbase" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['IDbase'];?>
+    <input type="hidden" name="IDclient" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['IDclient'];?>
 ">
 
       <div class="form-group">
         <label for="basename" class="col-sm-2 control-label">Name:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="basename" name="basename" placeholder="Name your Base" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['basename'];?>
+          <input type="text" class="form-control" id="basename" name="basename" placeholder="Name your Client" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['clientname'];?>
 ">
         </div>
       </div>
       <div class="form-group">
-        <label for="baseid" class="col-sm-2 control-label">Base ID:</label>
+        <label for="auth_token" class="col-sm-2 control-label">Auth Token:</label>
         <div class="col-sm-10">
 
-<?php if ($_smarty_tpl->tpl_vars['data']->value['IDbase']>0) {?>
+<?php if ($_smarty_tpl->tpl_vars['data']->value['IDclient']>0) {?>
           <div class="input-group">
-            <input type="text" class="form-control" id="baseid" name="baseid" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['baseid'];?>
+            <input type="text" class="form-control" id="auth_token" name="auth_token" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['auth_token'];?>
 " readonly="readonly">
             <span class="input-group-btn">
-              <a class="btn btn-danger" href="?w=base&s=regenbaseid&IDbase=<?php echo $_smarty_tpl->tpl_vars['data']->value['IDbase'];?>
-" onclick="javascript:if(!confirm('Are you sure you want to change Base ID ?')) { return false; }"><i class="glyphicon glyphicon-random"></i>&nbsp;Re-generate</a>
+              <a class="btn btn-danger" href="?w=client&s=regenauthtoken&IDclient=<?php echo $_smarty_tpl->tpl_vars['data']->value['IDclient'];?>
+" onclick="javascript:if(!confirm('Are you sure you want to change Auth Token ?')) { return false; }"><i class="glyphicon glyphicon-random"></i>&nbsp;Re-generate</a>
             </span>
           </div>
 <?php } else { ?>
           <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
             <span class="text-muted">
-            Base ID will be automatically generated after you finish adding this new Base!
+            Auth Token will be automatically generated after you finish adding this new Client!
             </span>
           </span>
 <?php }?>
@@ -222,47 +202,23 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         </div>
       </div>
       <div class="form-group">
-        <label for="crypt_key" class="col-sm-2 control-label">AES-128 Key:</label>
+        <label for="IDclient" class="col-sm-2 control-label">Linked Bases:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="crypt_key" name="crypt_key" placeholder="Enter 32 hexadecimal characters, or leave blank to generate the key randomly" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['crypt_key'];?>
-">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="timezone" class="col-sm-2 control-label">Timezone offset:</label>
-        <div class="col-sm-10">
-
-          <div class="input-group">
-            <input type="text" class="form-control" id="timezone" name="timezone" placeholder="Timezone offset" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['timezone'];?>
-">
-            <span class="input-group-addon">minutes</span>
-          </div>
-
-          <span class="text-muted">Offset is in minutes, e.g.: -120. Current time on server is: <strong><?php echo $_smarty_tpl->tpl_vars['current_time']->value;?>
-</strong> and with offset of <?php echo $_smarty_tpl->tpl_vars['data']->value['timezone'];?>
-, time is: <strong><?php echo $_smarty_tpl->tpl_vars['offset_time']->value;?>
-</strong></span>
-
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="IDclient" class="col-sm-2 control-label">Linked Clients:</label>
-        <div class="col-sm-10">
-          <select name="IDclient[]" id="IDclient" size="4" multiple class="form-control">
-						<?php echo smarty_function_html_options(array('values'=>$_smarty_tpl->tpl_vars['IDclient_val']->value,'output'=>$_smarty_tpl->tpl_vars['IDclient_opt']->value,'selected'=>$_smarty_tpl->tpl_vars['IDclient_sel']->value),$_smarty_tpl);?>
+          <select name="IDclient[]" id="IDclient" size="10" multiple class="form-control">
+						<?php echo smarty_function_html_options(array('values'=>$_smarty_tpl->tpl_vars['IDbase_val']->value,'output'=>$_smarty_tpl->tpl_vars['IDbase_opt']->value,'selected'=>$_smarty_tpl->tpl_vars['IDbase_sel']->value),$_smarty_tpl);?>
 
           </select>
-          <span class="text-muted"><em>Use CTRL key to select multiple Clients</em></span>
+          <span class="text-muted"><em>Use CTRL key to select multiple Bases</em></span>
         </div>
       </div>
 
-<?php if ($_smarty_tpl->tpl_vars['data']->value['IDbase']>0) {?>
+<?php if ($_smarty_tpl->tpl_vars['data']->value['IDclient']>0) {?>
 
       <div class="form-group">
         <label for="" class="col-sm-2 control-label">Current Sequence No:</label>
         <div class="col-sm-10">
           <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
-          TXbase: <span class="badge <?php if ($_smarty_tpl->tpl_vars['data']->value['TXbase']>1000000) {?>alert-danger<?php } else { ?>alert-success<?php }?>"><?php echo $_smarty_tpl->tpl_vars['data']->value['TXbase'];?>
+          TXclient: <span class="badge <?php if ($_smarty_tpl->tpl_vars['data']->value['TXclient']>1000000) {?>alert-danger<?php } else { ?>alert-success<?php }?>"><?php echo $_smarty_tpl->tpl_vars['data']->value['TXclient'];?>
 </span>
           </span>
         </div>
@@ -272,7 +228,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <label for="" class="col-sm-2 control-label">Pending Messages:</label>
         <div class="col-sm-10">
           <?php if ($_smarty_tpl->tpl_vars['data']->value['pending_messages']>0) {?>
-          <a class="btn btn-danger" href="?w=base&s=flush&IDbase=<?php echo $_smarty_tpl->tpl_vars['data']->value['IDbase'];?>
+          <a class="btn btn-danger" href="?w=client&s=flush&IDclient=<?php echo $_smarty_tpl->tpl_vars['data']->value['IDclient'];?>
 " onclick="javascript:if(!confirm('Are you sure you want to flush the TX Queue ?')) { return false; }">Flush (<?php echo $_smarty_tpl->tpl_vars['data']->value['pending_messages'];?>
 )</a>
           <?php } else { ?>
@@ -289,7 +245,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <label for="" class="col-sm-2 control-label">Server LOG:</label>
         <div class="col-sm-10">
           <?php if ($_smarty_tpl->tpl_vars['log_available']->value) {?>
-          <a class="btn btn-info" href="?w=base&s=getlog&IDbase=<?php echo $_smarty_tpl->tpl_vars['data']->value['IDbase'];?>
+          <a class="btn btn-info" href="?w=client&s=getlog&IDclient=<?php echo $_smarty_tpl->tpl_vars['data']->value['IDclient'];?>
 " target="_blank">Download</a>
           <?php } else { ?>
           <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
@@ -305,7 +261,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
       <div class="form-group">
         <div class="col-lg-12">
-          <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>&nbsp;<?php if ($_smarty_tpl->tpl_vars['data']->value['IDbase']>0) {?>Save Changes<?php } else { ?>Add Base<?php }?></button>
+          <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>&nbsp;<?php if ($_smarty_tpl->tpl_vars['data']->value['IDclient']>0) {?>Save Changes<?php } else { ?>Add Client<?php }?></button>
 			  </div>
       </div>
 

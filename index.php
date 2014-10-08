@@ -13,9 +13,6 @@ session_start();
 // include the setup script
 include('./libs/ctrl_setup.php');
 
-// create Ctrl object
-$ctrl = new Ctrl;
-
 $_w = isset($_REQUEST['w']) ? $_REQUEST['w'] : '';
 
 switch($_w) {

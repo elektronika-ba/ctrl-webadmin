@@ -13,8 +13,13 @@ require_once('./recaptcha/recaptchalib.php');
 require('./libs/misc.php');
 require('./libs/PasswordHash.php');
 require('./libs/meekrodb.2.3.class.php');
-require('./libs/ctrl.lib.php');
 require(SMARTY_DIR . 'Smarty.class.php');
+
+// require all modules
+require('./libs/dashboard.lib.php');
+require('./libs/account.lib.php');
+require('./libs/client.lib.php');
+require('./libs/base.lib.php');
 
 // MySQL connection parameters
 define('mysql_host','localhost');

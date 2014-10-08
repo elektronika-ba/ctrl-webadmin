@@ -6,6 +6,17 @@
 * Version: 1.0
 */
 
+// add missing requiredvars into formvars
+function fixFormVars(&$formvars, $requiredvars) {
+	if(count($requiredvars)<=0) return;
+
+	for($i=0; $i<count($requiredvars); $i++) {
+		if(!array_key_exists($requiredvars[$i], $formvars)) {
+			$formvars[$requiredvars[$i]] = '';
+		}
+	}
+}
+
 function randomHex($length) {
     $alphabet = "0123456789abcdef";
     $pass = array(); // remember to declare $pass as an array

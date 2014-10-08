@@ -11,19 +11,22 @@ if(!defined('_INDEX_')) {
 	die();
 }
 
+// create Ctrl object
+$ctrlAccount = new CtrlAccount;
+
 $_s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 $_x = isset($_REQUEST['x']) ? $_REQUEST['x'] : '';
 
 switch($_s) {
 	// Re-send activation email
 	case 'resend':
-		if($ctrl->getIsLoggedIn()) {
+		if($ctrlAccount->getIsLoggedIn()) {
 			Header("Location: index.php");
 			die();
 		}
 
-		if(array_key_exists('email', $_GET) && filter_var($_GET['email'], FILTER_VALIDATE_EMAIL) && $ctrl->resendActivationEmail($_GET['email'])) {
-			$ctrl->displayRegisterDone( array('email' => $_GET['email']) );
+		if(array_key_exists('email', $_GET) && filter_var($_GET['email'], FILTER_VALIDATE_EMAIL) && $ctrlAccount->resendActivationEmail($_GET['email'])) {
+			$ctrlAccount->displayRegisterDone( array('email' => $_GET['email']) );
 		}
 		else {
 			Header("Location: index.php?w=account&s=login"); // someone is playing...
@@ -33,12 +36,12 @@ switch($_s) {
 
 	// Account activation
 	case 'activate':
-		if($ctrl->getIsLoggedIn()) {
+		if($ctrlAccount->getIsLoggedIn()) {
 			Header("Location: index.php");
 			die();
 		}
 
-		$email = $ctrl->doActivateAccount($_GET);
+		$email = $ctrlAccount->doActivateAccount($_GET);
 		if($email !== false) {
 			Header("Location: index.php?w=account&s=login&email=".$email);
 			die();
@@ -51,15 +54,15 @@ switch($_s) {
 
 	// Password recovery
 	case 'recover':
-		if($ctrl->getIsLoggedIn()) {
+		if($ctrlAccount->getIsLoggedIn()) {
 			Header("Location: index.php");
 			die();
 		}
 
 		if($_x == '1') {
-			$newpass = $ctrl->completeRecovery($_GET);
+			$newpass = $ctrlAccount->completeRecovery($_GET);
 			if($newpass !== false) {
-				$ctrl->displayRecoveryDone($newpass, $_GET['email']);
+				$ctrlAccount->displayRecoveryDone($newpass, $_GET['email']);
 			}
 			else {
 				Header("Location: index.php?w=account&s=login"); // someone is playing...
@@ -67,8 +70,8 @@ switch($_s) {
 			}
 		}
 		else {
-			if($ctrl->startRecovery($_GET)) {
-				$ctrl->displayRecoveryStarted($_GET);
+			if($ctrlAccount->startRecovery($_GET)) {
+				$ctrlAccount->displayRecoveryStarted($_GET);
 			}
 			else {
 				Header("Location: index.php?w=account&s=login"); // someone is playing...
@@ -79,12 +82,12 @@ switch($_s) {
 
 	// Login
 	case 'login':
-		if($ctrl->getIsLoggedIn()) {
+		if($ctrlAccount->getIsLoggedIn()) {
 			Header("Location: index.php");
 			die();
 		}
 
-		if($_x == '1' && $ctrl->doLogin($_POST)) {
+		if($_x == '1' && $ctrlAccount->doLogin($_POST)) {
 			Header("Location: index.php");
 			die();
 		}
@@ -94,22 +97,22 @@ switch($_s) {
 				$_POST['email'] = $_GET['email'];
 			}
 
-			$ctrl->displayLogin($_POST);
+			$ctrlAccount->displayLogin($_POST);
 		}
 		break;
 
 	// Registration procedure
 	case 'register':
-		if($ctrl->getIsLoggedIn()) {
+		if($ctrlAccount->getIsLoggedIn()) {
 			Header("Location: index.php");
 			die();
 		}
 
-		if($_x == '1' && $ctrl->doRegister($_POST)) {
-			$ctrl->displayRegisterDone($_POST);
+		if($_x == '1' && $ctrlAccount->doRegister($_POST)) {
+			$ctrlAccount->displayRegisterDone($_POST);
 		}
 		else {
-			$ctrl->displayRegister($_POST);
+			$ctrlAccount->displayRegister($_POST);
 		}
 		break;
 
@@ -123,12 +126,12 @@ switch($_s) {
 	// Settings/default
 	case 'settings':
 	default:
-		if(!$ctrl->getIsLoggedIn()) {
+		if(!$ctrlAccount->getIsLoggedIn()) {
 			Header("Location: index.php?w=account&s=login");
 			die();
 		}
 
-		$ctrl->displayAccountSettings();
+		$ctrlAccount->displayAccountSettings();
 		break;
 }
 

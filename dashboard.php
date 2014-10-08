@@ -11,7 +11,11 @@ if(!defined('_INDEX_')) {
 	die();
 }
 
-if(!$ctrl->getIsLoggedIn()) {
+// create Ctrl object
+$ctrlDashboard = new CtrlDashboard;
+$ctrlAccount = new CtrlAccount;
+
+if(!$ctrlAccount->getIsLoggedIn()) {
 	Header("Location: index.php?w=account&s=login");
 	die();
 }
@@ -22,7 +26,7 @@ $_x = isset($_REQUEST['x']) ? $_REQUEST['x'] : '';
 switch($_s) {
 	// Dashboard page = default
 	default:
-		$ctrl->displayDashboard();
+		$ctrlDashboard->displayDashboard();
 		break;
 }
 

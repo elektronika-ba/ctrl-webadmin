@@ -1,215 +1,143 @@
-<!DOCTYPE html>
-<html lang="en">
+{* Smarty *}
 
-<head>
+{extends file="framework.html"}
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+{block name=css}{/block}
 
-    <title>Bootstrap Example</title>
-    <!--Ctrl.ba - Admin Panel-->
+{block name=page}
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header frobo fw300">Client Editor</h1>
+  </div>
+  <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+{if isset($notifs.base_added)}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-info" role="alert">You Client is now added to Server. Please use the generated Auth Token to gain access to Client services.</div>
+  </div>
+</div>
+{/if}
+{if isset($notifs.queue_flushed)}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-warning" role="alert">All pending messages to this Client were flushed.</div>
+  </div>
+</div>
+{/if}
+{if isset($notifs.no_logfile)}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-danger" role="alert">No log file is available for this Client just yet.</div>
+  </div>
+</div>
+{/if}
+{if isset($notifs.regen_done)}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-warning" role="alert">New Auth Token has been generated! You should update every App that was using it to this new Auth Token!<br />
+    Auth Token: <strong>{$data.auth_token}</strong>
+    </div>
+  </div>
+</div>
+{/if}
+<div class="row">
+  <div class="col-lg-12">
+    <form class="form-horizontal" role="form" method="post" action="index.php">
+    <input type="hidden" name="w" value="client">
+    <input type="hidden" name="s" value="save">
+    <input type="hidden" name="IDclient" value="{$data.IDclient}">
 
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+      <div class="form-group">
+        <label for="basename" class="col-sm-2 control-label">Name:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="basename" name="basename" placeholder="Name your Client" value="{$data.clientname}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="auth_token" class="col-sm-2 control-label">Auth Token:</label>
+        <div class="col-sm-10">
 
-    <!-- MetisMenu CSS -->
-    <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-
-    <!-- Timeline CSS -->
-    <link href="css/plugins/timeline.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
-
-    <link href="css/custom.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<body>
-
-    <div id="wrapper">
-
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand frobo fw300" href="index.html">
-                    <img src="images/alien_24.png" border="0" style="opacity: 0.7; filter: alpha(opacity=70);">&nbsp;<span class="fw400">Ctrl.ba</span>&nbsp;-&nbsp;Admin Panel&nbsp;<i class="fa fa-cloud fa-fw"></i></a>
-            </div>
-            <!-- /.navbar-header -->
-
-            <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i>&nbsp;Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i>&nbsp;Logout</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-            <!-- /.navbar-top-links -->
-
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i>&nbsp;Dashboard</a>
-                        </li>
-
-                        <li>
-                            <a class="active" href="bases.html"><i class="fa fa-cubes fa-fw"></i>&nbsp;Bases<span class="badge pull-right alert-success">8</span></a>
-                        </li>
-
-                        <li>
-                            <a href="clients.html"><i class="fa fa-users fa-fw"></i>&nbsp;Clients<span class="badge pull-right alert-danger">0</span></a>
-                        </li>
-
-                        <li>
-                            <a href="#"><i class="fa fa-flask fa-fw"></i>&nbsp;Apps<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="http://app.ctrl.ba/api">API Access</a>
-                                </li>
-                                <li>
-                                    <a href="http://app.ctrl.ba/email">Event Notificator</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-
-                        <li>
-                            <a href="help.html"><i class="fa fa-question fa-fw"></i>&nbsp;Help</a>
-                        </li>
-
-                        <li>
-                            <a href="http://forum.ctrl.ba"><i class="fa fa-support fa-fw"></i>&nbsp;Forum</a>
-                        </li>
-
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
-            <!-- /.navbar-static-side -->
-        </nav>
-
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header frobo fw300">Client Editor</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">Name:</label>
-                            <div class="col-sm-10">
-                                <input type="email" class="form-control" id="inputEmail3" placeholder="Name your Base" value="Beehive monitoring">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="" class="col-sm-2 control-label">Auth Token:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputPassword3" placeholder="Auth Token will be automatically generated after you Save" value="uf923j3498sd9sdnf3498" readonly="readonly">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="" class="col-sm-2 control-label">Linked to Bases:</label>
-                            <div class="col-sm-10">
-                                <select name="" id="" multiple="multiple" class="form-control">
-                                    <option value="6754">Beehive monitoring</option>
-                                    <option value="234">Door lock</option>
-                                    <option value="88">IR remote</option>
-                                </select>
-                                <span class="text-muted"><em>Use CTRL key to select multiple Bases</em></span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="" class="col-sm-2 control-label">Current Sequence No:</label>
-                            <div class="col-sm-10">
-                                <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
-                                    TXbase: <span class="badge alert-danger">3.758.096.383</span>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="" class="col-sm-2 control-label">Pending Messages:</label>
-                            <div class="col-sm-10">
-                                <button type="button" class="btn btn-danger">Flush (445)</button>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="" class="col-sm-2 control-label">Server LOG:</label>
-                            <div class="col-sm-10">
-                                <button type="button" class="btn btn-default">Download</button>
-                            </div>
-                        </div>
-
-                    </form>
-
-                </div>
-
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-save"></span>&nbsp;Save Changes</button>
-                </div>
-            </div>
+{if $data.IDclient > 0}
+          <div class="input-group">
+            <input type="text" class="form-control" id="auth_token" name="auth_token" value="{$data.auth_token}" readonly="readonly">
+            <span class="input-group-btn">
+              <a class="btn btn-danger" href="?w=client&s=regenauthtoken&IDclient={$data.IDclient}" onclick="javascript:if(!confirm('Are you sure you want to change Auth Token ?')) { return false; }"><i class="glyphicon glyphicon-random"></i>&nbsp;Re-generate</a>
+            </span>
+          </div>
+{else}
+          <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
+            <span class="text-muted">
+            Auth Token will be automatically generated after you finish adding this new Client!
+            </span>
+          </span>
+{/if}
 
         </div>
-        <!-- /#page-wrapper -->
+      </div>
+      <div class="form-group">
+        <label for="IDclient" class="col-sm-2 control-label">Linked Bases:</label>
+        <div class="col-sm-10">
+          <select name="IDclient[]" id="IDclient" size="10" multiple class="form-control">
+						{html_options values=$IDbase_val output=$IDbase_opt selected=$IDbase_sel}
+          </select>
+          <span class="text-muted"><em>Use CTRL key to select multiple Bases</em></span>
+        </div>
+      </div>
 
-    </div>
-    <!-- /#wrapper -->
+{if $data.IDclient > 0}
 
-    <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
+      <div class="form-group">
+        <label for="" class="col-sm-2 control-label">Current Sequence No:</label>
+        <div class="col-sm-10">
+          <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
+          TXclient: <span class="badge {if $data.TXclient > 1000000}alert-danger{else}alert-success{/if}">{$data.TXclient}</span>
+          </span>
+        </div>
+      </div>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+      <div class="form-group">
+        <label for="" class="col-sm-2 control-label">Pending Messages:</label>
+        <div class="col-sm-10">
+          {if $data.pending_messages > 0}
+          <a class="btn btn-danger" href="?w=client&s=flush&IDclient={$data.IDclient}" onclick="javascript:if(!confirm('Are you sure you want to flush the TX Queue ?')) { return false; }">Flush ({$data.pending_messages})</a>
+          {else}
+          <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
+            <span class="text-muted">
+            Great, no pending messages!
+            </span>
+          </span>
+          {/if}
+        </div>
+      </div>
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
+      <div class="form-group">
+        <label for="" class="col-sm-2 control-label">Server LOG:</label>
+        <div class="col-sm-10">
+          {if $log_available}
+          <a class="btn btn-info" href="?w=client&s=getlog&IDclient={$data.IDclient}" target="_blank">Download</a>
+          {else}
+          <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
+            <span class="text-muted">
+            When the Base connects for the first time the log file will be created. Now it is just empty.
+            </span>
+          </span>
+          {/if}
+        </div>
+      </div>
 
-    <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
+{/if}
 
-</body>
+      <div class="form-group">
+        <div class="col-lg-12">
+          <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>&nbsp;{if $data.IDclient > 0}Save Changes{else}Add Client{/if}</button>
+			  </div>
+      </div>
 
-</html>
+    </form>
+  </div>
+</div>
+{/block}
+
+{block name=javascripts}{/block}

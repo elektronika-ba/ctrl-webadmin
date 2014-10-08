@@ -12,7 +12,7 @@ if(!defined('_INDEX_')) {
 }
 
 // create Ctrl object
-$ctrlBase = new CtrlBase;
+$ctrlClient = new CtrlClient;
 $ctrlAccount = new CtrlAccount;
 
 if(!$ctrlAccount->getIsLoggedIn()) {
@@ -26,32 +26,23 @@ $_x = isset($_REQUEST['x']) ? $_REQUEST['x'] : '';
 switch($_s) {
 	// Editing
 	case 'edit':
-		if(!$ctrlBase->editBase($_GET)) {
-			Header("Location: index.php?w=base");
+		if(!$ctrlClient->editClient($_GET)) {
+			Header("Location: index.php?w=client");
 			die();
 		}
 		break;
 
 	// Download log file
 	case 'getlog':
-		if(!$ctrlBase->downloadBaseLog($_GET)) {
+		if(!$ctrlClient->downloadBaseLog($_GET)) {
 			echo "No log file available.";
 		}
 		break;
 
 	// Flush pending messages
 	case 'flush':
-		$ctrlBase->flushBaseQueue($_GET);
-		if(!$ctrlBase->editBase($_GET)) {
-			Header("Location: index.php?w=base");
-			die();
-		}
-		break;
-	
-	// Re-generating Base ID key
-	case 'regenbaseid':
-		$ctrlBase->regenBaseId($_GET);
-		if(!$ctrlBase->editBase($_GET)) {
+		$ctrlClient->flushBaseQueue($_GET);
+		if(!$ctrlClient->editBase($_GET)) {
 			Header("Location: index.php?w=base");
 			die();
 		}
@@ -59,13 +50,13 @@ switch($_s) {
 
 	// Saving/updating
 	case 'save':
-		$r = $ctrlBase->saveBase($_POST);
+		$r = $ctrlClient->saveBase($_POST);
 
 		if($r['return_to_edit'] != true) {
-			$ctrlBase->displayBases();
+			$ctrlClient->displayBases();
 		}
 		else {
-			if(!$ctrlBase->editBase(array('IDbase' => $r['IDbase']))) {
+			if(!$ctrlClient->editBase(array('IDbase' => $r['IDbase']))) {
 				Header("Location: index.php?w=base");
 				die();
 			}
@@ -74,13 +65,13 @@ switch($_s) {
 
 	// Deleting
 	case 'delete':
-		$ctrlBase->deleteBase($_GET);
-		$ctrlBase->displayBases();
+		$ctrlClient->deleteClient($_GET);
+		$ctrlClient->displayClients();
 		break;
 
 	// List = default
 	default:
-		$ctrlBase->displayBases();
+		$ctrlClient->displayClients();
 		break;
 }
 
