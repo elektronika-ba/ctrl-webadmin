@@ -13,7 +13,7 @@ session_start();
 // include the setup script
 include('./libs/ctrl_setup.php');
 
-// create guestbook object
+// create Ctrl object
 $ctrl = new Ctrl;
 
 $_w = isset($_REQUEST['w']) ? $_REQUEST['w'] : '';

@@ -28,25 +28,38 @@ switch($_s) {
 		}
 		break;
 
-	// Saving/updating
-	case 'save':
-		if($ctrl->saveBase($_POST)) {
+	// Download log file
+	case 'getlog':
+		if(!$ctrl->downloadBaseLog($_GET)) {
+			echo "No log file available.";
+		}
+		break;
+
+	// Flush pending messages
+	case 'flush':
+		$ctrl->flushBaseQueue($_GET);
+		if(!$ctrl->editBase($_GET)) {
 			Header("Location: index.php?w=base");
 			die();
 		}
+		break;
 
-		if(!$ctrl->editBase($_POST)) {
-			Header("Location: index.php?w=base");
-			die();
+	// Saving/updating
+	case 'save':
+		$r = $ctrl->saveBase($_POST);
+
+		if($r['return_to_edit'] != true) {
+			$ctrl->displayBases();
+		}
+		else {
+			$ctrl->editBase(array('IDbase' => $r['IDbase']));
 		}
 		break;
 
 	// Deleting
 	case 'delete':
 		$ctrl->deleteBase($_GET);
-
-		Header("Location: index.php?w=base");
-		die();
+		$ctrl->displayBases();
 		break;
 
 	// List = default

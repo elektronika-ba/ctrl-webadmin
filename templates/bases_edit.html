@@ -12,6 +12,36 @@
   <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
+{if isset($notifs.base_added)}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-info" role="alert">You Base is now added to Server. Please use the generated Base ID and AES-Key and program your Base hardware with it.<br />Make sure you link at least one Client or you will not be able to access it.</div>
+  </div>
+</div>
+{/if}
+{if isset($notifs.key_generated)}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-warning" role="alert">New AES-128 Key has been generated! Please update your hardware to use this new encryption key!<br />
+    AES-128 Key: <strong>{$data.crypt_key}</strong>
+    </div>
+  </div>
+</div>
+{/if}
+{if isset($notifs.queue_flushed)}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-warning" role="alert">All pending messages to this Base were flushed.</div>
+  </div>
+</div>
+{/if}
+{if isset($notifs.no_logfile)}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-danger" role="alert">No log file is available for this Base just yet.</div>
+  </div>
+</div>
+{/if}
 <div class="row">
   <div class="col-lg-12">
     <form class="form-horizontal" role="form" method="post" action="index.php">
@@ -28,13 +58,26 @@
       <div class="form-group">
         <label for="baseid" class="col-sm-2 control-label">Base ID:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="baseid" name="baseid" placeholder="Base ID will be automatically generated after you Save" value="{$data.baseid}" readonly="readonly">
+          <input type="text" class="form-control" id="baseid" name="baseid" placeholder="Base ID will be automatically generated after you Add Base" value="{$data.baseid}" readonly="readonly">
         </div>
       </div>
       <div class="form-group">
         <label for="crypt_key" class="col-sm-2 control-label">AES-128 Key:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="crypt_key" name="crypt_key" placeholder="Enter 32 hexadecimal characters, or leave blank to generate automatically" value="{$data.crypt_key}">
+          <input type="text" class="form-control" id="crypt_key" name="crypt_key" placeholder="Enter 32 hexadecimal characters, or leave blank to generate the key randomly" value="{$data.crypt_key}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="timezone" class="col-sm-2 control-label">Timezone offset:</label>
+        <div class="col-sm-10">
+
+          <div class="input-group">
+            <input type="text" class="form-control" id="timezone" name="timezone" placeholder="Timezone offset" value="{$data.timezone}">
+            <span class="input-group-addon">minutes</span>
+          </div>
+
+          <span class="text-muted">Offset is in minutes, e.g.: -120. Current time on server is: <strong>{$current_time}</strong> and with offset of {$data.timezone}, time is: <strong>{$offset_time}</strong></span>
+
         </div>
       </div>
       <div class="form-group">
@@ -46,6 +89,9 @@
           <span class="text-muted"><em>Use CTRL key to select multiple Clients</em></span>
         </div>
       </div>
+
+{if $data.IDbase > 0}
+
       <div class="form-group">
         <label for="" class="col-sm-2 control-label">Current Sequence No:</label>
         <div class="col-sm-10">
@@ -54,21 +100,42 @@
           </span>
         </div>
       </div>
+
       <div class="form-group">
         <label for="" class="col-sm-2 control-label">Pending Messages:</label>
         <div class="col-sm-10">
-          <button type="button" class="btn btn-danger">Flush ({$data.pending_messages})</button>
+          {if $data.pending_messages > 0}
+          <a class="btn btn-danger" href="?w=base&s=flush&IDbase={$data.IDbase}" onclick="javascript:if(!confirm('Are you sure you want to flush the TX Queue ?')) { return false; }">Flush ({$data.pending_messages})</a>
+          {else}
+          <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
+            <span class="text-muted">
+            Great, no pending messages!
+            </span>
+          </span>
+          {/if}
         </div>
       </div>
+
       <div class="form-group">
         <label for="" class="col-sm-2 control-label">Server LOG:</label>
         <div class="col-sm-10">
-          <button type="button" class="btn btn-default">Download</button>
+          {if $log_available}
+          <a class="btn btn-info" href="?w=base&s=getlog&IDbase={$data.IDbase}" target="_blank">Download</a>
+          {else}
+          <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
+            <span class="text-muted">
+            When the Base connects for the first time the log file will be created. Now it is just empty.
+            </span>
+          </span>
+          {/if}
         </div>
       </div>
+
+{/if}
+
       <div class="form-group">
         <div class="col-lg-12">
-			    <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>&nbsp;Save Changes</button>
+          <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>&nbsp;{if $data.IDbase > 0}Save Changes{else}Add Base{/if}</button>
 			  </div>
       </div>
 

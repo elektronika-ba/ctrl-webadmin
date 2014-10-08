@@ -22,6 +22,10 @@ define('mysql_username','root');
 define('mysql_password','');
 define('mysql_database','ctrl_0v4');
 
+// ctrl-server log files path
+define('server_basesock_log_path','D:/ctrl-server/js/log/basesock/');
+define('server_clientsock_log_path','D:/ctrl-server/js/log/clientsock/');
+
 // ReCAPTCHA keys
 define('reCAPTCHA_PUBLIC_KEY','6Lc9XPsSAAAAAJy7E3LhA68SjqX5mi-XN0-PAVHF');
 define('reCAPTCHA_PRIVATE_KEY','this is top secret my friend');
