@@ -47,7 +47,7 @@ switch($_s) {
 			die();
 		}
 		break;
-	
+
 	// Re-generating Base ID key
 	case 'regenbaseid':
 		$ctrlBase->regenBaseId($_GET);

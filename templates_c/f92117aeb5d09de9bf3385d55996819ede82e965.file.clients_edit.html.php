@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-08 14:14:18
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-09 07:08:35
          compiled from ".\templates\clients_edit.html" */ ?>
 <?php /*%%SmartyHeaderCode:30870543541b1c49a51-89051258%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'f92117aeb5d09de9bf3385d55996819ede82e965' => 
     array (
       0 => '.\\templates\\clients_edit.html',
-      1 => 1412777656,
+      1 => 1412838508,
       2 => 'file',
     ),
     '5a76211f71eb9fd8857118b3e421e87c0a7424e3' => 
@@ -142,7 +142,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
-<?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['base_added'])) {?>
+<?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['client_added'])) {?>
 <div class="row">
   <div class="col-lg-12">
     <div class="alert alert-info" role="alert">You Client is now added to Server. Please use the generated Auth Token to gain access to Client services.</div>
@@ -163,6 +163,16 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   </div>
 </div>
 <?php }?>
+<?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['regen_done'])) {?>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-warning" role="alert">New Auth Token has been generated! You should update every App that was using it to this new Auth Token!<br />
+    Auth Token: <strong><?php echo $_smarty_tpl->tpl_vars['data']->value['auth_token'];?>
+</strong>
+    </div>
+  </div>
+</div>
+<?php }?>
 <div class="row">
   <div class="col-lg-12">
     <form class="form-horizontal" role="form" method="post" action="index.php">
@@ -172,9 +182,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 ">
 
       <div class="form-group">
-        <label for="basename" class="col-sm-2 control-label">Name:</label>
+        <label for="clientname" class="col-sm-2 control-label">Name:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="basename" name="basename" placeholder="Name your Client" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['clientname'];?>
+          <input type="text" class="form-control" id="clientname" name="clientname" placeholder="Name your Client" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['clientname'];?>
 ">
         </div>
       </div>
@@ -202,9 +212,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         </div>
       </div>
       <div class="form-group">
-        <label for="IDclient" class="col-sm-2 control-label">Linked Bases:</label>
+        <label for="IDbase" class="col-sm-2 control-label">Linked Bases:</label>
         <div class="col-sm-10">
-          <select name="IDclient[]" id="IDclient" size="10" multiple class="form-control">
+          <select name="IDbase[]" id="IDbase" size="10" multiple class="form-control">
 						<?php echo smarty_function_html_options(array('values'=>$_smarty_tpl->tpl_vars['IDbase_val']->value,'output'=>$_smarty_tpl->tpl_vars['IDbase_opt']->value,'selected'=>$_smarty_tpl->tpl_vars['IDbase_sel']->value),$_smarty_tpl);?>
 
           </select>

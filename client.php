@@ -34,30 +34,39 @@ switch($_s) {
 
 	// Download log file
 	case 'getlog':
-		if(!$ctrlClient->downloadBaseLog($_GET)) {
+		if(!$ctrlClient->downloadClientLog($_GET)) {
 			echo "No log file available.";
 		}
 		break;
 
 	// Flush pending messages
 	case 'flush':
-		$ctrlClient->flushBaseQueue($_GET);
-		if(!$ctrlClient->editBase($_GET)) {
-			Header("Location: index.php?w=base");
+		$ctrlClient->flushClientQueue($_GET);
+		if(!$ctrlClient->editClient($_GET)) {
+			Header("Location: index.php?w=client");
+			die();
+		}
+		break;
+
+	// Re-generating Auth Token
+	case 'regenauthtoken':
+		$ctrlClient->regenAuthToken($_GET);
+		if(!$ctrlClient->editClient($_GET)) {
+			Header("Location: index.php?w=client");
 			die();
 		}
 		break;
 
 	// Saving/updating
 	case 'save':
-		$r = $ctrlClient->saveBase($_POST);
+		$r = $ctrlClient->saveClient($_POST);
 
 		if($r['return_to_edit'] != true) {
-			$ctrlClient->displayBases();
+			$ctrlClient->displayClients();
 		}
 		else {
-			if(!$ctrlClient->editBase(array('IDbase' => $r['IDbase']))) {
-				Header("Location: index.php?w=base");
+			if(!$ctrlClient->editClient(array('IDclient' => $r['IDclient']))) {
+				Header("Location: index.php?w=client");
 				die();
 			}
 		}

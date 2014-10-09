@@ -47,19 +47,11 @@ class CtrlClient {
 
   function getClient($IDclient = -1) {
 		$mdb = $this->mdb;
-		
+
 		$results = $mdb->query("SELECT c.IDclient, c.auth_token, c.TXclient, c.clientname, (SELECT COUNT(*) FROM base_client WHERE IDclient=c.IDclient) AS linked_bases, (SELECT COUNT(*) FROM txserver2client WHERE IDclient=c.IDclient AND sent=0) AS pending_messages FROM client c WHERE c.IDaccount = %i AND (%i = -1 OR %i = c.IDclient)", $_SESSION['IDaccount'], $IDclient, $IDclient);
-		
+
 		return $results;
   }
-
-
-
-
-
-
-
-
 
   function editClient($formvars = array()) {
   	$tpl = $this->tpl;
@@ -69,7 +61,7 @@ class CtrlClient {
 
 		// assign menu highlighter
     $tpl->assign('page_id', 'client');
-    
+
     // assign notifications
     $tpl->assign('notifs', $this->notifs);
 
@@ -126,140 +118,154 @@ class CtrlClient {
     return true;
   }
 
-  function saveBase($formvars = array()) {
+  function saveClient($formvars = array()) {
 		$mdb = $this->mdb;
 
 		// add all missing keys to array
-		fixFormVars($formvars, array('IDbase','basename','crypt_key','IDclient','timezone'));
+		fixFormVars($formvars, array('IDclient','clientname','IDbase'));
 
 		$return_to_edit = false;
 
-		// adjust crypt key if it is not valid
-		if(strlen($formvars['crypt_key']) != 32 || !ctype_xdigit($formvars['crypt_key'])) {
-			$formvars['crypt_key'] = randomHex(32);
-			$return_to_edit = true;
-			$this->notifs['key_generated'] = true;
-		}
-
 		// inserting new
-		if($formvars['IDbase'] <= 0) {
-			// don't duplicate baseid!
-			$i = 0;
-			while($i < 50) {
-				$baseid = randomHex(32);
-				$check = $mdb->queryFirstRow("SELECT baseid FROM base WHERE baseid = %s", $baseid);
-				if($check === NULL) {
-					break;
-				}
-				$i++;
-				$baseid = '';
+		if($formvars['IDclient'] <= 0) {
+			$auth_token = $this->generateReallyUniqueAuthToken(50);
+			if($auth_token == '') {
+				die('System error: Couldn\'t generate unique Auth Token!');
 			}
 
-			if($baseid == '') {
-				die('System error: Couldn\'t generate unique BaseID!');
-			}
-			
-			if(strlen($formvars['basename'])<=0) {
-				$formvars['basename'] = 'Base ' . date('y-m-d H:i:s', time());
+			if(strlen($formvars['clientname'])<=0) {
+				$formvars['clientname'] = 'Client ' . date('y-m-d H:i:s', time());
 			}
 
-			$mdb->insert('base', array(
+			$mdb->insert('client', array(
 				'IDaccount' => $_SESSION['IDaccount'],
-				'baseid' => $baseid,
-				'basename' => $formvars['basename'],
-				'timezone' => $formvars['timezone'],
-				'crypt_key' => $formvars['crypt_key'],
+				'auth_token' => $auth_token,
+				'clientname' => $formvars['clientname'],
 				)
 			);
 
-			$this->notifs['base_added'] = true;
+			$this->notifs['client_added'] = true;
 
-			$formvars['IDbase'] = $mdb->insertId(); // continue as we were updating...
+			$formvars['IDclient'] = $mdb->insertId(); // continue as we were updating...
 
 			$return_to_edit = true;
 		}
 		// updating current
 		else {
-			$mdb->update('base', array(
-				'basename' => $formvars['basename'],
-				'crypt_key' => $formvars['crypt_key'],
-				'timezone' => $formvars['timezone'],
-				), "IDbase = %i AND IDaccount = %i", $formvars['IDbase'], $_SESSION['IDaccount']);
+			$mdb->update('client', array(
+				'clientname' => $formvars['clientname'],
+				), "IDclient = %i AND IDaccount = %i", $formvars['IDclient'], $_SESSION['IDaccount']);
 				
-				$this->notifs['base_updated'] = true;
+				$this->notifs['client_updated'] = true;
 		}
 
-		// insert/update linked clients table
+		// insert/update linked bases table
 		// delete all and add new, that's easier than updating :)
-		$mdb->delete('base_client', "IDbase = %i AND IDbase IN (SELECT IDbase FROM base WHERE IDaccount = %i)", $formvars['IDbase'], $_SESSION['IDaccount']);
+		$mdb->delete('base_client', "IDclient = %i AND IDclient IN (SELECT IDclient FROM client WHERE IDaccount = %i)", $formvars['IDclient'], $_SESSION['IDaccount']);
 
 		// add link, securelly
-		settype($formvars['IDclient'],'array');
-		$available_IDclients = $mdb->queryOneColumn("IDclient", "SELECT IDclient FROM client WHERE IDaccount = %i", $_SESSION['IDaccount']);
-		foreach($available_IDclients as $IDclient) {
-			if(in_array($IDclient, $formvars['IDclient'])) {
+		settype($formvars['IDbase'],'array');
+		$available_IDbases = $mdb->queryOneColumn("IDbase", "SELECT IDbase FROM base WHERE IDaccount = %i", $_SESSION['IDaccount']);
+		foreach($available_IDbases as $IDbase) {
+			if(in_array($IDbase, $formvars['IDbase'])) {
 				$mdb->insert("base_client", array(
-					'IDbase' => $formvars['IDbase'],
-					'IDclient' => $IDclient,
+					'IDbase' => $IDbase,
+					'IDclient' => $formvars['IDclient'],
 				));
 			}
 		}
 
   	return array(
   		'return_to_edit' => $return_to_edit,
-  		'IDbase' => $formvars['IDbase']
+  		'IDclient' => $formvars['IDclient']
   	);
   }
+  
+  function regenAuthToken($formvars = array()) {
+		$mdb = $this->mdb;
+	
+		// add all missing keys to array
+		fixFormVars($formvars, array('IDclient'));
 
-  function flushBaseQueue($formvars = array()) {
+		$this->notifs['regen_done'] = true;
+
+		$auth_token = $this->generateReallyUniqueAuthToken(50);
+		if($auth_token == '') {
+			die('System error: Couldn\'t generate unique Auth Token!');
+		}
+
+		$mdb->update('client', array(
+			'auth_token' => $auth_token,
+			), "IDclient = %i AND IDaccount = %i", $formvars['IDclient'], $_SESSION['IDaccount']);
+  }
+
+  function generateReallyUniqueAuthToken($tries) {
+  	$mdb = $this->mdb;
+
+		$i = 0;
+		$auth_token = '';
+		while($i < $tries) {
+			$auth_token = randomPassword(50);
+			$check = $mdb->queryFirstRow("SELECT auth_token FROM client WHERE auth_token = %s", $auth_token);
+			if($check === NULL) {
+				break;
+			}
+			$i++;
+			$auth_token = '';
+		}
+
+		return $auth_token;
+  }
+
+  function flushClientQueue($formvars = array()) {
   	$mdb = $this->mdb;
 
 		// add all missing keys to array
-		fixFormVars($formvars, array('IDbase'));
+		fixFormVars($formvars, array('IDclient'));
 
 		$this->notifs['queue_flushed'] = true;
 
-		$mdb->delete('txserver2base', "IDbase = %i AND IDbase IN (SELECT IDbase FROM base WHERE IDaccount = %i)", $formvars['IDbase'], $_SESSION['IDaccount']);
+		$mdb->delete('txserver2client', "IDclient = %i AND IDclient IN (SELECT IDclient FROM client WHERE IDaccount = %i)", $formvars['IDclient'], $_SESSION['IDaccount']);
   }
 
-  function deleteBase($formvars = array()) {
+  function deleteClient($formvars = array()) {
 		$mdb = $this->mdb;
 
 		// add all missing keys to array
-		fixFormVars($formvars, array('IDbase'));
+		fixFormVars($formvars, array('IDclient'));
 
-		$this->notifs['base_deleted'] = true;
+		$this->notifs['client_deleted'] = true;
 
-		$mdb->delete('base_client', "IDbase = %i AND IDbase IN (SELECT IDbase FROM base WHERE IDaccount = %i)", $formvars['IDbase'], $_SESSION['IDaccount']);  
-		$mdb->delete('txserver2base', "IDbase = %i AND IDbase IN (SELECT IDbase FROM base WHERE IDaccount = %i)", $formvars['IDbase'], $_SESSION['IDaccount']);  
+		$mdb->delete('base_client', "IDclient = %i AND IDclient IN (SELECT IDclient FROM client WHERE IDaccount = %i)", $formvars['IDclient'], $_SESSION['IDaccount']);  
+		$mdb->delete('txserver2client', "IDclient = %i AND IDclient IN (SELECT IDclient FROM client WHERE IDaccount = %i)", $formvars['IDclient'], $_SESSION['IDaccount']);  
 
 		// security check for log file deletion
-  	$base = $mdb->queryFirstRow("SELECT IDbase FROM base WHERE IDbase = %i AND IDaccount = %i", $formvars['IDbase'], $_SESSION['IDaccount']);
-  	if(count($base) !== NULL) {
+  	$client = $mdb->queryFirstRow("SELECT IDclient FROM client WHERE IDclient = %i AND IDaccount = %i", $formvars['IDclient'], $_SESSION['IDaccount']);
+  	if(count($client) !== NULL) {
   		$path = server_clientsock_log_path;
-  		$file = $path . $base['IDbase'] . '.json';
+  		$file = $path . $client['IDclient'] . '.json';
   		if(file_exists($file)) {
 				unlink($file);		
 			}
   	}
 
-		$mdb->delete('base', "IDbase = %i AND IDaccount = %i", $formvars['IDbase'], $_SESSION['IDaccount']);
+		$mdb->delete('client', "IDclient = %i AND IDaccount = %i", $formvars['IDclient'], $_SESSION['IDaccount']);
   }
 
-  function downloadBaseLog($formvars = array()) {
+  function downloadClientLog($formvars = array()) {
   	$mdb = $this->mdb;
 
 		// add all missing keys to array
-		fixFormVars($formvars, array('IDbase'));
+		fixFormVars($formvars, array('IDclient'));
 
   	// security check
-  	$base = $mdb->queryFirstRow("SELECT IDbase FROM base WHERE IDbase = %i AND IDaccount = %i", $formvars['IDbase'], $_SESSION['IDaccount']);
-  	if(count($base) === NULL) {
+  	$client = $mdb->queryFirstRow("SELECT IDclient FROM client WHERE IDclient = %i AND IDaccount = %i", $formvars['IDclient'], $_SESSION['IDaccount']);
+  	if(count($client) === NULL) {
   		return false;
   	}
 
   	$path = server_clientsock_log_path;
-  	$file = $path . $base['IDbase'] . '.json';
+  	$file = $path . $client['IDclient'] . '.json';
 		if(file_exists($file))
 		{
 				header('Content-Description: File Transfer');

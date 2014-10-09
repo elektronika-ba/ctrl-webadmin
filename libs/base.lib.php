@@ -141,22 +141,11 @@ class CtrlBase {
 
 		// inserting new
 		if($formvars['IDbase'] <= 0) {
-			// don't duplicate baseid!
-			$i = 0;
-			while($i < 50) {
-				$baseid = randomHex(32);
-				$check = $mdb->queryFirstRow("SELECT baseid FROM base WHERE baseid = %s", $baseid);
-				if($check === NULL) {
-					break;
-				}
-				$i++;
-				$baseid = '';
-			}
-
+			$baseid = $this->generateReallyUniqueBaseId(50);
 			if($baseid == '') {
 				die('System error: Couldn\'t generate unique BaseID!');
 			}
-			
+
 			if(strlen($formvars['basename'])<=0) {
 				$formvars['basename'] = 'Base ' . date('y-m-d H:i:s', time());
 			}
@@ -183,7 +172,7 @@ class CtrlBase {
 				'crypt_key' => $formvars['crypt_key'],
 				'timezone' => $formvars['timezone'],
 				), "IDbase = %i AND IDaccount = %i", $formvars['IDbase'], $_SESSION['IDaccount']);
-				
+
 				$this->notifs['base_updated'] = true;
 		}
 
@@ -209,6 +198,24 @@ class CtrlBase {
   	);
   }
 
+  function generateReallyUniqueBaseId($tries) {
+  	$mdb = $this->mdb;
+
+		$i = 0;
+		$baseid = '';
+		while($i < $tries) {
+			$baseid = randomHex(32);
+			$check = $mdb->queryFirstRow("SELECT baseid FROM base WHERE baseid = %s", $baseid);
+			if($check === NULL) {
+				break;
+			}
+			$i++;
+			$baseid = '';
+		}
+
+		return $baseid;
+  }
+
   function regenBaseId($formvars = array()) {
   	$mdb = $this->mdb;
 
@@ -216,8 +223,15 @@ class CtrlBase {
 		fixFormVars($formvars, array('IDbase'));
 
 		$this->notifs['regen_done'] = true;
-		
-		// TODO: NAPRAVI ME
+
+		$baseid = $this->generateReallyUniqueBaseId(50);
+		if($baseid == '') {
+			die('System error: Couldn\'t generate unique BaseID!');
+		}
+
+		$mdb->update('base', array(
+			'baseid' => $baseid,
+			), "IDbase = %i AND IDaccount = %i", $formvars['IDbase'], $_SESSION['IDaccount']);
   }
 
   function flushBaseQueue($formvars = array()) {
