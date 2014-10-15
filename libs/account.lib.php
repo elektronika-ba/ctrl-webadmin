@@ -145,14 +145,14 @@ class CtrlAccount {
 			return false;
 		}
 
-		/*
-		// reCAPTCHA validation - enable when published to web server
-	  $reCAPTCHA_RESPONSE = recaptcha_check_answer (reCAPTCHA_PRIVATE_KEY, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
-	  if (!$reCAPTCHA_RESPONSE->is_valid) {
-	  	$this->error = 'recaptcha';
-	  	return;
+		// reCAPTCHA validation
+		if(reCAPTCHA_PRIVATE_KEY != '') {
+			$reCAPTCHA_RESPONSE = recaptcha_check_answer (reCAPTCHA_PRIVATE_KEY, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
+			if (!$reCAPTCHA_RESPONSE->is_valid) {
+				$this->error = 'recaptcha';
+				return;
+			}
 	  }
-	  */
 
 	  // validate e-mail now
 		$account = $mdb->queryFirstRow("SELECT * FROM account WHERE email = %s LIMIT 1", $formvars['email']);
