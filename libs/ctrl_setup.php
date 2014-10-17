@@ -35,6 +35,9 @@ define('server_clientsock_log_path','D:/ctrl-server/js/log/clientsock/');
 define('reCAPTCHA_PUBLIC_KEY','6Lc9XPsSAAAAAJy7E3LhA68SjqX5mi-XN0-PAVHF');
 define('reCAPTCHA_PRIVATE_KEY','this is top secret my friend');
 
+// after how many seconds should session be destroyed or re-generated for security purposes
+define('SESSION_EXPIRY_MS', 1800);
+
 // smarty configuration
 class Ctrl_Smarty extends Smarty {
     function __construct() {

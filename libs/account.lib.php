@@ -39,8 +39,31 @@ class CtrlAccount {
 	}
 
   function getIsLoggedIn() {
+		// http://stackoverflow.com/questions/520237/how-do-i-expire-a-php-session-after-30-minutes
+		// The best solution is to implement a session timeout of your own. Use a simple time stamp that denotes the time of the last activity (i.e. request) and update it with every request:
+		if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > SESSION_EXPIRY_MS)) {
+				// last request was more than 30 minutes ago
+				session_unset(); // unset $_SESSION variable for the run-time 
+				session_destroy(); // destroy session data in storage
+
+				session_start(); // (re)start with new session... we can also do 'return false;' here but lets continue with code because next if(isset(... will return false since we just destroyed the session
+		}
+		$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+
   	if( isset($_SESSION['IDaccount']) ) {
   		if( $this->getUserAccount($_SESSION['IDaccount']) !== NULL ) {
+
+				// http://stackoverflow.com/questions/520237/how-do-i-expire-a-php-session-after-30-minutes
+				// You can also use an additional time stamp to regenerate the session ID periodically to avoid attacks on sessions like session fixation:
+				if (!isset($_SESSION['CREATED'])) {
+						$_SESSION['CREATED'] = time();
+				}
+				else if (time() - $_SESSION['CREATED'] > SESSION_EXPIRY_MS) {
+						// session started more than 30 minutes ago
+						session_regenerate_id(true);    // change session ID for the current session and invalidate old session ID
+						$_SESSION['CREATED'] = time();  // update creation time
+				}
+
   			return true;
   		}
   	}
@@ -50,7 +73,7 @@ class CtrlAccount {
 
   function displayLogin($formvars = array()) {
   	// add all missing keys to array
-  	fixFormVars($formvars, array('email','password','remember'));
+  	fixFormVars($formvars, array('email','password'));
 
   	$tpl = $this->tpl;
 
@@ -65,7 +88,7 @@ class CtrlAccount {
 
   function doLogin($formvars = array()) {
   	// add all missing keys to array
-  	fixFormVars($formvars, array('email','password','remember'));
+  	fixFormVars($formvars, array('email','password'));
 
 		if(!filter_var($formvars['email'], FILTER_VALIDATE_EMAIL)) {
 			$this->error = 'email_error';
@@ -89,9 +112,6 @@ class CtrlAccount {
 			// validate hashed password
 			if( validate_password($formvars['password'], $account['password']) ) {
 				$this->error = null;
-
-				// REMEMBER ME: http://stackoverflow.com/questions/12091951/php-sessions-login-with-remember-me
-
 				$_SESSION['IDaccount'] = $account['IDaccount'];
 				return true;
 			}

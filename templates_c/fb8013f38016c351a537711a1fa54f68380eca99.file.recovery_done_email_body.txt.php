@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-03 13:44:43
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-17 13:57:12
          compiled from ".\templates\recovery_done_email_body.txt" */ ?>
 <?php /*%%SmartyHeaderCode:6507542ea84bb31022-63392199%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'fb8013f38016c351a537711a1fa54f68380eca99' => 
     array (
       0 => '.\\templates\\recovery_done_email_body.txt',
-      1 => 1412343216,
+      1 => 1413553849,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.19',
+  'unifunc' => 'content_542ea84bbc2190_45023192',
   'variables' => 
   array (
     'newpass' => 0,
@@ -22,8 +24,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'timestamp' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_542ea84bbc2190_45023192',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_542ea84bbc2190_45023192')) {function content_542ea84bbc2190_45023192($_smarty_tpl) {?>
 
