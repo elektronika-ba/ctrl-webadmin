@@ -131,6 +131,10 @@ switch($_s) {
 			die();
 		}
 
+		if($_x == '1') {
+			$ctrlAccount->saveAccountSettings($_POST);
+		}
+
 		$ctrlAccount->displayAccountSettings();
 		break;
 }

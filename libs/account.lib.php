@@ -71,6 +71,64 @@ class CtrlAccount {
   	return false;
   }
 
+  function displayAccountSettings() {
+  	$tpl = $this->tpl;
+
+		// assign menu highlighter
+    $tpl->assign('page_id', '');
+
+    $tpl->assign('data', $this->getUserAccount($_SESSION['IDaccount']));
+
+    // assign error message
+    $tpl->assign('error', $this->error);
+
+    // assign notifications
+    $tpl->assign('notifs', $this->notifs);
+
+    $tpl->display('account_settings.html');
+  }
+
+  function saveAccountSettings($formvars = array()) {
+		$mdb = $this->mdb;
+
+		// add all missing keys to array
+		fixFormVars($formvars, array('password','new_password','new_password_again'));
+
+		// user wants to change the password?
+		if(strlen($formvars['password']) > 0) {
+			// check current password first
+			$hashedpassword = create_hash($formvars['password']);
+			$account = $this->getUserAccount($_SESSION['IDaccount']);
+			// if current password is wrong
+			if( !validate_password($formvars['password'], $account['password']) ) {
+				$this->error = 'wrong_password';
+			}
+			// current password OK, lets continue...
+			else {
+				// is there a valid new password? if not show error
+				if(strlen($formvars['new_password']) < 6) {
+					$this->error = 'new_password_missing';
+				}
+				// new pass is OK
+				else {
+					// new passwords missmatch?
+					if($formvars['new_password'] != $formvars['new_password_again']) {
+						$this->error = 'new_password_mismatch';
+					}
+					// nope, they are OK, lets finally change them
+					else {
+						$mdb->update('account', array(
+							'password' => create_hash($formvars['new_password']),
+							), "IDaccount = %i", $_SESSION['IDaccount']);
+
+						$this->notifs['password_changed'] = true;
+					}				
+				}							
+			}
+		}
+		
+  }
+
   function displayLogin($formvars = array()) {
   	// add all missing keys to array
   	fixFormVars($formvars, array('email','password'));
@@ -248,6 +306,7 @@ class CtrlAccount {
 		}
 		// send recovery done notification e-mail
 		$message = new Ctrl_Smarty;
+		$message->assign('newpass', $newpass);
 		$message->assign('ip_address', $_SERVER['REMOTE_ADDR']);
 		$message->assign('timestamp', date('y-m-d H:i:s', time()));
 		sendMail($formvars['email'], 'Your new CTRL account password', $message->fetch('recovery_done_email_body.txt'));

@@ -1,13 +1,13 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-19 10:44:41
-         compiled from ".\templates\dashboard.html" */ ?>
-<?php /*%%SmartyHeaderCode:17500542d6d0c19ea03-10995378%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-19 11:51:36
+         compiled from ".\templates\account_settings.html" */ ?>
+<?php /*%%SmartyHeaderCode:15843544398345bfe00-89633942%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
-    '9658272aae76f164a5f422d68ad9a88738f23680' => 
+    '2490b51df65dfd2f5fb42bc9c84be4c40cf455a5' => 
     array (
-      0 => '.\\templates\\dashboard.html',
-      1 => 1412350901,
+      0 => '.\\templates\\account_settings.html',
+      1 => 1413719490,
       2 => 'file',
     ),
     '2a635fa6116a658e691859a59a54961509ad3229' => 
@@ -23,15 +23,15 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '17500542d6d0c19ea03-10995378',
+  'nocache_hash' => '15843544398345bfe00-89633942',
   'function' => 
   array (
   ),
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_542d6d0c3c3108_62378319',
+  'unifunc' => 'content_544398349157f4_74539838',
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_542d6d0c3c3108_62378319')) {function content_542d6d0c3c3108_62378319($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_544398349157f4_74539838')) {function content_544398349157f4_74539838($_smarty_tpl) {?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -136,62 +136,97 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header frobo fw300">Dashboard</h1>
+    <h1 class="page-header frobo fw300">Account Settings</h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
-
-For the time being, please use menu on the left or account settings above on the right.
-<!--
+<?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['password_changed'])) {?>
 <div class="row">
-  <div class="col-lg-3 col-md-6">
-    <div class="panel panel-yellow">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-cube fa-5x"></i>
-          </div>
-          <div class="col-xs-9 text-right">
-            <div class="huge">10234</div>
-            <div>Pending items in queue!</div>
-          </div>
-        </div>
-      </div>
-      <a href="bases.html">
-        <div class="panel-footer">
-          <span class="pull-left">View Bases</span>
-          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          <div class="clearfix"></div>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-lg-3 col-md-6">
-    <div class="panel panel-yellow">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-user fa-5x"></i>
-          </div>
-          <div class="col-xs-9 text-right">
-            <div class="huge">5134</div>
-            <div>Pending items in queue!</div>
-          </div>
-        </div>
-      </div>
-      <a href="clients.html">
-        <div class="panel-footer">
-          <span class="pull-left">View Clients</span>
-          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          <div class="clearfix"></div>
-        </div>
-      </a>
+  <div class="col-lg-12">
+    <div class="alert alert-info alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      Password changed!
     </div>
   </div>
 </div>
--->
+<?php }?>
+<?php if ($_smarty_tpl->tpl_vars['error']->value=="wrong_password") {?>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      Wrong current password!
+    </div>
+  </div>
+</div>
+<?php }?>
+<?php if ($_smarty_tpl->tpl_vars['error']->value=="new_password_missing") {?>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      In order to change your current password you must supply new password that is minimum 6 characters long.
+    </div>
+  </div>
+</div>
+<?php }?>
+<?php if ($_smarty_tpl->tpl_vars['error']->value=="new_password_mismatch") {?>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      Your new password and re-typed password do not match! Try again.
+    </div>
+  </div>
+</div>
+<?php }?>
+<div class="row">
+  <div class="col-lg-12">
+    <form class="form-horizontal" role="form" method="post" action="index.php">
+    <input type="hidden" name="w" value="account">
+    <input type="hidden" name="s" value="settings">
+    <input type="hidden" name="x" value="1">
 
+      <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">E-mail:</label>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" id="email" name="email" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['email'];?>
+" readonly="readonly">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="col-sm-2 control-label">Current Password:</label>
+        <div class="col-sm-4">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Type current password to change it">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="new_password" class="col-sm-2 control-label">New Password:</label>
+        <div class="col-sm-4">
+          <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Choose new password to change the current">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="new_password_again" class="col-sm-2 control-label">Re-type New Password:</label>
+        <div class="col-sm-4">
+          <input type="password" class="form-control" id="new_password_again" name="new_password_again" placeholder="Re-type new password to change the current">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-lg-12">
+          <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>&nbsp;Save Changes</button>
+			  </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+<!-- /.row -->
 
   </div>
 

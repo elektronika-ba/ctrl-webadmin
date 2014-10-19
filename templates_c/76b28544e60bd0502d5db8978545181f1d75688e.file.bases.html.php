@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-05 15:40:08
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-19 11:00:36
          compiled from ".\templates\bases.html" */ ?>
 <?php /*%%SmartyHeaderCode:5955542ec33a3b63f3-99168050%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '76b28544e60bd0502d5db8978545181f1d75688e' => 
     array (
       0 => '.\\templates\\bases.html',
-      1 => 1412523605,
+      1 => 1413394169,
       2 => 'file',
     ),
     '2a635fa6116a658e691859a59a54961509ad3229' => 
@@ -141,6 +141,26 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
+<?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['base_deleted'])) {?>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-info alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      Base deleted from Server!
+    </div>
+  </div>
+</div>
+<?php }?>
+<?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['base_updated'])) {?>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-info alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      Base information updated.
+    </div>
+  </div>
+</div>
+<?php }?>
 <div class="row">
   <div class="col-lg-12">
     <div class="table-responsive">
@@ -149,6 +169,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
           <tr>
             <th>Name</th>
             <th>Base ID</th>
+            <th class="text-center">Sequence No</th>
             <th class="text-center">Linked Clients</th>
             <th class="text-center">Pending Messages</th>
             <th class="text-center">Delete</th>
@@ -166,13 +187,15 @@ $_smarty_tpl->tpl_vars["entry"]->_loop = true;
 </td>
 						<td><?php echo $_smarty_tpl->tpl_vars['entry']->value['baseid'];?>
 </td>
-						<td class="text-center"><span class="badge alert-success"><?php echo $_smarty_tpl->tpl_vars['entry']->value['linked_clients'];?>
+            <td class="text-center"><span class="badge <?php if ($_smarty_tpl->tpl_vars['entry']->value['TXbase']>1000000) {?>alert-danger<?php } else { ?>alert-success<?php }?>"><?php echo $_smarty_tpl->tpl_vars['entry']->value['TXbase'];?>
 </span></td>
-						<td class="text-center"><span class="badge alert-danger"><?php echo $_smarty_tpl->tpl_vars['entry']->value['pending_messages'];?>
+            <td class="text-center"><span class="badge <?php if ($_smarty_tpl->tpl_vars['entry']->value['linked_clients']>0) {?>alert-success<?php } else { ?>alert-danger<?php }?>"><?php echo $_smarty_tpl->tpl_vars['entry']->value['linked_clients'];?>
+</span></td>
+            <td class="text-center"><span class="badge <?php if ($_smarty_tpl->tpl_vars['entry']->value['pending_messages']>0) {?>alert-danger<?php } else { ?>alert-success<?php }?>"><?php echo $_smarty_tpl->tpl_vars['entry']->value['pending_messages'];?>
 </span></td>
 						<td class="text-center">
-							<button class="btn btn-danger btn-xs ctrl-button-del" type="button" onclick="javascript:if(confirm('Are you sure you want to delete this Base?')) { event.stopPropagation(); location.href='?w=base&s=delete&IDbase=<?php echo $_smarty_tpl->tpl_vars['entry']->value['IDbase'];?>
-'; }">
+              <a class="btn btn-danger btn-xs" href="?w=base&s=delete&IDbase=<?php echo $_smarty_tpl->tpl_vars['entry']->value['IDbase'];?>
+" onclick="javascript:if(!confirm('Are you sure you want to delete this Base?')) { event.stopPropagation(); return false; } else { event.stopPropagation(); }">
 								<span class="glyphicon glyphicon-remove"></span>
 							</button>
 						</td>
@@ -181,7 +204,7 @@ $_smarty_tpl->tpl_vars["entry"]->_loop = true;
 if (!$_smarty_tpl->tpl_vars["entry"]->_loop) {
 ?>
 					<tr>
-						<td colspan="5">No Bases, click <strong>Add New</strong> button.</td>
+						<td colspan="6">No Bases, click <strong>Add New</strong> button.</td>
 					</tr>
 					<?php } ?>
         </tbody>

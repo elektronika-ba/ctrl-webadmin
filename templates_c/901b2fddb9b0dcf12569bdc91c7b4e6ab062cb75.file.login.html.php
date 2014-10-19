@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-05 13:41:23
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-19 10:43:30
          compiled from ".\templates\login.html" */ ?>
 <?php /*%%SmartyHeaderCode:8918542d6b3fb52c79-26208017%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '901b2fddb9b0dcf12569bdc91c7b4e6ab062cb75' => 
     array (
       0 => '.\\templates\\login.html',
-      1 => 1412349558,
+      1 => 1413573626,
       2 => 'file',
     ),
     '0632f914aebe3c9a8bb3e416a9ad1dec398d53ba' => 
@@ -86,6 +86,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <div class="form-group">
           <input class="form-control" placeholder="Password" name="password" type="password">
         </div>
+        <!--
         <div class="form-group">
           <div class="checkbox">
             <label>
@@ -93,6 +94,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
             </label>
           </div>
         </div>
+        -->
         <button class="btn btn-lg btn-success btn-block">
         <i class="fa fa-sign-in"></i>&nbsp;Sign In
         </button>
