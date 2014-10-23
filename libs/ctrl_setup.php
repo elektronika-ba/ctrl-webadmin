@@ -16,10 +16,10 @@ if(!function_exists('password_hash')) {
 	require('./libs/password_hash.php');
 }
 
+require('./libs/PasswordHash.php');
 if (version_compare(phpversion(), '5.3.7', '<')) {
-	require('./libs/PasswordHash.php');
-	
-	// problems might occure when php version changes to >=5.3.7 from lower, and with accounts/bases/clients in database. nobody could login after that.
+	//require('./libs/PasswordHash.php');
+	// NOTE: nobody can login when php version changes to >=5.3.7 from lower, and with accounts/bases/clients in database!
 }
 
 require('./libs/meekrodb.2.3.class.php');
