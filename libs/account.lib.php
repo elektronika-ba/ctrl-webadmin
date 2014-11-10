@@ -152,7 +152,7 @@ class CtrlAccount {
 			$this->error = 'email_error';
 			return false;
 		}
-
+		
 		$mdb = $this->mdb;
 
 		$hashedpassword = create_hash($formvars['password']);
@@ -206,9 +206,17 @@ class CtrlAccount {
 
 		$mdb = $this->mdb;
 
+		$emailDomain = substr(strrchr($formvars['email'], "@"), 1);
+		global $BAD_EMAIL_DOMAINS;
+
 		if (!filter_var($formvars['email'], FILTER_VALIDATE_EMAIL)) {
 			$this->error = 'email_missing';
 			return false;
+		}
+		elseif(in_array(strtoupper($emailDomain), $BAD_EMAIL_DOMAINS))
+		{
+			$this->error = 'email_missing';
+			return false;		
 		}
 		elseif(strlen($formvars['password'])<6) {
 			$this->error = 'password_missing';
@@ -332,14 +340,17 @@ class CtrlAccount {
 
 		// only one password recovery process can be started each 10 minutes for one particular user
 		$mdb->update("account", array('recovery_started' => $mdb->sqleval('NOW()')), "active = 1 AND (recovery_started IS NULL OR recovery_started <= DATE_SUB(NOW(), INTERVAL 10 MINUTE)) AND email = %s", $formvars['email']);
+
+		// don't show hackers which e-mails are actually registered here
+		/*
 		if($mdb->affectedRows() <= 0) {
 			return false;
-		}
+		}*/
 
-		$account = $mdb->queryFirstRow("SELECT email, password FROM account WHERE active = 1 AND email = %s AND recovery_started IS NOT NULL LIMIT 1", $formvars['email']);
+		/*$account = $mdb->queryFirstRow("SELECT email, password FROM account WHERE active = 1 AND email = %s AND recovery_started IS NOT NULL LIMIT 1", $formvars['email']);
 		if($account === NULL) {
 			return false;
-		}
+		}*/
 
 		// send recovery e-mail
 		$message = new Ctrl_Smarty;
@@ -347,7 +358,16 @@ class CtrlAccount {
 		$message->assign('recovery_hash', md5($account['password']));
 		$message->assign('ip_address', $_SERVER['REMOTE_ADDR']);
 		$message->assign('timestamp', date('y-m-d H:i:s', time()));
-		sendMail($account['email'], 'Recover your CTRL account', $message->fetch('recovery_email_body.txt'));
+
+		// send email only if this is a registered account
+		$account = $mdb->queryFirstRow("SELECT email, password FROM account WHERE active = 1 AND email = %s AND recovery_started IS NOT NULL LIMIT 1", $formvars['email']);
+		if($account !== NULL) {
+			sendMail($account['email'], 'Recover your CTRL account', $message->fetch('recovery_email_body.txt'));
+		}
+		else
+		{
+			// ideally we should delay the same amount of time as with sendMail() above
+		}
 
 		return true;
   }
