@@ -7,7 +7,7 @@
 {block name=page}
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header frobo fw300">Clients</h1>
+    <h1 class="page-header frobo fw300"><i class="fa fa-users"></i>&nbsp;Clients</h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>
@@ -50,7 +50,7 @@
 					{foreach from=$data item="entry"}
 					<tr onclick="javascript:location.href='?w=client&s=edit&IDclient={$entry.IDclient}';">
 						<td>{$entry.clientname|escape}</td>
-						<td>{$entry.auth_token}</td>
+						<td><code>{$entry.auth_token}</code></td>
             <td class="text-center"><span class="badge {if $entry.TXclient > 1000000}alert-danger{else}alert-success{/if}">{$entry.TXclient}</span></td>
             <td class="text-center"><span class="badge {if $entry.linked_bases > 0}alert-success{else}alert-danger{/if}">{$entry.linked_bases}</span></td>
             <td class="text-center"><span class="badge {if $entry.pending_messages > 0}alert-danger{else}alert-success{/if}">{$entry.pending_messages}</span></td>

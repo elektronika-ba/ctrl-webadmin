@@ -7,7 +7,7 @@
 {block name=page}
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header frobo fw300">Bases</h1>
+    <h1 class="page-header frobo fw300"><i class="fa fa-cubes"></i>&nbsp;Bases</h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>
@@ -50,7 +50,7 @@
 					{foreach from=$data item="entry"}
 					<tr onclick="javascript:location.href='?w=base&s=edit&IDbase={$entry.IDbase}';">
 						<td>{$entry.basename|escape}</td>
-						<td>{$entry.baseid}</td>
+						<td><code>{$entry.baseid}</code></td>
             <td class="text-center"><span class="badge {if $entry.TXbase > 1000000}alert-danger{else}alert-success{/if}">{$entry.TXbase}</span></td>
             <td class="text-center"><span class="badge {if $entry.linked_clients > 0}alert-success{else}alert-danger{/if}">{$entry.linked_clients}</span></td>
             <td class="text-center"><span class="badge {if $entry.pending_messages > 0}alert-danger{else}alert-success{/if}">{$entry.pending_messages}</span></td>
