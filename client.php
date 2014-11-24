@@ -24,6 +24,21 @@ $_s = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 $_x = isset($_REQUEST['x']) ? $_REQUEST['x'] : '';
 
 switch($_s) {
+  // QR Code Image
+  case 'qrcode':
+    include('./phpqrcode/qrlib.php');
+    $client = $ctrlClient->getClient($_GET['IDclient']); // this will not return other client's auth_token, don't worry
+    if(count($client) == 1) {
+      $authToken = $client[0]['auth_token'];    
+      QRcode::png($authToken);
+    }
+    else
+    {
+      Header("Location: http://www.hotforsecurity.com/wp-content/uploads/2012/08/top-10-funniest-spam-images-3.jpg");
+    }
+    die();
+    break;
+
 	// Editing
 	case 'edit':
 		if(!$ctrlClient->editClient($_GET)) {

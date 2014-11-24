@@ -80,7 +80,7 @@
 {if $data.IDclient > 0}
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-			<img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={$data.auth_token}" border="0">
+        	<img src="index.php?w=client&s=qrcode&IDclient={$data.IDclient}" border="0">
         </div>
       </div>
 {/if}
