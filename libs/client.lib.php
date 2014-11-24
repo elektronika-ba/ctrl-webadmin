@@ -48,7 +48,7 @@ class CtrlClient {
   function getClient($IDclient = -1) {
 		$mdb = $this->mdb;
 
-		$results = $mdb->query("SELECT c.IDclient, c.auth_token, c.TXclient, c.clientname, (SELECT COUNT(*) FROM base_client WHERE IDclient=c.IDclient) AS linked_bases, (SELECT COUNT(*) FROM txserver2client WHERE IDclient=c.IDclient AND sent=0) AS pending_messages FROM client c WHERE c.IDaccount = %i AND (%i = -1 OR %i = c.IDclient)", $_SESSION['IDaccount'], $IDclient, $IDclient);
+		$results = $mdb->query("SELECT c.IDclient, c.auth_token, c.TXclient, c.clientname, c.last_online, c.online, (SELECT COUNT(*) FROM base_client WHERE IDclient=c.IDclient) AS linked_bases, (SELECT COUNT(*) FROM txserver2client WHERE IDclient=c.IDclient AND sent=0) AS pending_messages FROM client c WHERE c.IDaccount = %i AND (%i = -1 OR %i = c.IDclient)", $_SESSION['IDaccount'], $IDclient, $IDclient);
 
 		return $results;
   }

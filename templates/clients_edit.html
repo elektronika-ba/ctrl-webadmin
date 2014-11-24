@@ -76,6 +76,15 @@
 
         </div>
       </div>
+
+{if $data.IDclient > 0}
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+			<img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={$data.auth_token}" border="0">
+        </div>
+      </div>
+{/if}
+
       <div class="form-group">
         <label for="IDbase" class="col-sm-2 control-label">Linked Bases:</label>
         <div class="col-sm-10">

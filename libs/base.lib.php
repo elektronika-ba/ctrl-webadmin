@@ -48,7 +48,7 @@ class CtrlBase {
   function getBase($IDbase = -1) {
 		$mdb = $this->mdb;
 		
-		$results = $mdb->query("SELECT b.IDbase, b.basename, b.baseid, b.timezone, b.TXbase, b.crypt_key, (SELECT COUNT(*) FROM base_client WHERE IDbase=b.IDbase) AS linked_clients, (SELECT COUNT(*) FROM txserver2base WHERE IDbase=b.IDbase AND sent=0) AS pending_messages FROM base b WHERE b.IDaccount = %i AND (%i = -1 OR %i = b.IDbase)", $_SESSION['IDaccount'], $IDbase, $IDbase);
+		$results = $mdb->query("SELECT b.IDbase, b.basename, b.baseid, b.timezone, b.TXbase, b.crypt_key, b.last_online, b.online, (SELECT COUNT(*) FROM base_client WHERE IDbase=b.IDbase) AS linked_clients, (SELECT COUNT(*) FROM txserver2base WHERE IDbase=b.IDbase AND sent=0) AS pending_messages FROM base b WHERE b.IDaccount = %i AND (%i = -1 OR %i = b.IDbase)", $_SESSION['IDaccount'], $IDbase, $IDbase);
 		
 		return $results;
   }
