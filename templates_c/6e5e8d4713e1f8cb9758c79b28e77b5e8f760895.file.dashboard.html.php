@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-08 07:04:29
+<?php /* Smarty version Smarty-3.1.19, created on 2014-12-09 09:20:32
          compiled from ".\templates\dashboard.html" */ ?>
 <?php /*%%SmartyHeaderCode:9220542e4440a24871-18618071%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,19 +7,19 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '6e5e8d4713e1f8cb9758c79b28e77b5e8f760895' => 
     array (
       0 => '.\\templates\\dashboard.html',
-      1 => 1412663772,
+      1 => 1416579920,
       2 => 'file',
     ),
     '5a76211f71eb9fd8857118b3e421e87c0a7424e3' => 
     array (
       0 => '.\\templates\\framework.html',
-      1 => 1412663772,
+      1 => 1418116569,
       2 => 'file',
     ),
     '94942b38de2598eb5520d42b9aca2d4e4198ad42' => 
     array (
       0 => '.\\templates\\design.html',
-      1 => 1412318618,
+      1 => 1416900222,
       2 => 'file',
     ),
   ),
@@ -57,8 +57,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
   <body>
@@ -74,8 +74,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand frobo fw300" href="index.php">
-      <img src="images/alien_24.png" border="0" style="opacity: 0.7; filter: alpha(opacity=70);">&nbsp;<span class="fw400">Ctrl.ba</span>&nbsp;-&nbsp;Admin Panel&nbsp;<i class="fa fa-cloud fa-fw"></i></a>
+      <a class="navbar-brand frobo fw300" href="index.php"><span class="fw400">Ctrl.ba</span>&nbsp;-&nbsp;Admin Panel&nbsp;<i class="fa fa-cloud fa-fw"></i></a>
     </div>
     <!-- /.navbar-header -->
     <ul class="nav navbar-top-links navbar-right">
@@ -107,18 +106,19 @@ $_valid = $_smarty_tpl->decodeProperties(array (
           <li>
             <a <?php if ($_smarty_tpl->tpl_vars['page_id']->value=="client") {?>class="active"<?php }?> href="?w=client"><i class="fa fa-users fa-fw"></i>&nbsp;Clients<!--<span class="badge pull-right alert-danger">0</span>--></a>
           </li>
+          <!--
           <li>
             <a href="#"><i class="fa fa-flask fa-fw"></i>&nbsp;Apps<span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
               <li>
-                <a href="http://app.ctrl.ba/api" target="_blank">REST API Access</a>
+                <a href="https://app.ctrl.ba/api" target="_blank">REST API Access</a>
               </li>
               <li>
-                <a href="http://app.ctrl.ba/android" target="_blank">Android Client</a>
+                <a href="https://app.ctrl.ba/android" target="_blank">Android Client</a>
               </li>
             </ul>
-            <!-- /.nav-second-level -->
           </li>
+          -->
           <li>
             <a href="?w=help"><i class="fa fa-question fa-fw"></i>&nbsp;Help</a>
           </li>
@@ -136,7 +136,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header frobo fw300">Dashboard</h1>
+    <h1 class="page-header frobo fw300"><i class="fa fa-dashboard"></i>&nbsp;Dashboard</h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>

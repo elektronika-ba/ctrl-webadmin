@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-09 07:08:35
+<?php /* Smarty version Smarty-3.1.19, created on 2014-12-09 09:28:36
          compiled from ".\templates\clients_edit.html" */ ?>
 <?php /*%%SmartyHeaderCode:30870543541b1c49a51-89051258%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,19 +7,19 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'f92117aeb5d09de9bf3385d55996819ede82e965' => 
     array (
       0 => '.\\templates\\clients_edit.html',
-      1 => 1412838508,
+      1 => 1416900222,
       2 => 'file',
     ),
     '5a76211f71eb9fd8857118b3e421e87c0a7424e3' => 
     array (
       0 => '.\\templates\\framework.html',
-      1 => 1412663772,
+      1 => 1418116569,
       2 => 'file',
     ),
     '94942b38de2598eb5520d42b9aca2d4e4198ad42' => 
     array (
       0 => '.\\templates\\design.html',
-      1 => 1412318618,
+      1 => 1416900222,
       2 => 'file',
     ),
   ),
@@ -58,8 +58,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
   <body>
@@ -75,8 +75,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand frobo fw300" href="index.php">
-      <img src="images/alien_24.png" border="0" style="opacity: 0.7; filter: alpha(opacity=70);">&nbsp;<span class="fw400">Ctrl.ba</span>&nbsp;-&nbsp;Admin Panel&nbsp;<i class="fa fa-cloud fa-fw"></i></a>
+      <a class="navbar-brand frobo fw300" href="index.php"><span class="fw400">Ctrl.ba</span>&nbsp;-&nbsp;Admin Panel&nbsp;<i class="fa fa-cloud fa-fw"></i></a>
     </div>
     <!-- /.navbar-header -->
     <ul class="nav navbar-top-links navbar-right">
@@ -108,18 +107,19 @@ $_valid = $_smarty_tpl->decodeProperties(array (
           <li>
             <a <?php if ($_smarty_tpl->tpl_vars['page_id']->value=="client") {?>class="active"<?php }?> href="?w=client"><i class="fa fa-users fa-fw"></i>&nbsp;Clients<!--<span class="badge pull-right alert-danger">0</span>--></a>
           </li>
+          <!--
           <li>
             <a href="#"><i class="fa fa-flask fa-fw"></i>&nbsp;Apps<span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
               <li>
-                <a href="http://app.ctrl.ba/api" target="_blank">REST API Access</a>
+                <a href="https://app.ctrl.ba/api" target="_blank">REST API Access</a>
               </li>
               <li>
-                <a href="http://app.ctrl.ba/android" target="_blank">Android Client</a>
+                <a href="https://app.ctrl.ba/android" target="_blank">Android Client</a>
               </li>
             </ul>
-            <!-- /.nav-second-level -->
           </li>
+          -->
           <li>
             <a href="?w=help"><i class="fa fa-question fa-fw"></i>&nbsp;Help</a>
           </li>
@@ -137,7 +137,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header frobo fw300">Client Editor</h1>
+    <h1 class="page-header frobo fw300"><i class="fa fa-users"></i>&nbsp;Client Editor</h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>
@@ -211,6 +211,16 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
         </div>
       </div>
+
+<?php if ($_smarty_tpl->tpl_vars['data']->value['IDclient']>0) {?>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+        	<img src="index.php?w=client&s=qrcode&IDclient=<?php echo $_smarty_tpl->tpl_vars['data']->value['IDclient'];?>
+" border="0">
+        </div>
+      </div>
+<?php }?>
+
       <div class="form-group">
         <label for="IDbase" class="col-sm-2 control-label">Linked Bases:</label>
         <div class="col-sm-10">
@@ -260,7 +270,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
           <?php } else { ?>
           <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
             <span class="text-muted">
-            When the Base connects for the first time the log file will be created. Now it is just empty.
+            When the Client connects for the first time the log file will be created. Now it is just empty.
             </span>
           </span>
           <?php }?>

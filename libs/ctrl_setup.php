@@ -35,7 +35,7 @@ require('./libs/base.lib.php');
 define('mysql_host','localhost');
 define('mysql_username','root');
 define('mysql_password','');
-define('mysql_database','ctrl_0v4');
+define('mysql_database','ctrl_1v0');
 
 // ctrl-server log files path
 define('server_basesock_log_path','D:/ctrl-server/js/log/basesock/');
