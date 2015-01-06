@@ -42,7 +42,7 @@
             <th>Auth Token</th>
             <th class="text-center">Online</th>
             <th>Last Connected On</th>
-            <th class="text-center">Sequence No</th>
+            <th class="text-center">Last Sequence No</th>
             <th class="text-center">Linked Bases</th>
             <th class="text-center">Pending Messages</th>
             <th class="text-center">Delete</th>
@@ -57,7 +57,13 @@
             <td class="text-center"><span class="badge {if $entry.online == 1}alert-success{else}alert-warning{/if}"><i class="{if $entry.online == 1}fa fa-bolt{else}fa fa-minus{/if}"></i></span></td>
             <td>{if $entry.last_online == ''}<i class="fa fa-minus"></i>{else}{$entry.last_online}{/if}</td>
 
-            <td class="text-center"><span class="badge {if $entry.TXclient > 1000000}alert-danger{else}alert-success{/if}">{$entry.TXclient}</span></td>
+            <td class="text-center"><span class="badge {if $entry.TXclient > 1000000}alert-danger{else}alert-success{/if}">
+            {if $entry.online == 1}
+            	~
+            {else}
+            	{$entry.TXclient}
+            {/if}
+            </span></td>
             <td class="text-center"><span class="badge {if $entry.linked_bases > 0}alert-success{else}alert-danger{/if}">{$entry.linked_bases}</span></td>
             <td class="text-center"><span class="badge {if $entry.pending_messages > 0}alert-danger{else}alert-success{/if}">{$entry.pending_messages}</span></td>
 						<td class="text-center">

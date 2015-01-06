@@ -77,6 +77,7 @@ class CtrlBase {
 					'crypt_key' => '',
 					'linked_clients' => '0',
 					'pending_messages' => '0',
+          'online' => '0',
 				);
 		}
 		else

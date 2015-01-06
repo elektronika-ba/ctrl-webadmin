@@ -75,6 +75,7 @@ class CtrlClient {
 					'TXclient' => '0',
 					'linked_bases' => '0',
 					'pending_messages' => '0',
+          'online' => '0',
 				);
 		}
 		else

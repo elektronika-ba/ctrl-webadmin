@@ -102,6 +102,9 @@
         <div class="col-sm-10">
           <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
           TXclient: <span class="badge {if $data.TXclient > 1000000}alert-danger{else}alert-success{/if}">{$data.TXclient}</span>
+          {if $data.online == 1}
+          	<em>Client is currently online, so this value is the one we had on Clients last disconnect.</em>
+          {/if}
           </span>
         </div>
       </div>

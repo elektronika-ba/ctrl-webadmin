@@ -117,10 +117,13 @@
 {if $data.IDbase > 0}
 
       <div class="form-group">
-        <label for="" class="col-sm-2 control-label">Current Sequence No:</label>
+        <label for="" class="col-sm-2 control-label">Sequence No:</label>
         <div class="col-sm-10">
           <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
           TXbase: <span class="badge {if $data.TXbase > 1000000}alert-danger{else}alert-success{/if}">{$data.TXbase}</span>
+          {if $data.online == 1}
+          	<em>Base is currently online, so this value is the one we had on Bases last disconnect.</em>
+          {/if}
           </span>
         </div>
       </div>
