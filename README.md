@@ -9,7 +9,7 @@ How to install and start ctrl-webadmin:
 
 1. Download and install WAMP (http://www.wampserver.com/).
 2. Copy contents of this repository to "www" directory of where you have installed WAMP.
-3. Start WAMP and go to phpMyAdmin page. Create new database called "ctrl_1v0" and Import CREATE.sql found in "ctrl-server" repository, in "/resources/database" directory.
+3. Start WAMP and go to phpMyAdmin page. Create new database called "ctrl_1v0" and Import CREATE.sql found in "ctrl-server" repository, in "/js/database" directory.
 4. Open http://localhost/ and sign-in by using default credentials: email: test@ctrl.ba, password: test123
 5. In case there is an error while connecting to MySQL, edit the "/libs/ctrl_setup.php" and set your MySQL's server username/password.
 6. "ctrl-webadmin" still lacks of any kind of documentation, but it is straight-forward. Manage your Bases/Clients which are used by the "ctrl-server" (https://github.com/elektronika-ba/ctrl-server) system.
