@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-01-16 12:38:37
+<?php /* Smarty version Smarty-3.1.19, created on 2015-01-16 15:25:04
          compiled from ".\templates\bases_edit.html" */ ?>
 <?php /*%%SmartyHeaderCode:253195434e25057f308-38572775%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '0d24d8c6dc694fc2d58b8f0ad5ec6cc85c3eed4d' => 
     array (
       0 => '.\\templates\\bases_edit.html',
-      1 => 1421411915,
+      1 => 1421421894,
       2 => 'file',
     ),
     '5a76211f71eb9fd8857118b3e421e87c0a7424e3' => 
@@ -325,15 +325,21 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
         <div role="tabpanel" class="tab-pane" id="server-extensions">
 
+<?php if ($_smarty_tpl->tpl_vars['server_extensions_count']->value<=0) {?>
+          <div role="alert" class="alert alert-info">No Server Extensions installed.</div>
+<?php } else { ?>
           <!-- list of installed/available Server Extensions -->
           <ul class="nav nav-pills nav-stacked col-sm-2" id="nav2">
+              <?php if (isset($_smarty_tpl->tpl_vars['se_android_gcm']->value)) {?>
               <li class="active"><a href="#tabSE_AndroidGCM" data-toggle="pill">Android GCM</a></li>
+              <?php }?>
           </ul>
 
           <!-- tabs of Server Extensions -->
           <div class="tab-content col-sm-10 ctrl-tab-content-pills-nopadd">
 
               <!-- tab for Android GCM Server Extensions -->
+              <?php if (isset($_smarty_tpl->tpl_vars['se_android_gcm']->value)) {?>
               <div class="tab-pane active" id="tabSE_AndroidGCM">
                 <div class="form-horizontal" role="form">
 
@@ -345,13 +351,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
                   <div class="form-group">
                     <div class="col-sm-12">
-                      <label for="se_android_gcm_conndisconnevent" class="control-label"><input id="se_android_gcm_conndisconnevent" name="se_android_gcm_conndisconnevent" type="checkbox"> Status Change Event</label> - If enabled, CTRL-Server will send Notification to Android app each time this Base gets connected or disconnected from the CTRL-Server.
+                      <label for="se_android_gcm_status_change_event" class="control-label"><input id="se_android_gcm_status_change_event" name="se_android_gcm_status_change_event" type="checkbox" <?php if ($_smarty_tpl->tpl_vars['data']->value['se_android_gcm_status_change_event']=='1') {?>checked<?php }?>> Status Change Event</label> - If enabled, CTRL-Server will send Notification to Android app each time this Base gets connected or disconnected from the CTRL-Server.
                     </div>
                   </div>
 
                   <div class="form-group">
                     <div class="col-sm-12">
-                      <label for="se_android_gcm_newdataevent" class="control-label"><input id="se_android_gcm_newdataevent" name="se_android_gcm_newdataevent" type="checkbox"> New Data Event</label> - If enabled, CTRL-Server will send Notification to Android app each time this Base sends New Data to its associated Clients.
+                      <label for="se_android_gcm_new_data_event" class="control-label"><input id="se_android_gcm_new_data_event" name="se_android_gcm_new_data_event" type="checkbox"> New Data Event</label> - If enabled, CTRL-Server will send Notification to Android app each time this Base sends New Data to its associated Clients.
                     </div>
                   </div>
 
@@ -362,8 +368,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
                 </div>
               </div>
+              <?php }?>
 
           </div>
+<?php }?>
 
         </div>
 

@@ -33,6 +33,11 @@ define('mysql_database','ctrl_1v0');
 define('server_basesock_log_path','D:/ctrl-server/js/log/basesock/');
 define('server_clientsock_log_path','D:/ctrl-server/js/log/clientsock/');
 
+// Server Extensions management enable/disable and config
+$SERVER_EXTENSIONS = array(
+	'se_android_gcm' => array('enabled' => 1, 'mysql_database' => 'ctrl_1v0_ext_android_gcm'),
+);
+
 // ReCAPTCHA keys
 define('reCAPTCHA_PUBLIC_KEY','6Lc9XPsSAAAAAJy7E3LhA68SjqX5mi-XN0-PAVHF');
 define('reCAPTCHA_PRIVATE_KEY','this is top secret my friend');

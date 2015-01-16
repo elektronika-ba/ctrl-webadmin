@@ -178,15 +178,21 @@
 
         <div role="tabpanel" class="tab-pane" id="server-extensions">
 
+{if $server_extensions_count <= 0}
+          <div role="alert" class="alert alert-info">No Server Extensions installed.</div>
+{else}
           <!-- list of installed/available Server Extensions -->
           <ul class="nav nav-pills nav-stacked col-sm-2" id="nav2">
+              {if isset($se_android_gcm)}
               <li class="active"><a href="#tabSE_AndroidGCM" data-toggle="pill">Android GCM</a></li>
+              {/if}
           </ul>
 
           <!-- tabs of Server Extensions -->
           <div class="tab-content col-sm-10 ctrl-tab-content-pills-nopadd">
 
               <!-- tab for Android GCM Server Extensions -->
+              {if isset($se_android_gcm)}
               <div class="tab-pane active" id="tabSE_AndroidGCM">
                 <div class="form-horizontal" role="form">
 
@@ -198,13 +204,13 @@
 
                   <div class="form-group">
                     <div class="col-sm-12">
-                      <label for="se_android_gcm_conndisconnevent" class="control-label"><input id="se_android_gcm_conndisconnevent" name="se_android_gcm_conndisconnevent" type="checkbox"> Status Change Event</label> - If enabled, CTRL-Server will send Notification to Android app each time this Base gets connected or disconnected from the CTRL-Server.
+                      <label for="se_android_gcm_status_change_event" class="control-label"><input id="se_android_gcm_status_change_event" name="se_android_gcm_status_change_event" type="checkbox" {if $data.se_android_gcm_status_change_event eq '1'}checked{/if}> Status Change Event</label> - If enabled, CTRL-Server will send Notification to Android app each time this Base gets connected or disconnected from the CTRL-Server.
                     </div>
                   </div>
 
                   <div class="form-group">
                     <div class="col-sm-12">
-                      <label for="se_android_gcm_newdataevent" class="control-label"><input id="se_android_gcm_newdataevent" name="se_android_gcm_newdataevent" type="checkbox"> New Data Event</label> - If enabled, CTRL-Server will send Notification to Android app each time this Base sends New Data to its associated Clients.
+                      <label for="se_android_gcm_new_data_event" class="control-label"><input id="se_android_gcm_new_data_event" name="se_android_gcm_new_data_event" type="checkbox"> New Data Event</label> - If enabled, CTRL-Server will send Notification to Android app each time this Base sends New Data to its associated Clients.
                     </div>
                   </div>
 
@@ -215,8 +221,10 @@
 
                 </div>
               </div>
+              {/if}
 
           </div>
+{/if}
 
         </div>
 

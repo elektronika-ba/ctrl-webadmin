@@ -54,14 +54,16 @@ class CtrlBase {
   }
 
   function editBase($formvars = array()) {
+  	global $SERVER_EXTENSIONS;
+  	
   	$tpl = $this->tpl;
-
+  	
 		// add all missing keys to array
 		fixFormVars($formvars, array('IDbase'));
 
 		// assign menu highlighter
     $tpl->assign('page_id', 'base');
-    
+
     // assign notifications
     $tpl->assign('notifs', $this->notifs);
 
@@ -79,6 +81,13 @@ class CtrlBase {
 					'pending_messages' => '0',
           'online' => '0',
 				);
+				
+				// add Server Extensions related parameters
+				// Android GCM is here?
+				if(isset($SERVER_EXTENSIONS['se_android_gcm']) && $SERVER_EXTENSIONS['se_android_gcm']['enabled'] == 1) {
+					$bases[0]['se_android_gcm_status_change_event'] = '1';
+					$bases[0]['se_android_gcm_new_data_event'] = '1';
+				}
 		}
 		else
 		{
@@ -86,6 +95,19 @@ class CtrlBase {
 			$bases = $this->getBase($formvars['IDbase']);
 			if(count($bases)<=0) {
 				return false;
+			}
+
+			// Add Server Extensions related parameters
+			// Note: We can safely do SELECT...WHERE IDbase=$formvars['IDbase'] because getBase()+if() from above would stop us if security check failed
+
+			// Android GCM is here?
+			if(isset($SERVER_EXTENSIONS['se_android_gcm']) && $SERVER_EXTENSIONS['se_android_gcm']['enabled'] == 1) {
+				// TODO
+				/*
+				$linked_clients = $mdb->query("SELECT * FROM ... WHERE IDbase = %i", $formvars['IDbase']); // dude, we need to access different database now as configured in $SERVER_EXTENSIONS['se_android_gcm']['mysql_database']
+				*/
+				$bases[0]['se_android_gcm_status_change_event'] = '1'; // iz baze...
+				$bases[0]['se_android_gcm_new_data_event'] = '1'; // iz baze...
 			}
   	}
 
@@ -115,10 +137,20 @@ class CtrlBase {
     $tpl->assign('IDclient_sel', $selected);
 
     $tpl->assign('data', $bases[0]);
-    
+
 		$path = server_basesock_log_path;
 		$file = $path . $formvars['IDbase'] . '.json';
     $tpl->assign('log_available', file_exists($file));
+    
+    // enable/disable Server Extensions management
+    $se_ext_cnt = 0;
+    foreach($SERVER_EXTENSIONS as $extension => $params) {
+    	if($params['enabled']) { // lets not even assign it to $tpl if it is not enabled
+    		$tpl->assign($extension, $params['enabled']);
+    		$se_ext_cnt++;
+    	}
+    }
+    $tpl->assign('server_extensions_count', $se_ext_cnt);
 
     $tpl->display('bases_edit.html');
 
