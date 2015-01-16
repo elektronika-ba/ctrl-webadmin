@@ -242,7 +242,7 @@ class CtrlAccount {
 			}
 			*/
 
-			if( !isset($POST['g-recaptcha-response']) || !recaptcha2_verify(reCAPTCHA_PRIVATE_KEY, $POST['g-recaptcha-response'], $_SERVER["REMOTE_ADDR"]) ) {
+			if( !isset($formvars['g-recaptcha-response']) || !recaptcha2_verify(reCAPTCHA_PRIVATE_KEY, $formvars['g-recaptcha-response'], $_SERVER["REMOTE_ADDR"]) ) {
 				$this->error = 'recaptcha';
 				return;
 			}
@@ -355,8 +355,8 @@ class CtrlAccount {
 			return false;
 		}*/
 
-		/*$account = $mdb->queryFirstRow("SELECT email, password FROM account WHERE active = 1 AND email = %s AND recovery_started IS NOT NULL LIMIT 1", $formvars['email']);
-		if($account === NULL) {
+		$account = $mdb->queryFirstRow("SELECT email, password FROM account WHERE active = 1 AND email = %s AND recovery_started IS NOT NULL LIMIT 1", $formvars['email']);
+		/*if($account === NULL) {
 			return false;
 		}*/
 

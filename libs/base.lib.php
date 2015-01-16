@@ -85,8 +85,8 @@ class CtrlBase {
 				// add Server Extensions related parameters
 				// Android GCM is here?
 				if(isset($SERVER_EXTENSIONS['se_android_gcm']) && $SERVER_EXTENSIONS['se_android_gcm']['enabled'] == 1) {
-					$bases[0]['se_android_gcm_status_change_event'] = '1';
-					$bases[0]['se_android_gcm_new_data_event'] = '1';
+					$bases[0]['se_android_gcm_disable_status_change_event'] = '0';
+					$bases[0]['se_android_gcm_disable_new_data_event'] = '0';
 				}
 		}
 		else
@@ -102,12 +102,14 @@ class CtrlBase {
 
 			// Android GCM is here?
 			if(isset($SERVER_EXTENSIONS['se_android_gcm']) && $SERVER_EXTENSIONS['se_android_gcm']['enabled'] == 1) {
-				// TODO
-				/*
-				$linked_clients = $mdb->query("SELECT * FROM ... WHERE IDbase = %i", $formvars['IDbase']); // dude, we need to access different database now as configured in $SERVER_EXTENSIONS['se_android_gcm']['mysql_database']
-				*/
-				$bases[0]['se_android_gcm_status_change_event'] = '1'; // iz baze...
-				$bases[0]['se_android_gcm_new_data_event'] = '1'; // iz baze...
+        $se_mdb = new MeekroDB(mysql_host, mysql_username, mysql_password, $SERVER_EXTENSIONS['se_android_gcm']['mysql_database']);
+        $base_config = $se_mdb->queryFirstRow("SELECT * FROM base_config WHERE IDbase = %i", $formvars['IDbase']);        
+        if($base_config === NULL) {
+          $base_config['disable_status_change_event'] = '0';
+          $base_config['disable_new_data_event'] = '0';
+        }
+        $bases[0]['se_android_gcm_disable_status_change_event'] = $base_config['disable_status_change_event'];
+        $bases[0]['se_android_gcm_disable_new_data_event'] = $base_config['disable_new_data_event'];
 			}
   	}
 
@@ -158,6 +160,8 @@ class CtrlBase {
   }
 
   function saveBase($formvars = array()) {
+    global $SERVER_EXTENSIONS;
+    
 		$mdb = $this->mdb;
 
 		// add all missing keys to array
@@ -224,6 +228,24 @@ class CtrlBase {
 				));
 			}
 		}
+    
+    // Handle Server Extensions management
+    // first lets check if we own this IDbase... easiest way, not the smartest
+    $is_my_base = $this->getBase($formvars['IDbase']);
+    if(count($is_my_base)<=0) {
+      return false;
+    }
+
+    // Android GCM is here?
+    if(isset($SERVER_EXTENSIONS['se_android_gcm']) && $SERVER_EXTENSIONS['se_android_gcm']['enabled'] == 1) {
+      $se_mdb = new MeekroDB(mysql_host, mysql_username, mysql_password, $SERVER_EXTENSIONS['se_android_gcm']['mysql_database']);
+      // insert, on duplicate update
+      $se_mdb->insertUpdate('base_config', array(
+        'IDbase' => $formvars['IDbase'],
+        'disable_status_change_event' => (isset($formvars['se_android_gcm_disable_status_change_event'])) ? '1' : '0',
+        'disable_new_data_event' => (isset($formvars['se_android_gcm_disable_new_data_event'])) ? '1' : '0',
+      ));
+    }
 
   	return array(
   		'return_to_edit' => $return_to_edit,
@@ -279,6 +301,8 @@ class CtrlBase {
   }
 
   function deleteBase($formvars = array()) {
+    global $SERVER_EXTENSIONS;
+
 		$mdb = $this->mdb;
 
 		// add all missing keys to array
@@ -287,7 +311,7 @@ class CtrlBase {
 		$this->notifs['base_deleted'] = true;
 
 		$mdb->delete('base_client', "IDbase = %i AND IDbase IN (SELECT IDbase FROM base WHERE IDaccount = %i)", $formvars['IDbase'], $_SESSION['IDaccount']);  
-		$mdb->delete('txserver2base', "IDbase = %i AND IDbase IN (SELECT IDbase FROM base WHERE IDaccount = %i)", $formvars['IDbase'], $_SESSION['IDaccount']);  
+    $mdb->delete('txserver2base', "IDbase = %i AND IDbase IN (SELECT IDbase FROM base WHERE IDaccount = %i)", $formvars['IDbase'], $_SESSION['IDaccount']);  
 
 		// security check for log file deletion
   	$base = $mdb->queryFirstRow("SELECT IDbase FROM base WHERE IDbase = %i AND IDaccount = %i", $formvars['IDbase'], $_SESSION['IDaccount']);
@@ -299,7 +323,20 @@ class CtrlBase {
 			}
   	}
 
-		$mdb->delete('base', "IDbase = %i AND IDaccount = %i", $formvars['IDbase'], $_SESSION['IDaccount']);
+    // Handle Server Extensions deletion
+    // first lets check if we own this IDbase... easiest way, not the smartest
+    $is_my_base = $this->getBase($formvars['IDbase']);
+    if(count($is_my_base) == 1) {
+      // Android GCM is here?
+      if(isset($SERVER_EXTENSIONS['se_android_gcm']) && $SERVER_EXTENSIONS['se_android_gcm']['enabled'] == 1) {
+        $se_mdb = new MeekroDB(mysql_host, mysql_username, mysql_password, $SERVER_EXTENSIONS['se_android_gcm']['mysql_database']);
+        $se_mdb->delete('base_config', "IDbase = %i", $formvars['IDbase']);
+      }
+
+    }
+
+    // Lastly delete the Base record
+    $mdb->delete('base', "IDbase = %i AND IDaccount = %i", $formvars['IDbase'], $_SESSION['IDaccount']);
   }
 
   function downloadBaseLog($formvars = array()) {

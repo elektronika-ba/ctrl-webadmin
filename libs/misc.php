@@ -181,6 +181,7 @@ $BAD_EMAIL_DOMAINS = array(
 	'THISISNOTMYREALEMAIL.COM',
 	'TOIEA.COM',
 	'TRASH-MAIL.COM',
+  'RE-GISTER.COM',
 	'TRASHEMAIL.DE',
 	'TRASHMAIL.NET',
 	'TRASHYMAIL.COM',
@@ -318,9 +319,9 @@ function randomPassword($length) {
 
 function sendMail($to_email, $subject, $message) {
 	// Custom header
-	$hh ="Reply-to: <nobody@ctrl.ba>\n";
-	$hh.="From: <nobody@ctrl.ba>\n";
-	$hh.="Return-path: <nobody@ctrl.ba>\n";
+	$hh ="Reply-to: <ctrl@ctrl.ba>\n";
+	$hh.="From: Ctrl.ba <ctrl@ctrl.ba>\n";
+	$hh.="Return-path: <ctrl@ctrl.ba>\n";
 	$hh.="Message-ID: <".md5(uniqid(time()))."@"."ctrl.ba".">\n";
 	$hh.="MIME-Version: 1.0\n";
 	$hh.="Content-Type: text/plain; charset=UTF-8\n";

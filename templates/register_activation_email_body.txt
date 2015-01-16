@@ -4,7 +4,7 @@ Excellent!
 
 Your CTRL account has been created. All you need to do now is activate it.
 
-Go to this address to activate your account and start controlling stuff: http://my.ctrl.ba/?w=account&s=activate&hash={$activation_hash}
+Go to this address to activate your account and start controlling stuff: https://v1.my.ctrl.ba/?w=account&s=activate&hash={$activation_hash}
 
 
 See you there!
