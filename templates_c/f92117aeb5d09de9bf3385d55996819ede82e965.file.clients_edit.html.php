@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-12-09 09:28:36
+<?php /* Smarty version Smarty-3.1.19, created on 2015-01-16 12:11:38
          compiled from ".\templates\clients_edit.html" */ ?>
 <?php /*%%SmartyHeaderCode:30870543541b1c49a51-89051258%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'f92117aeb5d09de9bf3385d55996819ede82e965' => 
     array (
       0 => '.\\templates\\clients_edit.html',
-      1 => 1416900222,
+      1 => 1421071581,
       2 => 'file',
     ),
     '5a76211f71eb9fd8857118b3e421e87c0a7424e3' => 
@@ -19,7 +19,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '94942b38de2598eb5520d42b9aca2d4e4198ad42' => 
     array (
       0 => '.\\templates\\design.html',
-      1 => 1416900222,
+      1 => 1421409998,
       2 => 'file',
     ),
   ),
@@ -49,6 +49,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     <!-- Custom CSS -->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
+    <link href="css/bs-callout.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -240,6 +241,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
           <span class="form-control" style="box-shadow: none !important; border: none !important; padding-left: 0px !important">
           TXclient: <span class="badge <?php if ($_smarty_tpl->tpl_vars['data']->value['TXclient']>1000000) {?>alert-danger<?php } else { ?>alert-success<?php }?>"><?php echo $_smarty_tpl->tpl_vars['data']->value['TXclient'];?>
 </span>
+          <?php if ($_smarty_tpl->tpl_vars['data']->value['online']==1) {?>
+          	<em>Client is currently online, so this value is the one we had on Clients last disconnect.</em>
+          <?php }?>
           </span>
         </div>
       </div>

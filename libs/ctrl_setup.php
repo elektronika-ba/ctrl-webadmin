@@ -9,18 +9,10 @@
 // define smarty lib directory
 define('SMARTY_DIR', './smarty/libs/');
 
-require_once('./recaptcha/recaptchalib.php');
+require_once('./recaptcha2/recaptcha2lib.php');
 require('./libs/misc.php');
 
-if(!function_exists('password_hash')) {
-	require('./libs/password_hash.php');
-}
-
 require('./libs/PasswordHash.php');
-if (version_compare(phpversion(), '5.3.7', '<')) {
-	//require('./libs/PasswordHash.php');
-	// NOTE: nobody can login when php version changes to >=5.3.7 from lower, and with accounts/bases/clients in database!
-}
 
 require('./libs/meekrodb.2.3.class.php');
 require(SMARTY_DIR . 'Smarty.class.php');

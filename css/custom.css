@@ -92,3 +92,32 @@ table.ctrl-table-clickable tbody tr {
     cursor: hand;
     cursor: pointer;
 }
+
+/* MISC */
+.ctrl-navbar-bottom-space {
+    margin-bottom: 10px !important;
+}
+
+.ctrl-nobottmargin {
+    margin-bottom: 0px !important;
+}
+
+.ctrl-slim-hr {
+    margin-bottom: 10px !important;
+    margin-top: 0 !important;
+}
+
+.ctrl-tab-content-pills-nopadd {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.ctrl-label-unbold {
+	font-weight: normal !important;
+}
+
+.bs-callout-smaller {
+    border-width: 1px 1px 1px 3px !important;
+    margin: 5px 0 !important;
+    padding: 5px !important;
+}

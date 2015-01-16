@@ -192,8 +192,8 @@ class CtrlAccount {
     // assign error message
     $tpl->assign('error', $this->error);
     
-    // recaptcha
-    $tpl->assign('recaptcha', recaptcha_get_html(reCAPTCHA_PUBLIC_KEY));
+    // recaptcha is replaced with recaptcha2
+    //$tpl->assign('recaptcha', recaptcha_get_html(reCAPTCHA_PUBLIC_KEY));
 
     $tpl->display('register.html');
   }
@@ -231,10 +231,18 @@ class CtrlAccount {
 			return false;
 		}
 
-		// reCAPTCHA validation
+		// reCAPTCHA validation enabled?
 		if(reCAPTCHA_PRIVATE_KEY != '') {
+			// recaptcha is replaced with recaptcha2
+			/*
 			$reCAPTCHA_RESPONSE = recaptcha_check_answer (reCAPTCHA_PRIVATE_KEY, $_SERVER["REMOTE_ADDR"], $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]);
 			if (!$reCAPTCHA_RESPONSE->is_valid) {
+				$this->error = 'recaptcha';
+				return;
+			}
+			*/
+
+			if( !isset($POST['g-recaptcha-response']) || !recaptcha2_verify(reCAPTCHA_PRIVATE_KEY, $POST['g-recaptcha-response'], $_SERVER["REMOTE_ADDR"]) ) {
 				$this->error = 'recaptcha';
 				return;
 			}

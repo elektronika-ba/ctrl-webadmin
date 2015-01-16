@@ -1,13 +1,13 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-01-16 12:11:33
-         compiled from ".\templates\clients.html" */ ?>
-<?php /*%%SmartyHeaderCode:1222254354055848352-67219390%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /* Smarty version Smarty-3.1.19, created on 2015-01-16 11:06:53
+         compiled from ".\templates\account_settings.html" */ ?>
+<?php /*%%SmartyHeaderCode:1346654b8f0cdbdef01-37645568%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
-    'a9c99ed49c88f92f5c4c5baec004a57f10fe16fc' => 
+    'fb643b48ef34ae986043359f8991701111d27c8b' => 
     array (
-      0 => '.\\templates\\clients.html',
-      1 => 1421071581,
+      0 => '.\\templates\\account_settings.html',
+      1 => 1413788335,
       2 => 'file',
     ),
     '5a76211f71eb9fd8857118b3e421e87c0a7424e3' => 
@@ -19,19 +19,19 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '94942b38de2598eb5520d42b9aca2d4e4198ad42' => 
     array (
       0 => '.\\templates\\design.html',
-      1 => 1421409998,
+      1 => 1416900222,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1222254354055848352-67219390',
+  'nocache_hash' => '1346654b8f0cdbdef01-37645568',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_54354055b06553_54776484',
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.19',
+  'unifunc' => 'content_54b8f0cde5a251_11280468',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_54354055b06553_54776484')) {function content_54354055b06553_54776484($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_54b8f0cde5a251_11280468')) {function content_54b8f0cde5a251_11280468($_smarty_tpl) {?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -48,7 +48,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     <!-- Custom CSS -->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
-    <link href="css/bs-callout.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -137,101 +136,97 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     
 <div class="row">
   <div class="col-lg-12">
-    <h1 class="page-header frobo fw300"><i class="fa fa-users"></i>&nbsp;Clients</h1>
+    <h1 class="page-header frobo fw300">Account Settings</h1>
   </div>
   <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
-<?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['client_deleted'])) {?>
+<?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['password_changed'])) {?>
 <div class="row">
   <div class="col-lg-12">
     <div class="alert alert-info alert-dismissible" role="alert">
       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-      Client deleted from Server!
+      Password changed!
     </div>
   </div>
 </div>
 <?php }?>
-<?php if (isset($_smarty_tpl->tpl_vars['notifs']->value['client_updated'])) {?>
+<?php if ($_smarty_tpl->tpl_vars['error']->value=="wrong_password") {?>
 <div class="row">
   <div class="col-lg-12">
-    <div class="alert alert-info alert-dismissible" role="alert">
+    <div class="alert alert-danger alert-dismissible" role="alert">
       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-      Client information updated.
+      Wrong current password!
+    </div>
+  </div>
+</div>
+<?php }?>
+<?php if ($_smarty_tpl->tpl_vars['error']->value=="new_password_missing") {?>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      In order to change your current password you must supply new password that is minimum 6 characters long.
+    </div>
+  </div>
+</div>
+<?php }?>
+<?php if ($_smarty_tpl->tpl_vars['error']->value=="new_password_mismatch") {?>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      Your new password and re-typed password do not match! Try again.
     </div>
   </div>
 </div>
 <?php }?>
 <div class="row">
   <div class="col-lg-12">
-    <div class="table-responsive">
-      <table class="table table-striped table-hover table-condensed ctrl-table-colorhead ctrl-table-clickable">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Auth Token</th>
-            <th class="text-center">Online</th>
-            <th>Last Connected On</th>
-            <th class="text-center">Last Sequence No</th>
-            <th class="text-center">Linked Bases</th>
-            <th class="text-center">Pending Messages</th>
-            <th class="text-center">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-					<?php  $_smarty_tpl->tpl_vars["entry"] = new Smarty_Variable; $_smarty_tpl->tpl_vars["entry"]->_loop = false;
- $_from = $_smarty_tpl->tpl_vars['data']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
-foreach ($_from as $_smarty_tpl->tpl_vars["entry"]->key => $_smarty_tpl->tpl_vars["entry"]->value) {
-$_smarty_tpl->tpl_vars["entry"]->_loop = true;
-?>
-					<tr onclick="javascript:location.href='?w=client&s=edit&IDclient=<?php echo $_smarty_tpl->tpl_vars['entry']->value['IDclient'];?>
-';">
-						<td><?php echo htmlspecialchars($_smarty_tpl->tpl_vars['entry']->value['clientname'], ENT_QUOTES, 'UTF-8', true);?>
-</td>
-						<td><code><?php echo $_smarty_tpl->tpl_vars['entry']->value['auth_token'];?>
-</code></td>
+    <form class="form-horizontal" role="form" method="post" action="index.php">
+    <input type="hidden" name="w" value="account">
+    <input type="hidden" name="s" value="settings">
+    <input type="hidden" name="x" value="1">
 
-            <td class="text-center"><span class="badge <?php if ($_smarty_tpl->tpl_vars['entry']->value['online']==1) {?>alert-success<?php } else { ?>alert-warning<?php }?>"><i class="<?php if ($_smarty_tpl->tpl_vars['entry']->value['online']==1) {?>fa fa-bolt<?php } else { ?>fa fa-minus<?php }?>"></i></span></td>
-            <td><?php if ($_smarty_tpl->tpl_vars['entry']->value['last_online']=='') {?><i class="fa fa-minus"></i><?php } else { ?><?php echo $_smarty_tpl->tpl_vars['entry']->value['last_online'];?>
-<?php }?></td>
+      <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">E-mail:</label>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" id="email" name="email" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['email'];?>
+" readonly="readonly">
+        </div>
+      </div>
 
-            <td class="text-center"><span class="badge <?php if ($_smarty_tpl->tpl_vars['entry']->value['TXclient']>1000000) {?>alert-danger<?php } else { ?>alert-success<?php }?>">
-            <?php if ($_smarty_tpl->tpl_vars['entry']->value['online']==1) {?>
-            	~
-            <?php } else { ?>
-            	<?php echo $_smarty_tpl->tpl_vars['entry']->value['TXclient'];?>
+      <div class="form-group">
+        <label for="password" class="col-sm-2 control-label">Current Password:</label>
+        <div class="col-sm-4">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Type current password to change it">
+        </div>
+      </div>
 
-            <?php }?>
-            </span></td>
-            <td class="text-center"><span class="badge <?php if ($_smarty_tpl->tpl_vars['entry']->value['linked_bases']>0) {?>alert-success<?php } else { ?>alert-danger<?php }?>"><?php echo $_smarty_tpl->tpl_vars['entry']->value['linked_bases'];?>
-</span></td>
-            <td class="text-center"><span class="badge <?php if ($_smarty_tpl->tpl_vars['entry']->value['pending_messages']>0) {?>alert-danger<?php } else { ?>alert-success<?php }?>"><?php echo $_smarty_tpl->tpl_vars['entry']->value['pending_messages'];?>
-</span></td>
-						<td class="text-center">
-              <a class="btn btn-danger btn-xs" href="?w=client&s=delete&IDclient=<?php echo $_smarty_tpl->tpl_vars['entry']->value['IDclient'];?>
-" onclick="javascript:if(!confirm('Are you sure you want to delete this Base?')) { event.stopPropagation(); return false; } else { event.stopPropagation(); }">
-								<span class="glyphicon glyphicon-remove"></span>
-							</button>
-						</td>
-					</tr>
-					<?php }
-if (!$_smarty_tpl->tpl_vars["entry"]->_loop) {
-?>
-					<tr>
-						<td colspan="6">No Clients, click <strong>Add New</strong> button.</td>
-					</tr>
-					<?php } ?>
-        </tbody>
-      </table>
-    </div>
+      <div class="form-group">
+        <label for="new_password" class="col-sm-2 control-label">New Password:</label>
+        <div class="col-sm-4">
+          <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Choose new password to change the current">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="new_password_again" class="col-sm-2 control-label">Re-type New Password:</label>
+        <div class="col-sm-4">
+          <input type="password" class="form-control" id="new_password_again" name="new_password_again" placeholder="Re-type new password to change the current">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-lg-12">
+          <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>&nbsp;Save Changes</button>
+			  </div>
+      </div>
+
+    </form>
   </div>
 </div>
 <!-- /.row -->
-<div class="row">
-  <div class="col-lg-12">
-    <button class="btn btn-primary" type="button" onclick="javascript:location.href='?w=client&s=edit&IDclient=-1';"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add New</button>
-  </div>
-</div>
 
   </div>
 

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-12-09 09:08:07
+<?php /* Smarty version Smarty-3.1.19, created on 2015-01-16 12:40:03
          compiled from ".\templates\register.html" */ ?>
 <?php /*%%SmartyHeaderCode:12257542d3a46170dd6-30745081%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'c4e39c65acdf8be70671b09cf58b97ada7e6ed26' => 
     array (
       0 => '.\\templates\\register.html',
-      1 => 1412328469,
+      1 => 1421411995,
       2 => 'file',
     ),
     'a0d3cafd25cf891f40948ae47d92c66d123cc422' => 
@@ -19,7 +19,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '94942b38de2598eb5520d42b9aca2d4e4198ad42' => 
     array (
       0 => '.\\templates\\design.html',
-      1 => 1416900222,
+      1 => 1421409998,
       2 => 'file',
     ),
   ),
@@ -48,6 +48,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     <!-- Custom CSS -->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
+    <link href="css/bs-callout.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -95,8 +96,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
           </label>
         </div>
         <div class="form-group">
-          <?php echo $_smarty_tpl->tpl_vars['recaptcha']->value;?>
-
+          <div class="g-recaptcha" data-sitekey="6Lc9XPsSAAAAAJy7E3LhA68SjqX5mi-XN0-PAVHF"></div>
         </div>
         <button class="btn btn-lg btn-success btn-block">
         <i class="fa fa-user"></i>&nbsp;Register
@@ -153,7 +153,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
     <!-- Subpage Javascripts -->
     
+<script src="//www.google.com/recaptcha/api.js"></script>
+
 <script type="text/javascript">
+
   $(function () {
       $(".popme").popover();
       $(".popme").popover('show');

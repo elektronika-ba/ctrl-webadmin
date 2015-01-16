@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-12-09 09:20:32
+<?php /* Smarty version Smarty-3.1.19, created on 2015-01-16 12:23:21
          compiled from ".\templates\dashboard.html" */ ?>
 <?php /*%%SmartyHeaderCode:9220542e4440a24871-18618071%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -19,7 +19,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '94942b38de2598eb5520d42b9aca2d4e4198ad42' => 
     array (
       0 => '.\\templates\\design.html',
-      1 => 1416900222,
+      1 => 1421409998,
       2 => 'file',
     ),
   ),
@@ -48,6 +48,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     <!-- Custom CSS -->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
+    <link href="css/bs-callout.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 

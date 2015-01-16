@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-12-09 09:16:21
+<?php /* Smarty version Smarty-3.1.19, created on 2015-01-16 12:11:39
          compiled from ".\templates\bases.html" */ ?>
 <?php /*%%SmartyHeaderCode:166515434e23ed15f17-20480320%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '4c8209e041662fcaa7acd24590eedc7cb04846ec' => 
     array (
       0 => '.\\templates\\bases.html',
-      1 => 1416900222,
+      1 => 1421071581,
       2 => 'file',
     ),
     '5a76211f71eb9fd8857118b3e421e87c0a7424e3' => 
@@ -19,7 +19,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '94942b38de2598eb5520d42b9aca2d4e4198ad42' => 
     array (
       0 => '.\\templates\\design.html',
-      1 => 1416900222,
+      1 => 1421409998,
       2 => 'file',
     ),
   ),
@@ -48,6 +48,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     <!-- Custom CSS -->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
+    <link href="css/bs-callout.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -171,7 +172,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
             <th>Base ID</th>
             <th class="text-center">Online</th>
             <th>Last Connected On</th>
-            <th class="text-center">Sequence No</th>
+            <th class="text-center">Last Sequence No</th>
             <th class="text-center">Linked Clients</th>
             <th class="text-center">Pending Messages</th>
             <th class="text-center">Delete</th>
@@ -194,8 +195,14 @@ $_smarty_tpl->tpl_vars["entry"]->_loop = true;
             <td><?php if ($_smarty_tpl->tpl_vars['entry']->value['last_online']=='') {?><i class="fa fa-minus"></i><?php } else { ?><?php echo $_smarty_tpl->tpl_vars['entry']->value['last_online'];?>
 <?php }?></td>
 
-            <td class="text-center"><span class="badge <?php if ($_smarty_tpl->tpl_vars['entry']->value['TXbase']>1000000) {?>alert-danger<?php } else { ?>alert-success<?php }?>"><?php echo $_smarty_tpl->tpl_vars['entry']->value['TXbase'];?>
-</span></td>
+            <td class="text-center"><span class="badge <?php if ($_smarty_tpl->tpl_vars['entry']->value['TXbase']>1000000) {?>alert-danger<?php } else { ?>alert-success<?php }?>">
+            <?php if ($_smarty_tpl->tpl_vars['entry']->value['online']==1) {?>
+            	~
+            <?php } else { ?>
+            	<?php echo $_smarty_tpl->tpl_vars['entry']->value['TXbase'];?>
+
+            <?php }?>
+            </span></td>
             <td class="text-center"><span class="badge <?php if ($_smarty_tpl->tpl_vars['entry']->value['linked_clients']>0) {?>alert-success<?php } else { ?>alert-danger<?php }?>"><?php echo $_smarty_tpl->tpl_vars['entry']->value['linked_clients'];?>
 </span></td>
             <td class="text-center"><span class="badge <?php if ($_smarty_tpl->tpl_vars['entry']->value['pending_messages']>0) {?>alert-danger<?php } else { ?>alert-success<?php }?>"><?php echo $_smarty_tpl->tpl_vars['entry']->value['pending_messages'];?>
