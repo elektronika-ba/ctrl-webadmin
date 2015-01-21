@@ -54,6 +54,8 @@ class CtrlClient {
   }
 
   function editClient($formvars = array()) {
+  	global $SERVER_EXTENSIONS;
+  
   	$tpl = $this->tpl;
 
 		// add all missing keys to array
@@ -77,6 +79,13 @@ class CtrlClient {
 					'pending_messages' => '0',
           'online' => '0',
 				);
+
+				// add Server Extensions related parameters
+				// Android GCM is here?
+				if(isset($SERVER_EXTENSIONS['se_android_gcm']) && $SERVER_EXTENSIONS['se_android_gcm']['enabled'] == 1) {
+					$clients[0]['se_android_gcm_disable_status_change_event'] = '0';
+					$clients[0]['se_android_gcm_disable_new_data_event'] = '0';
+				}
 		}
 		else
 		{
@@ -84,6 +93,21 @@ class CtrlClient {
 			$clients = $this->getClient($formvars['IDclient']);
 			if(count($clients)<=0) {
 				return false;
+			}
+
+			// Add Server Extensions related parameters
+			// Note: We can safely do SELECT...WHERE IDbase=$formvars['IDbase'] because getBase()+if() from above would stop us if security check failed
+
+			// Android GCM is here?
+			if(isset($SERVER_EXTENSIONS['se_android_gcm']) && $SERVER_EXTENSIONS['se_android_gcm']['enabled'] == 1) {
+        $se_mdb = new MeekroDB(mysql_host, mysql_username, mysql_password, $SERVER_EXTENSIONS['se_android_gcm']['mysql_database']);
+        $client_config = $se_mdb->queryFirstRow("SELECT * FROM client_config WHERE IDclient = %i", $formvars['IDclient']);
+        if($client_config === NULL) {
+          $client_config['disable_status_change_event'] = '0';
+          $client_config['disable_new_data_event'] = '0';
+        }
+        $clients[0]['se_android_gcm_disable_status_change_event'] = $client_config['disable_status_change_event'];
+        $clients[0]['se_android_gcm_disable_new_data_event'] = $client_config['disable_new_data_event'];
 			}
   	}
 
@@ -114,12 +138,24 @@ class CtrlClient {
 		$file = $path . $formvars['IDclient'] . '.json';
     $tpl->assign('log_available', file_exists($file));
 
+    // enable/disable Server Extensions management
+    $se_ext_cnt = 0;
+    foreach($SERVER_EXTENSIONS as $extension => $params) {
+    	if($params['enabled']) { // lets not even assign it to $tpl if it is not enabled
+    		$tpl->assign($extension, $params['enabled']);
+    		$se_ext_cnt++;
+    	}
+    }
+    $tpl->assign('server_extensions_count', $se_ext_cnt);
+
     $tpl->display('clients_edit.html');
 
     return true;
   }
 
   function saveClient($formvars = array()) {
+    global $SERVER_EXTENSIONS;
+
 		$mdb = $this->mdb;
 
 		// add all missing keys to array
@@ -175,6 +211,24 @@ class CtrlClient {
 				));
 			}
 		}
+
+    // Handle Server Extensions management
+    // first lets check if we own this IDbase... easiest way, not the smartest
+    $is_my_client = $this->getClient($formvars['IDclient']);
+    if(count($is_my_client)<=0) {
+      return false;
+    }
+
+    // Android GCM is here?
+    if(isset($SERVER_EXTENSIONS['se_android_gcm']) && $SERVER_EXTENSIONS['se_android_gcm']['enabled'] == 1) {
+      $se_mdb = new MeekroDB(mysql_host, mysql_username, mysql_password, $SERVER_EXTENSIONS['se_android_gcm']['mysql_database']);
+      // insert, on duplicate update
+      $se_mdb->insertUpdate('client_config', array(
+        'IDclient' => $formvars['IDclient'],
+        'disable_status_change_event' => (isset($formvars['se_android_gcm_disable_status_change_event'])) ? '1' : '0',
+        'disable_new_data_event' => (isset($formvars['se_android_gcm_disable_new_data_event'])) ? '1' : '0',
+      ));
+    }
 
   	return array(
   		'return_to_edit' => $return_to_edit,
@@ -250,6 +304,19 @@ class CtrlClient {
 			}
   	}
 
+    // Handle Server Extensions deletion
+    // first lets check if we own this IDbase... easiest way, not the smartest
+    $is_my_client = $this->getclient($formvars['IDclient']);
+    if(count($is_my_client) == 1) {
+      // Android GCM is here?
+      if(isset($SERVER_EXTENSIONS['se_android_gcm']) && $SERVER_EXTENSIONS['se_android_gcm']['enabled'] == 1) {
+        $se_mdb = new MeekroDB(mysql_host, mysql_username, mysql_password, $SERVER_EXTENSIONS['se_android_gcm']['mysql_database']);
+        $se_mdb->delete('client_config', "IDclient = %i", $formvars['IDclient']);
+      }
+
+    }
+
+    // Lastly delete the Client record
 		$mdb->delete('client', "IDclient = %i AND IDaccount = %i", $formvars['IDclient'], $_SESSION['IDaccount']);
   }
 

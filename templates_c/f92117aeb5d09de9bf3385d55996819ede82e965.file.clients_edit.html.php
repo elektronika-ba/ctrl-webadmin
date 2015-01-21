@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-01-16 12:11:38
+<?php /* Smarty version Smarty-3.1.19, created on 2015-01-21 08:06:07
          compiled from ".\templates\clients_edit.html" */ ?>
 <?php /*%%SmartyHeaderCode:30870543541b1c49a51-89051258%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'f92117aeb5d09de9bf3385d55996819ede82e965' => 
     array (
       0 => '.\\templates\\clients_edit.html',
-      1 => 1421071581,
+      1 => 1421827384,
       2 => 'file',
     ),
     '5a76211f71eb9fd8857118b3e421e87c0a7424e3' => 
@@ -174,13 +174,27 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   </div>
 </div>
 <?php }?>
+
+<form class="form-horizontal" role="form" method="post" action="index.php">
+<input type="hidden" name="w" value="client">
+<input type="hidden" name="s" value="save">
+<input type="hidden" name="IDclient" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['IDclient'];?>
+">
+
 <div class="row">
   <div class="col-lg-12">
-    <form class="form-horizontal" role="form" method="post" action="index.php">
-    <input type="hidden" name="w" value="client">
-    <input type="hidden" name="s" value="save">
-    <input type="hidden" name="IDclient" value="<?php echo $_smarty_tpl->tpl_vars['data']->value['IDclient'];?>
-">
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs ctrl-navbar-bottom-space" role="tablist">
+        <li role="presentation" class="active"><a href="#main" aria-controls="main" role="tab" data-toggle="tab">Main</a></li>
+        <li role="presentation"><a href="#server-extensions" aria-controls="server-extensions" role="tab" data-toggle="tab">Server Extensions</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="main">
+
+          <div class="form-horizontal" role="form">
 
       <div class="form-group">
         <label for="clientname" class="col-sm-2 control-label">Name:</label>
@@ -216,7 +230,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 <?php if ($_smarty_tpl->tpl_vars['data']->value['IDclient']>0) {?>
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-        	<img src="index.php?w=client&s=qrcode&IDclient=<?php echo $_smarty_tpl->tpl_vars['data']->value['IDclient'];?>
+          <img src="index.php?w=client&s=qrcode&IDclient=<?php echo $_smarty_tpl->tpl_vars['data']->value['IDclient'];?>
 " border="0">
         </div>
       </div>
@@ -226,7 +240,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <label for="IDbase" class="col-sm-2 control-label">Linked Bases:</label>
         <div class="col-sm-10">
           <select name="IDbase[]" id="IDbase" size="10" multiple class="form-control">
-						<?php echo smarty_function_html_options(array('values'=>$_smarty_tpl->tpl_vars['IDbase_val']->value,'output'=>$_smarty_tpl->tpl_vars['IDbase_opt']->value,'selected'=>$_smarty_tpl->tpl_vars['IDbase_sel']->value),$_smarty_tpl);?>
+            <?php echo smarty_function_html_options(array('values'=>$_smarty_tpl->tpl_vars['IDbase_val']->value,'output'=>$_smarty_tpl->tpl_vars['IDbase_opt']->value,'selected'=>$_smarty_tpl->tpl_vars['IDbase_sel']->value),$_smarty_tpl);?>
 
           </select>
           <span class="text-muted"><em>Use CTRL key to select multiple Bases</em></span>
@@ -242,7 +256,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
           TXclient: <span class="badge <?php if ($_smarty_tpl->tpl_vars['data']->value['TXclient']>1000000) {?>alert-danger<?php } else { ?>alert-success<?php }?>"><?php echo $_smarty_tpl->tpl_vars['data']->value['TXclient'];?>
 </span>
           <?php if ($_smarty_tpl->tpl_vars['data']->value['online']==1) {?>
-          	<em>Client is currently online, so this value is the one we had on Clients last disconnect.</em>
+            <em>Client is currently online, so this value is the one we had on Clients last disconnect.</em>
           <?php }?>
           </span>
         </div>
@@ -283,15 +297,84 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
 <?php }?>
 
-      <div class="form-group">
-        <div class="col-lg-12">
-          <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>&nbsp;<?php if ($_smarty_tpl->tpl_vars['data']->value['IDclient']>0) {?>Save Changes<?php } else { ?>Add Client<?php }?></button>
-			  </div>
+          </div>
+
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="server-extensions">
+
+<?php if ($_smarty_tpl->tpl_vars['server_extensions_count']->value<=0) {?>
+          <div role="alert" class="alert alert-info">No Server Extensions installed.</div>
+<?php } else { ?>
+          <!-- list of installed/available Server Extensions -->
+          <ul class="nav nav-pills nav-stacked col-sm-2" id="nav2">
+              <?php if (isset($_smarty_tpl->tpl_vars['se_android_gcm']->value)) {?>
+              <li class="active"><a href="#tabSE_AndroidGCM" data-toggle="pill">Android GCM</a></li>
+              <?php }?>
+          </ul>
+
+          <!-- tabs of Server Extensions -->
+          <div class="tab-content col-sm-10 ctrl-tab-content-pills-nopadd">
+
+              <!-- tab for Android GCM Server Extensions -->
+              <?php if (isset($_smarty_tpl->tpl_vars['se_android_gcm']->value)) {?>
+              <div class="tab-pane active" id="tabSE_AndroidGCM">
+                <div class="form-horizontal" role="form">
+
+                  <div class="form-group ctrl-nobottmargin">
+                    <div class="col-lg-12">
+                      <div role="alert" class="alert alert-info">In this section you can configure on which Base events will CTRL-Server send Android Push Notifications to this Android Client who is currently offline.</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-12">
+                      <label for="se_android_gcm_disable_status_change_event" class="control-label"><input id="se_android_gcm_disable_status_change_event" name="se_android_gcm_disable_status_change_event" value="1" type="checkbox" <?php if ($_smarty_tpl->tpl_vars['data']->value['se_android_gcm_disable_status_change_event']=='1') {?>checked<?php }?>> Disable Status Change Event</label> - If not checked, CTRL-Server will send Notification to Android app using this Client each time any associated Base gets connected or disconnected from the CTRL-Server.
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-12">
+                      <label for="se_android_gcm_disable_new_data_event" class="control-label"><input id="se_android_gcm_disable_new_data_event" name="se_android_gcm_disable_new_data_event" value="1" type="checkbox" <?php if ($_smarty_tpl->tpl_vars['data']->value['se_android_gcm_disable_new_data_event']=='1') {?>checked<?php }?>> Disable New Data Event</label> - If not checked, CTRL-Server will send Notification to Android app using this Client each time any associated Base sends New Data to this Clients.
+                    </div>
+                  </div>
+
+                  <div class="bs-callout bs-callout-warning">
+                    <h4>Base override</h4>
+                    Keep in mind that each Base can be independently configured not to send these notifications! To configure each Base visit the Bases section.
+                  </div>
+
+                </div>
+              </div>
+              <?php }?>
+
+          </div>
+<?php }?>
+
+        </div>
+
       </div>
 
-    </form>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <hr class="fol-slim-hr">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="form-group">
+      <div class="col-lg-12">
+        <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span>&nbsp;<?php if ($_smarty_tpl->tpl_vars['data']->value['IDclient']>0) {?>Save Changes<?php } else { ?>Add Client<?php }?></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</form>
 
   </div>
 
