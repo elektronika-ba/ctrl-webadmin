@@ -320,20 +320,20 @@ function randomPassword($length) {
 function sendMail($to_email, $subject, $message) {
 	// Custom header
 	$hh ="Reply-to: <ctrl@ctrl.ba>\n";
-	$hh.="From: Ctrl.ba <ctrl@ctrl.ba>\n";
+	$hh.="From: CTRL <ctrl@ctrl.ba>\n";
 	$hh.="Return-path: <ctrl@ctrl.ba>\n";
 	$hh.="Message-ID: <".md5(uniqid(time()))."@"."ctrl.ba".">\n";
 	$hh.="MIME-Version: 1.0\n";
 	$hh.="Content-Type: text/plain; charset=UTF-8\n";
 	$hh.="Content-transfer-encoding: 8bit\n";
 	$hh.="Date: " . date('r', time()) . "\n";
-	$hh.="X-Priority: 3\n";
-	$hh.="X-MSMail-Priority: Normal\n";
-	$hh.="X-Mailer: PHP\n";
-	$hh.="X-MimeOLE: Produced By Trax from Elektronika.ba\n";
+	//$hh.="X-Priority: 3\n";
+	//$hh.="X-MSMail-Priority: Normal\n";
+	//$hh.="X-Mailer: PHP\n";
+	//$hh.="X-MimeOLE: Produced By Trax from Elektronika.ba\n";
 
 	// Send!
-	return @mail($to_email, $subject, $message, $hh);
+	return @mail($to_email, $subject, $message, $hh, "-f ctrl@ctrl.ba");
 }
 
 ?>
