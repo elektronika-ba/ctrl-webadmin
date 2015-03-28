@@ -6,6 +6,8 @@
 * Version: 1.0
 */
 
+date_default_timezone_set("UTC");
+
 define('_INDEX_','1');
 
 session_start();

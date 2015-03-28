@@ -175,6 +175,12 @@ class CtrlBase {
 			$return_to_edit = true;
 			$this->notifs['key_generated'] = true;
 		}
+    
+    // From MOMENT.JS (moment.fn.zone): If the input is less than 16 and greater than -16, it will interpret your input as hours instead.
+    // Because of that, we don't let user enter offset in this range.
+    if($formvars['timezone'] > -16 && $formvars['timezone'] < 16) {
+      $formvars['timezone'] = 0;
+    }
 
 		// inserting new
 		if($formvars['IDbase'] <= 0) {
