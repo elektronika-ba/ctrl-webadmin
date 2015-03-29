@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-01-16 20:13:25
+<?php /* Smarty version Smarty-3.1.19, created on 2015-03-29 15:43:03
          compiled from ".\templates\bases_edit.html" */ ?>
 <?php /*%%SmartyHeaderCode:2153054b94624794496-52696471%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '7edc518cf6941e483d2af54c8349e78b474ebc6a' => 
     array (
       0 => '.\\templates\\bases_edit.html',
-      1 => 1421439188,
+      1 => 1427643780,
       2 => 'file',
     ),
     'd3b25cded062c346ff5b97e1b639c6ee1c03da36' => 
@@ -19,7 +19,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'd158735f3f4c95f0ef94183f8f23d483d0b5505a' => 
     array (
       0 => '.\\templates\\design.html',
-      1 => 1421428021,
+      1 => 1427624436,
       2 => 'file',
     ),
   ),
@@ -244,6 +244,16 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               </div>
             </div>
             <div class="form-group">
+              <label for="timezone" class="col-sm-2 control-label">Daylight Savings Option:</label>
+              <div class="col-sm-10">
+				<select name="dst" id="dst" class="form-control">
+					<option value="0" <?php if ($_smarty_tpl->tpl_vars['data']->value['dst']=='0') {?>selected<?php }?>>No DST option</option>
+					<option value="1" <?php if ($_smarty_tpl->tpl_vars['data']->value['dst']=='1') {?>selected<?php }?>>Yes, this Base is in Europe</option>
+					<option value="2" <?php if ($_smarty_tpl->tpl_vars['data']->value['dst']=='2') {?>selected<?php }?>>Yes, this Base is in USA</option>
+				</select>
+              </div>
+            </div>
+            <div class="form-group">
               <label for="timezone" class="col-sm-2 control-label">Timezone offset:</label>
               <div class="col-sm-10">
 
@@ -253,10 +263,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                   <span class="input-group-addon">minutes</span>
                 </div>
 
-                <span class="text-muted">Offset is in minutes, e.g.: -120. Current time on server is: <strong><?php echo $_smarty_tpl->tpl_vars['current_time']->value;?>
-</strong> and with offset of <?php echo $_smarty_tpl->tpl_vars['data']->value['timezone'];?>
-, time is: <strong><?php echo $_smarty_tpl->tpl_vars['offset_time']->value;?>
-</strong></span>
+                <span class="text-muted">Current time on Server is: <span id="spanCurrentTime" style="font-weight: bold"><?php echo $_smarty_tpl->tpl_vars['current_time']->value;?>
+</span> (<abbr title="Coordinated Universal Time">UTC</abbr>) and with offset of <span id="spanTimezone" style="font-weight: bold">...</span> minutes and current <abbr title="Daylight Savings Time">DST</abbr> option, time on your Base will be: <span id="spanResultingTime" style="font-weight: bold">...</span></span>
 
               </div>
             </div>
@@ -409,11 +417,95 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     <script src="js/bootstrap.min.js"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
+    <!-- Moment.js -->
+    <script src="js/plugins/momentjs/moment.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 
     <!-- Subpage Javascripts -->
     
+
+<script language="JavaScript">
+
+$(document).ready(function(){
+	$('#dst').on('change', function(e) {
+		calcAndUpdateResultingTime();
+	});
+
+	$('#timezone').on('keyup', function(e) {
+		calcAndUpdateResultingTime();
+	});
+
+	function calcAndUpdateResultingTime() {
+		var $timezone = $('#timezone');
+		var $dst = $('#dst');
+
+		var timezone = parseInt(0 + $timezone.val());
+		if(timezone > -16 && timezone < 16) {
+			timezone = 0;
+		}
+
+		var $spanCurrentTime = $('#spanCurrentTime');
+		var $spanTimezone = $('#spanTimezone');
+		var $spanResultingTime = $('#spanResultingTime');
+
+		var ct = moment($spanCurrentTime.html(), 'YYYY-MM-DD HH:mm:ss');
+		ct = ct.add(timezone, 'minutes');
+
+		if(isTimeInDST(ct, $dst.val()) && $dst.val()>0) {
+			ct = ct.add(1, 'hours');
+		}
+
+		$spanTimezone.html(timezone);
+		$spanResultingTime.html(ct.format('YYYY-MM-DD HH:mm:ss'));
+	}
+
+	function isTimeInDST(ct, dst) {
+		// formulas taken from http://www.webexhibits.org/daylightsaving/b.html
+
+		switch(parseInt(0 + dst)) {
+			// EU
+			case 1:
+				{
+					var marchDay =  (31-( Math.floor (ct.get('year') * 5 / 4) + 4) % 7);
+					var octoberDay =  (31-( Math.floor (ct.get('year') * 5 / 4) + 1) % 7);
+
+					var marchDate = moment(ct.get('year') + '-03-' + marchDay + ' 01:00:00', 'YYYY-MM-DD HH:mm:ss');
+					var octoberDate = moment(ct.get('year') + '-10-' + octoberDay + ' 01:00:00', 'YYYY-MM-DD HH:mm:ss');
+
+					if(ct.isBetween(marchDate, octoberDate)) return true;
+				}
+				break;
+
+			// USA
+			case 2:
+				{
+					var marchDay = 14 - (Math.floor (1 + ct.get('year') * 5 / 4) % 7);
+					var novemberDay = 7 - (Math.floor (1 + ct.get('year') * 5 / 4) % 7);
+
+					var marchDate = moment(ct.get('year') + '-03-' + marchDay + ' 02:00:00', 'YYYY-MM-DD HH:mm:ss');
+					var novemberDate = moment(ct.get('year') + '-11-' + novemberDay + ' 02:00:00', 'YYYY-MM-DD HH:mm:ss');
+
+					if(ct.isBetween(marchDate, novemberDate)) return true;
+				}
+				break;
+		}
+
+		return false;
+	}
+
+	// update current time on server
+	setInterval(function() {
+		var $spanCurrentTime = $('#spanCurrentTime');
+		$spanCurrentTime.html(moment().utc().format('YYYY-MM-DD HH:mm:ss'));
+
+		calcAndUpdateResultingTime();
+	}, 1000);
+});
+
+</script>
+
+
 
   </body>
 </html>

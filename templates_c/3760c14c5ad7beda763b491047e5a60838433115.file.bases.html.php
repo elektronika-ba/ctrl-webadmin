@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-01-16 17:10:57
+<?php /* Smarty version Smarty-3.1.19, created on 2015-03-29 10:24:43
          compiled from ".\templates\bases.html" */ ?>
 <?php /*%%SmartyHeaderCode:2996654b94621c33475-82138490%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -19,7 +19,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'd158735f3f4c95f0ef94183f8f23d483d0b5505a' => 
     array (
       0 => '.\\templates\\design.html',
-      1 => 1421428021,
+      1 => 1427624436,
       2 => 'file',
     ),
   ),
@@ -27,9 +27,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
-  'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
   'unifunc' => 'content_54b946221bba98_15934178',
+  'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_54b946221bba98_15934178')) {function content_54b946221bba98_15934178($_smarty_tpl) {?>
 <!DOCTYPE html>
@@ -244,6 +244,8 @@ if (!$_smarty_tpl->tpl_vars["entry"]->_loop) {
     <script src="js/bootstrap.min.js"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
+    <!-- Moment.js -->
+    <script src="js/plugins/momentjs/moment.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 

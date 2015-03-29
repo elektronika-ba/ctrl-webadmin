@@ -48,7 +48,7 @@ class CtrlBase {
   function getBase($IDbase = -1) {
 		$mdb = $this->mdb;
 		
-		$results = $mdb->query("SELECT b.IDbase, b.basename, b.baseid, b.timezone, b.TXbase, b.crypt_key, b.last_online, b.online, (SELECT COUNT(*) FROM base_client WHERE IDbase=b.IDbase) AS linked_clients, (SELECT COUNT(*) FROM txserver2base WHERE IDbase=b.IDbase AND sent=0) AS pending_messages FROM base b WHERE b.IDaccount = %i AND (%i = -1 OR %i = b.IDbase)", $_SESSION['IDaccount'], $IDbase, $IDbase);
+		$results = $mdb->query("SELECT b.IDbase, b.basename, b.baseid, b.timezone, b.dst, b.TXbase, b.crypt_key, b.last_online, b.online, (SELECT COUNT(*) FROM base_client WHERE IDbase=b.IDbase) AS linked_clients, (SELECT COUNT(*) FROM txserver2base WHERE IDbase=b.IDbase AND sent=0) AS pending_messages FROM base b WHERE b.IDaccount = %i AND (%i = -1 OR %i = b.IDbase)", $_SESSION['IDaccount'], $IDbase, $IDbase);
 		
 		return $results;
   }
@@ -75,6 +75,7 @@ class CtrlBase {
 					'basename' => '',
 					'baseid' => '',
 					'timezone' => '0',
+          'dst' => '0',
 					'TXbase' => '0',
 					'crypt_key' => '',
 					'linked_clients' => '0',
@@ -117,7 +118,6 @@ class CtrlBase {
 
 		// current timestamp
     $tpl->assign('current_time', date('Y-m-d H:i:s',time()));
-    $tpl->assign('offset_time', date('Y-m-d H:i:s',time()+($bases[0]['timezone'] * 60)));
 
 		// get linked clients for this IDbase
 		$linked_clients = $mdb->query("SELECT c.IDclient, c.clientname, IF(bc.IDclient IS NULL, -1, bc.IDclient) AS sel_IDclient FROM client c LEFT JOIN base_client bc ON (bc.IDclient=c.IDclient AND bc.IDbase = %i) WHERE c.IDaccount = %i ORDER BY clientname", $formvars['IDbase'], $_SESSION['IDaccount']);
@@ -165,7 +165,7 @@ class CtrlBase {
 		$mdb = $this->mdb;
 
 		// add all missing keys to array
-		fixFormVars($formvars, array('IDbase','basename','crypt_key','IDclient','timezone'));
+		fixFormVars($formvars, array('IDbase','basename','crypt_key','IDclient','timezone','dst'));
 
 		$return_to_edit = false;
 
@@ -180,6 +180,10 @@ class CtrlBase {
     // Because of that, we don't let user enter offset in this range.
     if($formvars['timezone'] > -16 && $formvars['timezone'] < 16) {
       $formvars['timezone'] = 0;
+    }
+
+    if($formvars['dst'] > 2 || $formvars['dst'] < 0) {
+      $formvars['dst'] = 0;
     }
 
 		// inserting new
@@ -197,7 +201,8 @@ class CtrlBase {
 				'IDaccount' => $_SESSION['IDaccount'],
 				'baseid' => $baseid,
 				'basename' => $formvars['basename'],
-				'timezone' => $formvars['timezone'],
+        'timezone' => $formvars['timezone'],
+        'dst' => $formvars['dst'],
 				'crypt_key' => $formvars['crypt_key'],
 				)
 			);
@@ -213,7 +218,8 @@ class CtrlBase {
 			$mdb->update('base', array(
 				'basename' => $formvars['basename'],
 				'crypt_key' => $formvars['crypt_key'],
-				'timezone' => $formvars['timezone'],
+        'timezone' => $formvars['timezone'],
+        'dst' => $formvars['dst'],
 				), "IDbase = %i AND IDaccount = %i", $formvars['IDbase'], $_SESSION['IDaccount']);
 
 				$this->notifs['base_updated'] = true;
